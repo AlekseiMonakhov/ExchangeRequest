@@ -1,9 +1,10 @@
-from fastapi import FastAPI, APIRouter
-
+from fastapi import FastAPI
+from .routes import router
 # from views import user_router, assets_router
 
 app = FastAPI()
-router = APIRouter()
+app.include_router(router)
+
 
 @router.get('/data')
 def getData():

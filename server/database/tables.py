@@ -1,5 +1,5 @@
 import asyncio
-from sqlalchemy import Integer, String, Column, DateTime
+from sqlalchemy import Integer, String, Column, DateTime, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from connection import engine
@@ -24,11 +24,11 @@ class PaymentType(Base):
 class Requests(Base):
     __tablename__ = 'requests'
     id = Column(Integer, primary_key=True)
-    current_amount = Column(Integer, nullable=False)
+    current_amount = Column(Numeric(10, 2), nullable=False)
     current_country = Column(String(255), nullable=False)
     current_currency = Column(String(255), nullable=False)
     current_type = Column(String(255), nullable=False)
-    wanted_amount = Column(Integer, nullable=False)
+    wanted_amount = Column(Numeric(10, 2), nullable=False)
     wanted_country = Column(String(255), nullable=False)
     wanted_currency = Column(String(255), nullable=False)
     wanted_type = Column(String(255), nullable=False)
@@ -43,4 +43,4 @@ async def async_drop():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
-# asyncio.run(async_create())
+#asyncio.run(async_create())

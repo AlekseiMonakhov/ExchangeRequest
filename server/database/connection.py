@@ -1,18 +1,22 @@
-from dotenv import load_dotenv
+from settings import settings
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-from pathlib import Path
-import os
-
-load_dotenv()
-env_path = Path('..')/'.env'
-load_dotenv(dotenv_path=env_path)
 
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+engine = create_async_engine(
+    settings.database_url
+)
 
-engine = create_async_engine(DATABASE_URL)
-async_session = sessionmaker(engine, class_=AsyncSession)
+Session = sessionmaker(
+    engine,
+    class_=AsyncSession,
+    autocommit=False,
+    autoflush=False,
+)
 
-engine.connect()
-print(engine)
+def getSession() -> Session:
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()
