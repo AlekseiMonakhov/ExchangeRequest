@@ -1,5 +1,3 @@
-from multiprocessing import freeze_support
-
 import uvicorn
 from settings import settings
 
@@ -10,8 +8,4 @@ uvicorn.run(
     reload=True,
 )
 
-
-if __name__ == '__main__':
-    freeze_support()
-    ...
 

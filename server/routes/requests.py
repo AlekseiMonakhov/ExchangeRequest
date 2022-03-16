@@ -1,18 +1,15 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from database.connection import Session, getSession
-from database import tables
-from models.data import Countries, Currensies, PaymentType
+from models.requests import Requests
+from services.requests import RequestService
 
 router = APIRouter(
     prefix='/requests'
 )
 
-@router.post('/', response_model=List[Requests])
-def getCountries(session: Session = Depends(getSession)):
-    countries = (
-        session
-        .query(tables.Countries)
-        .all()
-    )
-    return countries
+@router.post('/', response_model=Requests)
+def createRequest(
+    requestData: Requests,
+    service: RequestService = Depends()
+):
+    return service.create(requestData)

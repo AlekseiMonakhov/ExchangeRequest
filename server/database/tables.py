@@ -23,7 +23,7 @@ class PaymentType(Base):
 
 class Requests(Base):
     __tablename__ = 'requests'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     current_amount = Column(Numeric(10, 2), nullable=False)
     current_country = Column(String(255), nullable=False)
     current_currency = Column(String(255), nullable=False)
