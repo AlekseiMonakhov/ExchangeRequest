@@ -2,7 +2,7 @@ import asyncio
 from sqlalchemy import Integer, String, Column, DateTime, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-from connection import engine
+from .connection import engine
 
 Base = declarative_base()
 

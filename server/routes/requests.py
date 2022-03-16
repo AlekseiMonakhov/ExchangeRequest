@@ -1,13 +1,12 @@
 from fastapi import APIRouter, Depends
-from typing import List
 from models.requests import Requests
 from services.requests import RequestService
 
-router = APIRouter(
+request_router = APIRouter(
     prefix='/requests'
 )
 
-@router.post('/', response_model=Requests)
+@request_router.post('/', response_model=Requests)
 def createRequest(
     requestData: Requests,
     service: RequestService = Depends()
