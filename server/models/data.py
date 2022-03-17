@@ -22,4 +22,7 @@ class PaymentType(BaseModel):
         orm_mode = True
 
 
+class ErrorOutput(BaseModel):
+    detail: str
+
 

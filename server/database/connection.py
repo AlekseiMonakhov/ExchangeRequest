@@ -14,9 +14,9 @@ Session = sessionmaker(
     autoflush=False,
 )
 
-def getSession() -> Session:
+async def getSession() -> Session:
     session = Session()
     try:
         yield session
     finally:
-        session.close()
+       await session.close()
