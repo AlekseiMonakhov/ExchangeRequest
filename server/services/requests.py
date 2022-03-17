@@ -1,4 +1,7 @@
 from typing import List
+
+from sqlalchemy.future import select
+
 from database import tables
 from database.connection import Session, getSession
 from fastapi import Depends
@@ -10,8 +13,8 @@ class RequestService():
     def __init__(self, session: Session = Depends(getSession)):
         self.session = session
 
-    def create(self, requestData: Requests) -> tables.Requests:
+    async def create(self, requestData: Requests):
         request = tables.Requests(**requestData.dict())
         self.session.add(request)
-        self.session.commit()
-        return request
+        await self.session.commit()
+
