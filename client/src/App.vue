@@ -1,80 +1,81 @@
 <template>
-  <div class="container">
+  <div class="container mt-4">
     <div class="row">
-      <label><b>Отдаете</b></label>
-      <div class="col-sm-3">
+      <label><b>You give</b></label>
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_country">
-          <option disabled value="">Выберите страну</option>
+          <option disabled value="">Choose country</option>
           <option value="1">Россия</option>
           <option value="2">Турция</option>
           <option value="3">Эстония</option>
         </select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_type">
-          <option disabled value="">Выберите тип платежа</option>
+          <option disabled value="">Choose payment method</option>
           <option value="1">Нал</option>
           <option value="2">Банковский счет</option>
         </select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_currency">
-          <option disabled value="">Выберите валюту</option>
+          <option disabled value="">Choose currency</option>
           <option value="1">RUB</option>
           <option value="2">USD</option>
           <option value="3">BTC</option>
         </select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3 mt-2">
         <input
           class="form-control"
-          placeholder="Введите сумму"
+          placeholder="Amount"
            v-model.number="current_amount"
         />
       </div>
     </div>
 
-    <div class="row">
-      <label><b>Получаете</b></label>
-      <div class="col-sm-3">
+    <div class="row mt-4">
+      <label><b>You want</b></label>
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_country">
-          <option disabled value="">Выберите страну</option>
+          <option disabled value="">Choose country</option>
           <option value="1">Россия</option>
           <option value="2">Турция</option>
           <option value="3">Эстония</option>
         </select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_type">
-          <option disabled value="">Выберите тип платежа</option>
-          <option value="1">Нал</option>
-          <option value="2">Банковский счет</option>
+          <option disabled value="">Choose payment method</option>
+          <option value="1">Cash</option>
+          <option value="2">Visa/MasterCard</option>
+          <option value="3">Blockchain</option>
         </select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_currency">
-          <option disabled value="">Выберите валюту</option>
+          <option disabled value="">Choose currency</option>
           <option value="1">RUB</option>
           <option value="2">USD</option>
           <option value="3">BTC</option>
         </select>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3 mt-2">
         <input
           class="form-control"
-          placeholder="Введите сумму"
+          placeholder="Amount"
           v-model="wanted_amount"
         />
       </div>
     </div>
      <div>
-        <button @click='send()'>Создать заявку</button>
+        <button @click='send()' type="button" class="btn btn-primary mt-4">Создать заявку</button>
       </div>
   </div>
 </template>
