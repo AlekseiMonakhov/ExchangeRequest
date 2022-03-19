@@ -1,0 +1,10 @@
+node_modules/
+build/
+config/
+static/
+.idea/
+.editorconfig
+.babelrc
+.postcssrc.js
+README.md 
+../.idea
