@@ -30,10 +30,9 @@
 
       <div class="col-sm-3">
         <input
-          type="amount"
           class="form-control"
           placeholder="Введите сумму"
-          v-model="current_amount"
+           v-model.number="current_amount"
         />
       </div>
     </div>
@@ -68,13 +67,15 @@
 
       <div class="col-sm-3">
         <input
-          type="amount"
           class="form-control"
           placeholder="Введите сумму"
           v-model="wanted_amount"
         />
       </div>
     </div>
+     <div>
+        <button @click='send()'>Создать заявку</button>
+      </div>
   </div>
 </template>
 
@@ -92,6 +93,17 @@ export default {
       wanted_amount: "",
     };
   },
+   methods: {
+            send: function(submit){
+                if (this.current_country === "" || this.current_type === "" || this.current_currency === "" || this.current_amount === "" || this.wanted_country === "" || this.wanted_type === "" || this.wanted_currency === "" || this.wanted_amount === ""){
+                    this.error = "Заполните все поля!";
+                    alert("Заполните все поля!")
+                } else {
+                  alert("Заявка успешно создана")
+                    //TODO post request
+                }
+            }
+   }
 };
 </script>
 
