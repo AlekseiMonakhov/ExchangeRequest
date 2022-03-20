@@ -5,26 +5,33 @@
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_country">
           <option disabled value="">Choose country</option>
-          <option value="1">Россия</option>
-          <option value="2">Турция</option>
-          <option value="3">Эстония</option>
-        </select>
-      </div>
-
-      <div class="col-sm-3 mt-2">
-        <select class="form-select" v-model="current_type">
-          <option disabled value="">Choose payment method</option>
-          <option value="1">Нал</option>
-          <option value="2">Банковский счет</option>
+          <option
+            v-for="country in countries"
+            v-bind:key="country.country_name"
+          >
+            {{ country.country_name }}
+          </option>
         </select>
       </div>
 
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_currency">
           <option disabled value="">Choose currency</option>
-          <option value="1">RUB</option>
-          <option value="2">USD</option>
-          <option value="3">BTC</option>
+          <option
+            v-for="currency in currencies"
+            v-bind:key="currency.currency_name"
+          >
+            {{ currency.currency_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-3 mt-2">
+        <select class="form-select" v-model="current_type">
+          <option disabled value="">Choose payment method</option>
+          <option v-for="type in paymentType" v-bind:key="type.type">
+            {{ type.type }}
+          </option>
         </select>
       </div>
 
@@ -42,27 +49,33 @@
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_country">
           <option disabled value="">Choose country</option>
-          <option value="1">Россия</option>
-          <option value="2">Турция</option>
-          <option value="3">Эстония</option>
-        </select>
-      </div>
-
-      <div class="col-sm-3 mt-2">
-        <select class="form-select" v-model="wanted_type">
-          <option disabled value="">Choose payment method</option>
-          <option value="1">Cash</option>
-          <option value="2">Visa/MasterCard</option>
-          <option value="3">Blockchain</option>
+          <option
+            v-for="country in countries"
+            v-bind:key="country.country_name"
+          >
+            {{ country.country_name }}
+          </option>
         </select>
       </div>
 
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_currency">
           <option disabled value="">Choose currency</option>
-          <option value="1">RUB</option>
-          <option value="2">USD</option>
-          <option value="3">BTC</option>
+          <option
+            v-for="currency in currencies"
+            v-bind:key="currency.currency_name"
+          >
+            {{ currency.currency_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-3 mt-2">
+        <select class="form-select" v-model="wanted_type">
+          <option disabled value="">Choose payment method</option>
+          <option v-for="type in paymentType" v-bind:key="type.type">
+            {{ type.type }}
+          </option>
         </select>
       </div>
 
@@ -70,22 +83,27 @@
         <input
           class="form-control"
           placeholder="Amount"
-          v-model="wanted_amount"
+          v-model.number="wanted_amount"
         />
       </div>
     </div>
+
     <div>
       <button @click="send()" type="button" class="btn btn-primary mt-4">
-        Создать заявку
+        Create
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-   data() {
-    let data = {
+  data() {
+    return {
+      countries: [],
+      currencies: [],
+      paymentType: [],
       current_country: "",
       current_type: "",
       current_currency: "",
@@ -95,10 +113,9 @@ export default {
       wanted_currency: "",
       wanted_amount: "",
     };
-    return data;
   },
   methods: {
-    send: function (submit) {
+    send: function () {
       if (
         this.current_country === "" ||
         this.current_type === "" ||
@@ -109,32 +126,54 @@ export default {
         this.wanted_currency === "" ||
         this.wanted_amount === ""
       ) {
-        this.error = "Заполните все поля!";
-        alert("Заполните все поля!");
+        this.error = "All fields required!";
+        alert("All fields required!");
       } else {
-    const requestOptions = {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  };
-  fetch('http://localhost:5000/request/create/', requestOptions)
-    .then(async response => {
-      const data = await response.json();
-      if (!response.ok) {
-        const error = (data && data.message) || response.status;
-        return Promise.reject(error);
+        let data = {
+          current_country: `${this.current_country}`,
+          current_currency: `${this.current_currency}`,
+          current_type: `${this.current_type}`,
+          current_amount: `${this.current_amount}`,
+          wanted_country: `${this.wanted_country}`,
+          wanted_currency: `${this.wanted_currency}`,
+          wanted_type: `${this.wanted_type}`,
+          wanted_amount: `${this.wanted_amount}`,
+        }
+        axios.post("http://localhost:5000/request/create", data)
+        .then(function (response){
+          console.log(response)
+          alert("Your request has been posted. As soon as a suitable offer appears, you will be notified.")
+        })
+        .catch(function (error){
+          console.log(error)
+          alert("Error!")
+        })
+
       }
-    })
-    .catch(error => {
-      this.errorMessage = error;
-      alert(error)
-      console.error('There was an error!', error);
-    });
+    },
+    async getData() {
+      try {
+        const responseCountries = await axios.get(
+          "http://localhost:5000/data/countries"
+        );
+        this.countries = responseCountries.data;
+        const responseCurrencies = await axios.get(
+          "http://localhost:5000/data/currencies"
+        );
+        this.currencies = responseCurrencies.data;
+        const responsePaymentTypes = await axios.get(
+          "http://localhost:5000/data/paymentType"
+        );
+        this.paymentType = responsePaymentTypes.data;
+      } catch (e) {
+        alert("Error!");
       }
-    }
+    },
+  },
+  beforeMount(){
+    this.getData()
   }
-}
+};
 </script>
 
 <style>

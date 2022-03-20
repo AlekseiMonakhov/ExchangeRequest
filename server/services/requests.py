@@ -1,7 +1,3 @@
-from typing import List
-
-from sqlalchemy.future import select
-
 from database import tables
 from database.connection import Session, getSession
 from fastapi import Depends
