@@ -32,7 +32,7 @@
         <input
           class="form-control"
           placeholder="Amount"
-           v-model.number="current_amount"
+          v-model.number="current_amount"
         />
       </div>
     </div>
@@ -74,16 +74,18 @@
         />
       </div>
     </div>
-     <div>
-        <button @click='send()' type="button" class="btn btn-primary mt-4">Создать заявку</button>
-      </div>
+    <div>
+      <button @click="send()" type="button" class="btn btn-primary mt-4">
+        Создать заявку
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
+   data() {
+    let data = {
       current_country: "",
       current_type: "",
       current_currency: "",
@@ -93,19 +95,46 @@ export default {
       wanted_currency: "",
       wanted_amount: "",
     };
+    return data;
   },
-   methods: {
-            send: function(submit){
-                if (this.current_country === "" || this.current_type === "" || this.current_currency === "" || this.current_amount === "" || this.wanted_country === "" || this.wanted_type === "" || this.wanted_currency === "" || this.wanted_amount === ""){
-                    this.error = "Заполните все поля!";
-                    alert("Заполните все поля!")
-                } else {
-                  alert("Заявка успешно создана")
-                    //TODO post request
-                }
-            }
-   }
-};
+  methods: {
+    send: function (submit) {
+      if (
+        this.current_country === "" ||
+        this.current_type === "" ||
+        this.current_currency === "" ||
+        this.current_amount === "" ||
+        this.wanted_country === "" ||
+        this.wanted_type === "" ||
+        this.wanted_currency === "" ||
+        this.wanted_amount === ""
+      ) {
+        this.error = "Заполните все поля!";
+        alert("Заполните все поля!");
+      } else {
+    const requestOptions = {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  };
+  fetch('http://localhost:5000/request/create/', requestOptions)
+    .then(async response => {
+      const data = await response.json();
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      alert(error)
+      console.error('There was an error!', error);
+    });
+      }
+    }
+  }
+}
 </script>
 
 <style>
