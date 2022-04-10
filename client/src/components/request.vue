@@ -27,20 +27,20 @@
       <div class="col-sm-3 mt-2">
         <input
           class="form-control"
-          placeholder="Amount"
+          placeholder="Укажите сумму"
           v-model.number="current_amount"
         />
       </div>
 
 
       <div class="col-sm-3 mt-2">
-        <select class="form-select" v-model="current_country" v-if="current_type === 'Наличные'">
+        <select class="form-select" v-model="current_city" v-if="current_type === 'Наличные'">
           <option disabled value="">Выберите город</option>
           <option
-            v-for="country in countries"
-            v-bind:key="country.country_name"
+            v-for="city in cities"
+            v-bind:key="city.city_name"
           >
-            {{ country.country_name }}
+            {{ city.city_name }}
           </option>
         </select>
         <select class="form-select" v-model="current_country" v-if="current_type === 'Банковский перевод'">
@@ -52,13 +52,22 @@
             {{ country.country_name }}
           </option>
         </select>
-        <select class="form-select" v-model="current_country" v-if="current_type === 'Банковский перевод'">
+        <select class="form-select" v-model="current_bank" v-if="current_type === 'Банковский перевод'">
           <option disabled value="">Выберите банк</option>
           <option
-            v-for="country in countries"
-            v-bind:key="country.country_name"
+            v-for="bank in banks"
+            v-bind:key="bank.bank_name"
           >
-            {{ country.country_name }}
+            {{ bank.bank_name }}
+          </option>
+        </select>
+        <select class="form-select" v-model="current_purpose" v-if="current_type === 'Банковский перевод'">
+          <option disabled value="">Назначение платежа</option>
+          <option
+            v-for="purpose in purposes"
+            v-bind:key="purpose.purpose"
+          >
+            {{ purpose.purpose }}
           </option>
         </select>
       </div>
@@ -93,20 +102,20 @@
       <div class="col-sm-3 mt-2">
         <input
           class="form-control"
-          placeholder="Amount"
+          placeholder="Укажите сумму"
           v-model.number="wanted_amount"
         />
       </div>
 
 
       <div class="col-sm-3 mt-2">
-        <select class="form-select" v-model="wanted_country" v-if="wanted_type === 'Наличные'">
+        <select class="form-select" v-model="wanted_city" v-if="wanted_type === 'Наличные'">
           <option disabled value="">Выберите город</option>
           <option
-            v-for="country in countries"
-            v-bind:key="country.country_name"
+            v-for="city in cities"
+            v-bind:key="city.city_name"
           >
-            {{ country.country_name }}
+            {{ city.city_name }}
           </option>
         </select>
         <select class="form-select" v-model="wanted_country" v-if="wanted_type === 'Банковский перевод'">
@@ -118,14 +127,23 @@
             {{ country.country_name }}
           </option>
         </select>
-        <select class="form-select" v-model="wanted_country" v-if="wanted_type === 'Банковский перевод'">
+        <select class="form-select" v-model="wanted_bank" v-if="wanted_type === 'Банковский перевод'">
           <option disabled value="">Выберите банк</option>
           <option
-            v-for="country in countries"
-            v-bind:key="country.country_name"
+            v-for="bank in banks"
+            v-bind:key="bank.bank_name"
           >
-            {{ country.country_name }}
+            {{ bank.bank_name }}
           </option>
+        </select>
+          <select class="form-select" v-model="wanted_purpose" v-if="wanted_type === 'Банковский перевод'">
+            <option disabled value="">Назначение платежа</option>
+            <option
+              v-for="purpose in purposes"
+              v-bind:key="purpose.purpose"
+            >
+              {{ purpose.purpose }}
+            </option>
         </select>
       </div>
     </div>
@@ -147,7 +165,13 @@ export default {
       countries: [],
       currencies: [],
       paymentType: [],
+      cities: [],
+      banks: [],
+      purposes: [],
       current_country: "",
+      current_city: "",
+      current_bank: "",
+      current_purpose: "",
       current_type: "",
       current_currency: "",
       current_amount: "",
@@ -155,6 +179,9 @@ export default {
       wanted_type: "",
       wanted_currency: "",
       wanted_amount: "",
+      wanted_city: "",
+      wanted_bank: "",
+      wanted_purpose: "",
     };
   },
   methods: {
@@ -177,15 +204,22 @@ export default {
           current_currency: `${this.current_currency}`,
           current_type: `${this.current_type}`,
           current_amount: `${this.current_amount}`,
+          current_city: `${this.current_city}`,
+          current_bank: `${this.current_bank}`,
+          current_purpose: `${this.current_purpose}`,
           wanted_country: `${this.wanted_country}`,
           wanted_currency: `${this.wanted_currency}`,
           wanted_type: `${this.wanted_type}`,
           wanted_amount: `${this.wanted_amount}`,
+          wanted_city: `${this.wanted_city}`,
+          wanted_bank: `${this.wanted_bank}`,
+          wanted_purpose: `${this.wanted_purpose}`,
+
         }
         axios.post("http://localhost:5000/request/create", data)
           .then(function (response){
             console.log(response)
-            alert("Your request has been posted. As soon as a suitable offer appears, you will be notified.")
+            alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.")
           })
           .catch(function (error){
             console.log(error)
@@ -208,6 +242,18 @@ export default {
           "http://localhost:5000/data/paymentType"
         );
         this.paymentType = responsePaymentTypes.data;
+        const responseCities = await axios.get(
+          "http://localhost:5000/data/cities"
+        );
+        this.cities = responseCities.data;
+        const responseBanks = await axios.get(
+          "http://localhost:5000/data/banks"
+        );
+        this.banks = responseBanks.data;
+        const responsePurposes = await axios.get(
+          "http://localhost:5000/data/purposes"
+        );
+        this.purposes = responsePurposes.data;
       } catch (e) {
         alert("Error!");
       }
