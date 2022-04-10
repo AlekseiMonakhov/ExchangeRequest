@@ -12,6 +12,7 @@
   "proxy": "http://localhost:5000",
   "dependencies": {
     "axios": "^0.26.1",
+    "bootstrap-vue": "^2.21.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
