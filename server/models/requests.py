@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from decimal import Decimal
 
@@ -16,6 +17,7 @@ class Requests(BaseModel):
     wanted_currency: str
     current_type: str
     wanted_type: str
+    created_on: datetime
 
     class Config:
         orm_mode = True

@@ -7,32 +7,26 @@
     </div>
     <table class="table table-sm">
       <thead>
-      <th scope="col" bgcolor="#e6e6fa" > ID сделки</th>
-      <th scope="col" bgcolor="#e6e6fa" >Maker</th>
-      <th scope="col" bgcolor="#e6e6fa" >Taker</th>
-      <th scope="col" bgcolor="#add8e6" >Рейтинг</th>
-      <th scope="col" bgcolor="#add8e6">Валюта</th>
-      <th scope="col" bgcolor="#add8e6">Форма</th>
-      <th scope="col" bgcolor="#add8e6">Банк</th>
-      <th scope="col" bgcolor="#add8e6">Назначение</th>
-      <th scope="col" bgcolor="#add8e6">Сумма</th>
-      <th scope="col" bgcolor="#add8e6">Место</th>
-      <th scope="col" bgcolor="#e0ffff">Валюта</th>
-      <th scope="col" bgcolor="#e0ffff">Форма</th>
-      <th scope="col" bgcolor="#e0ffff">Банк</th>
-      <th scope="col" bgcolor="#e0ffff">Назначение</th>
-      <th scope="col" bgcolor="#e0ffff">Сумма</th>
-      <th scope="col" bgcolor="#e0ffff">Место</th>
-      <th scope="col" bgcolor="#20b2aa">Активна до</th>
-      <th scope="col" bgcolor="#20b2aa">Вознаграждение</th>
-      <th scope="col" bgcolor="#20b2aa">Статус</th>
+        <th scope="col" bgcolor="#add8e6" >Рейтинг</th>
+        <th scope="col" bgcolor="#add8e6">Валюта</th>
+        <th scope="col" bgcolor="#add8e6">Форма</th>
+        <th scope="col" bgcolor="#add8e6">Банк</th>
+        <th scope="col" bgcolor="#add8e6">Назначение</th>
+        <th scope="col" bgcolor="#add8e6">Сумма</th>
+        <th scope="col" bgcolor="#add8e6">Место</th>
+        <th scope="col" bgcolor="#e0ffff">Валюта</th>
+        <th scope="col" bgcolor="#e0ffff">Форма</th>
+        <th scope="col" bgcolor="#e0ffff">Банк</th>
+        <th scope="col" bgcolor="#e0ffff">Назначение</th>
+        <th scope="col" bgcolor="#e0ffff">Сумма</th>
+        <th scope="col" bgcolor="#e0ffff">Место</th>
+        <th scope="col" bgcolor="#20b2aa">Дата</th>
+        <th scope="col" bgcolor="#20b2aa">Вознаграждение</th>
+        <th scope="col" bgcolor="#20b2aa">Связаться</th>
       </thead>
       <tbody>
       <tr v-for="request in requests">
-        <td>0000001</td>
-        <td>12345678</td>
-        <td>23456789</td>
-        <td>5.0</td>
+        <td>4</td>
         <td>{{request.current_currency}}</td>
         <td>{{request.current_type}}</td>
         <td>{{request.current_bank}}</td>
@@ -47,7 +41,7 @@
         <td>{{request.wanted_country}}{{request.wanted_city}}</td>
         <td>{{request.created_on.replace(/T/, ' ').slice(0, -7)}}</td>
         <td> +1 %</td>
-        <td>Инициирована</td>
+        <td> Кнопка чата </td>
       </tr>
 
       </tbody>
@@ -59,7 +53,7 @@
 import axios from "axios";
 
 export default {
-  name: "AdminPanel",
+  name: "RequestsList",
   data() {
     return {
       requests: []
@@ -86,4 +80,3 @@ export default {
 <style scoped>
 
 </style>
-
