@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <RequestsList />
+    <RequestsList/>
   </div>
 </template>
 

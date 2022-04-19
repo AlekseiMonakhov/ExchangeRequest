@@ -32,7 +32,7 @@
         <td>{{request.current_bank}}</td>
         <td>{{request.current_purpose}}</td>
         <td>{{request.current_amount}}</td>
-        <td>{{request.current_country}}</td>
+        <td>{{request.current_country}}{{request.current_city}}</td>
         <td>{{request.wanted_currency}}</td>
         <td>{{request.wanted_type}}</td>
         <td>{{request.wanted_bank}}</td>
