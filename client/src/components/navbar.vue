@@ -4,15 +4,15 @@
     type="dark"
     variant="primary">
     <b-navbar-nav>
-      <b-nav-item :to="{ name: 'Request' }">Создать заявку</b-nav-item>
-      <b-nav-item :to="{ name: 'RequestList'}">Активные заявки</b-nav-item>
-      <b-nav-item :to="{ name: 'AdminPanel' }">Панель администратора</b-nav-item>
+      <b-nav-item @click="$router.push('/createRequest')">Создать заявку</b-nav-item>
+      <b-nav-item @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
+      <b-nav-item @click="$router.push('/adminPanel')">Панель администратора</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
 <script>
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
 }
 </script>
 

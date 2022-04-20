@@ -1,5 +1,4 @@
 <template>
-
   <div class="container-md-8">
     <div class="table-md">
       <th align="left"><strong>Вы получите</strong></th>
