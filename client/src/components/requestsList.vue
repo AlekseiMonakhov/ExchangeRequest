@@ -1,27 +1,27 @@
 <template>
-  <div class="container-md-8">
-    <div class="table-md">
-      <th align="left"><strong>Вы получите</strong></th>
-      <th align="center"><strong>Вы отдаете</strong></th>
+  <div class="container-mt-4">
+    <div class="table-sm-1">
+      <th ><strong>Вы получите</strong></th>
+      <th ><strong>Вы отдаете</strong></th>
     </div>
-    <table class="table table-sm">
+    <table class="table table-sm-2">
       <thead>
-        <th scope="col" bgcolor="#add8e6" >Рейтинг</th>
-        <th scope="col" bgcolor="#add8e6">Валюта</th>
-        <th scope="col" bgcolor="#add8e6">Форма</th>
-        <th scope="col" bgcolor="#add8e6">Банк</th>
-        <th scope="col" bgcolor="#add8e6">Назначение</th>
-        <th scope="col" bgcolor="#add8e6">Сумма</th>
-        <th scope="col" bgcolor="#add8e6">Место</th>
-        <th scope="col" bgcolor="#e0ffff">Валюта</th>
-        <th scope="col" bgcolor="#e0ffff">Форма</th>
-        <th scope="col" bgcolor="#e0ffff">Банк</th>
-        <th scope="col" bgcolor="#e0ffff">Назначение</th>
-        <th scope="col" bgcolor="#e0ffff">Сумма</th>
-        <th scope="col" bgcolor="#e0ffff">Место</th>
-        <th scope="col" bgcolor="#20b2aa">Дата</th>
-        <th scope="col" bgcolor="#20b2aa">Вознаграждение</th>
-        <th scope="col" bgcolor="#20b2aa">Связаться</th>
+        <th class="col-1" >Рейтинг</th>
+        <th class="col-1">Валюта</th>
+        <th class="col-1">Форма</th>
+        <th class="col-1">Банк</th>
+        <th class="col-1">Назначение</th>
+        <th class="col-1">Сумма</th>
+        <th class="col-1">Место</th>
+        <th class="col-2">Валюта</th>
+        <th class="col-2">Форма</th>
+        <th class="col-2">Банк</th>
+        <th class="col-2">Назначение</th>
+        <th class="col-2">Сумма</th>
+        <th class="col-2">Место</th>
+        <th class="col-3">Дата</th>
+        <th class="col-3">Вознаграждение</th>
+        <th class="col-3">Связаться</th>
       </thead>
       <tbody>
       <tr v-for="request in requests">
@@ -40,9 +40,9 @@
         <td>{{request.wanted_country}}{{request.wanted_city}}</td>
         <td>{{request.created_on.replace(/T/, ' ').slice(0, -7)}}</td>
         <td> +1 %</td>
-        <td> Кнопка чата </td>
+        <td>
+          <button @click="$router.push('/startChat')" type="button" class="btn btn-primary">Чат</button></td>
       </tr>
-
       </tbody>
     </table>
   </div>
@@ -77,5 +77,13 @@ export default {
 </script>
 
 <style scoped>
+
+.col-1 {
+  background-color: #8383f5;
+}.col-2 {
+   background-color: #83f5e8;
+ }.col-3 {
+    background-color: rgba(213, 217, 139, 0.71);
+  }
 
 </style>
