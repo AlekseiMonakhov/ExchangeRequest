@@ -6,6 +6,7 @@ from pydantic.schema import Optional
 
 
 class Requests(BaseModel):
+    id: Optional[int]
     current_amount: Decimal
     wanted_amount: Decimal
     current_country: Optional[str]
@@ -21,6 +22,7 @@ class Requests(BaseModel):
     current_type: str
     wanted_type: str
     created_on: Optional[datetime]
+    profit: Optional[str]
 
     class Config:
         orm_mode = True

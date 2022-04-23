@@ -1,65 +1,44 @@
 <template>
-
-  <div class="container-mt-4">
-    <div class="table-sm-1" >
-      <th class="rm-test rm-1"><strong>Вы получите</strong></th>
-      <th class="rm-test rm-2"><strong>Вы отдаете</strong></th>
+<div class="root-element">
+<div class="main-element" v-for="request in requests">
+  <b-card bg-variant="light" text-variant="black">
+    <b-card>
+     <div class="element-1">
+       <div class="element-2"><strong> Заявка {{request.id}}  </strong></div>
+       <div class="element-2">  Мейкер: 12345678    Тейкер: 23456789 </div>
+       <div class="element-2"> Рейтинг Мейкера: 5.0 Рейтинг Тейкера: 5.0 </div>
+       <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
+       <div class="element-2"> Вознаграждение: 1% </div>
+       <div class="element-2"> Статус: Инициирована </div>
+     </div>
+      <div class="element-1">
+        <div class="element-2"> <strong>От Мейкера: </strong></div>
+      <div class="element-2"> {{request.current_amount}} {{request.current_currency}} </div>
+       <div class="element-2"> {{request.current_type}} </div>
+       <div class="element-2"> {{request.current_country}} {{request.current_city}} </div>
+       <div class="element-2"> {{request.current_bank}} {{request.current_purpose}} </div>
+     </div>
+      <div class="element-1">
+        <div class="element-2"> <strong> От Тейкера: </strong></div>
+      <div class="element-2"> {{request.wanted_amount}} {{request.wanted_currency}}</div>
+      <div class="element-2"> {{request.wanted_type}}</div>
+      <div class="element-2"> {{request.wanted_country}} {{request.wanted_city}}</div>
+      <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
     </div>
-    <table class="table table-sm-2">
-      <thead>
-      <th class="col-1">ID сделки</th>
-      <th class="col-1">Maker</th>
-      <th class="col-1">Taker</th>
-      <th class="col-1">Рейтинг</th>
-      <th class="col-2">Валюта</th>
-      <th class="col-2">Форма</th>
-      <th class="col-2">Банк</th>
-      <th class="col-2">Назначение</th>
-      <th class="col-2">Сумма</th>
-      <th class="col-2">Место</th>
-      <th class="col-3">Валюта</th>
-      <th class="col-3">Форма</th>
-      <th class="col-3">Банк</th>
-      <th class="col-3">Назначение</th>
-      <th class="col-3">Сумма</th>
-      <th class="col-3">Место</th>
-      <th class="col-1">Активна до</th>
-      <th class="col-1">Вознаграждение</th>
-      <th class="col-1">Статус</th>
-      </thead>
-      <tbody>
-      <tr v-for="request in requests">
-        <td>0000001</td>
-        <td>12345678</td>
-        <td>23456789</td>
-        <td>5.0</td>
-        <td>{{request.current_currency}}</td>
-        <td>{{request.current_type}}</td>
-        <td>{{request.current_bank}}</td>
-        <td>{{request.current_purpose}}</td>
-        <td>{{request.current_amount}}</td>
-        <td>{{request.current_country}}</td>
-        <td>{{request.wanted_currency}}</td>
-        <td>{{request.wanted_type}}</td>
-        <td>{{request.wanted_bank}}</td>
-        <td>{{request.wanted_purpose}}</td>
-        <td>{{request.wanted_amount}}</td>
-        <td>{{request.wanted_country}}{{request.wanted_city}}</td>
-        <td>{{request.created_on.replace(/T/, ' ').slice(0, -7)}}</td>
-        <td> +1 %</td>
-        <td>Инициирована</td>
-      </tr>
-
-      </tbody>
-    </table>
-  </div>
+    </b-card>
+    <b-button @click="$router.push('/chat')" variant="primary">Чат сделки</b-button>
+  </b-card>
+</div>
+</div>
 </template>
 
 <script>
 import axios from "axios";
+import Request from "./request";
 
 export default {
   name: "AdminPanel",
+  components: {Request},
   data() {
     return {
       requests: []
@@ -85,30 +64,13 @@ export default {
 
 <style scoped>
 
-.col-1 {
-  background-color: #8383f5;
-}.col-2 {
-  background-color: #83f5e8;
-}.col-3 {
-  background-color: rgba(213, 217, 139, 0.71);
-}
- .rm-1 {
-  ;
- }
-.rm-2 {
-  ;
-}
-.table-sm-1 {
-  display: flex;
-  justify-content: space-around;
-}
-
-.table-sm-2 {
+.main-element{
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
-}
-
+  margin-left: 1%;
+  margin-top: 1%;
+  justify-content: center;
+  }
 
 </style>
 

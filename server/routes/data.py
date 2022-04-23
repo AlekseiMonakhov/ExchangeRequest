@@ -7,6 +7,14 @@ data_router = APIRouter(
     prefix='/data'
 )
 
+# @data_router.get('/countries', response_model=List[Countries, Currensies, PaymentType, Cities, Banks, Purposes], responses={400: {'model': ErrorOutput}})
+# async def getCountries(service: DataService = Depends()):
+#     try:
+#         return await service.getList()
+#     except Exception as error:
+#         raise HTTPException(400, detail=str(error))
+
+
 @data_router.get('/countries', response_model=List[Countries], responses={400: {'model': ErrorOutput}})
 async def getCountries(service: ContriesService = Depends()):
     try:

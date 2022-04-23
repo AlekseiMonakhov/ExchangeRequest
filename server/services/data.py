@@ -3,6 +3,14 @@ from database.connection import Session, getSession
 from fastapi import Depends
 from database.tables import Countries, Currencies, PaymentType, Cities, Banks, Purposes
 
+# class DataService():
+#     def __init__(self, session: Session = Depends(getSession)):
+#         self.session = session
+#
+#     async def getList(self):
+#         result = await self.session.execute(select(Countries, Currencies, PaymentType, Cities, Banks, Purposes))
+#         return result.scalars().all()
+
 class ContriesService():
     def __init__(self, session: Session = Depends(getSession)):
         self.session = session

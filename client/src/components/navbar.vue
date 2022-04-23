@@ -1,6 +1,7 @@
 <template>
   <b-navbar
-    toggleable="md"
+    class="navbar"
+    toggleable="lg"
     type="dark"
     variant="primary">
     <b-navbar-nav>
@@ -16,6 +17,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

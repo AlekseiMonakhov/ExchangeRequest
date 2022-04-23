@@ -1,50 +1,32 @@
 <template>
-  <div class="container-mt-4">
-    <div class="table-sm-1">
-      <th ><strong>Вы получите</strong></th>
-      <th ><strong>Вы отдаете</strong></th>
+  <div class="root-element">
+    <div class="main-element" v-for="request in requests">
+      <b-card bg-variant="light" text-variant="black">
+        <b-card>
+          <div class="element-1">
+            <div class="element-2"><strong> Заявка {{request.id}}  </strong></div>
+            <div class="element-2"> Рейтинг: 5.0</div>
+            <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
+            <div class="element-2"> Вознаграждение: {{request.profit}}</div>
+          </div>
+          <div class="element-1">
+            <div class="element-2"> <strong>Вы получите: </strong></div>
+            <div class="element-2"> {{request.current_amount}} {{request.current_currency}} </div>
+            <div class="element-2"> {{request.current_type}} </div>
+            <div class="element-2"> {{request.current_country}} {{request.current_city}} </div>
+            <div class="element-2"> {{request.current_bank}} {{request.current_purpose}} </div>
+          </div>
+          <div class="element-1">
+            <div class="element-2"> <strong> Вы отдаете: </strong></div>
+            <div class="element-2"> {{request.wanted_amount}} {{request.wanted_currency}}</div>
+            <div class="element-2"> {{request.wanted_type}}</div>
+            <div class="element-2"> {{request.wanted_country}} {{request.wanted_city}}</div>
+            <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
+          </div>
+        </b-card>
+        <b-button @click="$router.push('/chat')" variant="primary">Связаться</b-button>
+      </b-card>
     </div>
-    <table class="table table-sm-2">
-      <thead>
-        <th class="col-1" >Рейтинг</th>
-        <th class="col-1">Валюта</th>
-        <th class="col-1">Форма</th>
-        <th class="col-1">Банк</th>
-        <th class="col-1">Назначение</th>
-        <th class="col-1">Сумма</th>
-        <th class="col-1">Место</th>
-        <th class="col-2">Валюта</th>
-        <th class="col-2">Форма</th>
-        <th class="col-2">Банк</th>
-        <th class="col-2">Назначение</th>
-        <th class="col-2">Сумма</th>
-        <th class="col-2">Место</th>
-        <th class="col-3">Дата</th>
-        <th class="col-3">Вознаграждение</th>
-        <th class="col-3">Связаться</th>
-      </thead>
-      <tbody>
-      <tr v-for="request in requests">
-        <td>4</td>
-        <td>{{request.current_currency}}</td>
-        <td>{{request.current_type}}</td>
-        <td>{{request.current_bank}}</td>
-        <td>{{request.current_purpose}}</td>
-        <td>{{request.current_amount}}</td>
-        <td>{{request.current_country}}{{request.current_city}}</td>
-        <td>{{request.wanted_currency}}</td>
-        <td>{{request.wanted_type}}</td>
-        <td>{{request.wanted_bank}}</td>
-        <td>{{request.wanted_purpose}}</td>
-        <td>{{request.wanted_amount}}</td>
-        <td>{{request.wanted_country}}{{request.wanted_city}}</td>
-        <td>{{request.created_on.replace(/T/, ' ').slice(0, -7)}}</td>
-        <td> +1 %</td>
-        <td>
-          <button @click="$router.push('/startChat')" type="button" class="btn btn-primary">Чат</button></td>
-      </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
@@ -55,7 +37,7 @@ export default {
   name: "RequestsList",
   data() {
     return {
-      requests: []
+      requests: [],
     }
   },
   methods: {
@@ -77,13 +59,12 @@ export default {
 </script>
 
 <style scoped>
-
-.col-1 {
-  background-color: #8383f5;
-}.col-2 {
-   background-color: #83f5e8;
- }.col-3 {
-    background-color: rgba(213, 217, 139, 0.71);
-  }
+.main-element{
+  display: flex;
+  flex-direction: column;
+  margin-left: 1%;
+  margin-top: 1%;
+  justify-content: center;
+}
 
 </style>

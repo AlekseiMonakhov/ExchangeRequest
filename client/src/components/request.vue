@@ -187,17 +187,15 @@ export default {
   methods: {
     send: function () {
       if (
-        // this.current_country === "" ||
         this.current_type === "" ||
         this.current_currency === "" ||
         this.current_amount === "" ||
-        // this.wanted_country === "" ||
         this.wanted_type === "" ||
         this.wanted_currency === "" ||
         this.wanted_amount === ""
       ) {
         this.error = "All fields required!";
-        alert("All fields required!");
+        alert("Заполните все поля!");
       } else {
         let data = {
           current_country: `${this.current_country}`,
@@ -214,7 +212,8 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-
+          profit: "1%" +
+            ""
         }
         axios.post("http://localhost:5000/request/create", data)
           .then(function (response){

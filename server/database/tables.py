@@ -55,7 +55,7 @@ class Requests(Base):
     current_type = Column(String(255), nullable=False)
     wanted_type = Column(String(255), nullable=False)
     created_on = Column(DateTime(), default=datetime.now)
-
+    profit = Column(String(255))
 
 async def async_create():
     async with engine.begin() as conn:
