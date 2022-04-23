@@ -12,6 +12,7 @@ export default {
   name: "App",
   components: {
     Navbar,
+    Chat: () => import('vue-quick-chat')
   }
 
 }

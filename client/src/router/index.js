@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Request from "../components/request";
 import RequestsList from "../components/requestsList";
 import AdminPanel from "../components/adminPanel";
-import Chat from "../components/chat";
+import DealChat from "../components/chat";
 
 Vue.use(Router)
 
@@ -23,7 +23,7 @@ export default new Router({
     },
     {
       path: '/chat',
-      component: Chat,
+      component: DealChat,
     }
   ]
 });

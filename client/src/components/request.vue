@@ -266,7 +266,7 @@ export default {
 
 <style scoped>
 .col-sm-3 {
-  margin-right: 30;
+  margin-right: 30px;
   float: left;
 }
 </style>

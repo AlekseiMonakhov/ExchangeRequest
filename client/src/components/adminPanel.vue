@@ -34,11 +34,9 @@
 
 <script>
 import axios from "axios";
-import Request from "./request";
 
 export default {
   name: "AdminPanel",
-  components: {Request},
   data() {
     return {
       requests: []
