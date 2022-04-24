@@ -1,8 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
-from models.requests import Requests
+from models.requests import Requests, OpenDeals
 from models.data import ErrorOutput
-from services.requests import RequestService, RequestsService
+from services.requests import RequestService, RequestsService, OpenDealsService
 
 request_router = APIRouter(
     prefix='/request'
@@ -23,3 +23,12 @@ async def getRequests(service: RequestsService = Depends()):
         return await service.getList()
     except Exception as error:
         raise HTTPException(400, detail=str(error))
+
+
+@request_router.get('/getOpenDeals', response_model=List[OpenDeals], responses={400: {'model': ErrorOutput}})
+async def getOpenDeals(service: OpenDealsService = Depends()):
+    try:
+        return await service.getList()
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+

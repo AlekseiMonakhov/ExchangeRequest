@@ -2,10 +2,10 @@ from database import tables
 from database.connection import Session, getSession
 from fastapi import Depends
 from sqlalchemy import select
-from database.tables import Requests
+from database.tables import Requests, OpenDeals
 
 
-class RequestService():
+class RequestService:
     def __init__(self, session: Session = Depends(getSession)):
         self.session = session
 
@@ -14,11 +14,22 @@ class RequestService():
         self.session.add(request)
         await self.session.commit()
 
-class RequestsService():
+
+class RequestsService:
     def __init__(self, session: Session = Depends(getSession)):
         self.session = session
 
     async def getList(self):
         result = await self.session.execute(select(Requests))
         return result.scalars().all()
+
+
+class OpenDealsService:
+    def __init__(self, session: Session = Depends(getSession)):
+        self.session = session
+
+    async def getList(self):
+        result = await self.session.execute(select(OpenDeals))
+        return result.scalars().all()
+
 

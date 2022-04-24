@@ -1,6 +1,7 @@
 fastapi~=0.75.0
 SQLAlchemy~=1.4.32
 python-dotenv~=0.19.2
-uvicorn
+uvicorn~=0.17.6
 asyncpg
-asyncio
+asyncio~=3.4.3
+pydantic~=1.9.0

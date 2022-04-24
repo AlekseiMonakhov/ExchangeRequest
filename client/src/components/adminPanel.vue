@@ -5,11 +5,11 @@
     <b-card>
      <div class="element-1">
        <div class="element-2"><strong> Заявка {{request.id}}  </strong></div>
-       <div class="element-2">  Мейкер: 12345678    Тейкер: 23456789 </div>
-       <div class="element-2"> Рейтинг Мейкера: 5.0 Рейтинг Тейкера: 5.0 </div>
-       <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
-       <div class="element-2"> Вознаграждение: 1% </div>
-       <div class="element-2"> Статус: Инициирована </div>
+       <div class="element-2">  Мейкер: {{request.maker_id}}  Рейтинг: {{request.maker_rank}} </div>
+       <div class="element-2">  Тейкер: {{request.taker_id}}  Рейтинг: {{request.taker_rank}} </div>
+       <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, )}} </div>
+       <div class="element-2"> Вознаграждение: {{request.profit}} </div>
+       <div class="element-2"> Статус: {{request.status}} </div>
      </div>
       <div class="element-1">
         <div class="element-2"> <strong>От Мейкера: </strong></div>
@@ -46,7 +46,7 @@ export default {
     async getData() {
       try {
         const requests = await axios.get(
-          "http://localhost:5000/request/getlist"
+          "http://localhost:5000/request/getOpenDeals"
         );
         this.requests = requests.data;
       } catch (e) {
