@@ -27,6 +27,7 @@
       <div class="col-sm-3 mt-2">
         <input
           class="form-control"
+          type="number"
           placeholder="Укажите сумму"
           v-model.number="current_amount"
         />
@@ -100,11 +101,12 @@
       </div>
 
       <div class="col-sm-3 mt-2">
-        <input
-          class="form-control"
-          placeholder="Укажите сумму"
-          v-model.number="wanted_amount"
-        />
+          <input
+            class="form-control"
+            type="number"
+            placeholder="Укажите сумму"
+            v-model.number="wanted_amount"
+          />
       </div>
 
 
@@ -158,6 +160,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "Request",
   data() {
