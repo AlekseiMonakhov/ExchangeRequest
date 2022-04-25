@@ -58,6 +58,7 @@
           <option
             v-for="bank in banks"
             v-bind:key="bank.bank_name"
+            v-if="bank.country == current_country"
           >
             {{ bank.bank_name }}
           </option>
@@ -134,6 +135,7 @@
           <option
             v-for="bank in banks"
             v-bind:key="bank.bank_name"
+            v-if="bank.country == wanted_country"
           >
             {{ bank.bank_name }}
           </option>
