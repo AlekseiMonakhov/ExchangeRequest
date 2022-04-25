@@ -212,14 +212,14 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-          profit: "1%" +
-            ""
+          profit: "1%"
         }
         axios.post("http://localhost:5000/request/create", data)
           .then(function (response){
-            console.log(response)
-            alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.")
-          })
+            alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.");
+            location.reload()
+            }
+          )
           .catch(function (error){
             console.log(error)
             alert("Error!")
