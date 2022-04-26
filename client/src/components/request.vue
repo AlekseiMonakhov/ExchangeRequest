@@ -190,7 +190,7 @@ export default {
     };
   },
   methods: {
-    send: function () {
+    send: async function () {
       if (
         this.current_type === "" ||
         this.current_currency === "" ||
@@ -217,8 +217,8 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-          profit: "1%"
-        }
+          profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}`
+        };
         axios.post("http://localhost:5000/request/create", data)
           .then(function (response){
             alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.");
@@ -230,6 +230,19 @@ export default {
             alert("Error!")
           })
 
+      }
+    },
+    async getRates(current_currency, current_amount, wanted_currency, wanted_amount) {
+      try {
+        const responseRates = await axios.get("https://cdn.cur.su/api/latest.json")
+        const RatesList = responseRates.data.rates
+        current_currency == "USDT" ? current_currency = "USD": current_currency = current_currency
+        wanted_currency == "USDT" ? wanted_currency = "USD": wanted_currency = wanted_currency
+        const profit = ((current_amount / RatesList[`${current_currency}`]) - (wanted_amount / RatesList[`${wanted_currency}`]))/(wanted_amount / RatesList[`${wanted_currency}`]) * 100
+        return this.profit = `${profit.toFixed(1)} %`
+      } catch (error) {
+        console.log(error)
+        alert("Error!")
       }
     },
     async getData() {
@@ -258,7 +271,8 @@ export default {
           "http://localhost:5000/data/purposes"
         );
         this.purposes = responsePurposes.data;
-      } catch (e) {
+      } catch (error) {
+        console.log(error)
         alert("Error!");
       }
     },
