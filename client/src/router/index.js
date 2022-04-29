@@ -4,6 +4,7 @@ import Request from "../components/request";
 import RequestsList from "../components/requestsList";
 import AdminPanel from "../components/adminPanel";
 import DealChat from "../components/chat";
+import ChatAdminView from "../components/chatAdminView";
 
 Vue.use(Router)
 
@@ -24,6 +25,10 @@ export default new Router({
     {
       path: '/chat',
       component: DealChat,
+    },
+    {
+      path: '/chatAdminView',
+      component: ChatAdminView,
     }
   ]
 });

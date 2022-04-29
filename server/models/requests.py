@@ -28,6 +28,7 @@ class Requests(BaseModel):
 
 
 class OpenDeals(BaseModel):
+    deal_id: Optional[int]
     id: Optional[int]
     current_amount: Decimal
     wanted_amount: Decimal

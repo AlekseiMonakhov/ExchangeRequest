@@ -4,7 +4,7 @@
   <b-card bg-variant="light" text-variant="black">
     <b-card>
      <div class="element-1">
-       <div class="element-2"><strong> Заявка {{request.id}}  </strong></div>
+       <div class="element-2"><strong>  Сделка {{request.deal_id}} </strong>(Заявка {{request.id}})  </div>
        <div class="element-2">  Мейкер: {{request.maker_id}}  Рейтинг: {{request.maker_rank}} </div>
        <div class="element-2">  Тейкер: {{request.taker_id}}  Рейтинг: {{request.taker_rank}} </div>
        <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, )}} </div>
@@ -26,7 +26,8 @@
       <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
     </div>
     </b-card>
-    <b-button @click="$router.push('/chat')" variant="primary">Чат сделки</b-button>
+    <b-button @click="$router.push('/chatAdminView')" variant="primary">Чат сделки</b-button>
+    <b-button @click="deleteDeal(request)" variant="dark">!!Отменить сделку!!</b-button>
   </b-card>
 </div>
 </div>
@@ -53,6 +54,17 @@ export default {
         alert("Error!");
       }
     },
+    async deleteDeal(request) {
+      try {
+        await axios.delete(
+          `http://localhost:5000/request/delete/${request.deal_id}`)
+          .then(location.reload())
+
+      } catch (e) {
+        console.log(e)
+        alert("Error!");
+      }
+    }
   },
   beforeMount(){
     this.getData()

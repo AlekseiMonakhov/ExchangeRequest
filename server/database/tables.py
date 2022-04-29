@@ -67,7 +67,8 @@ class Requests(Base):
 
 class OpenDeals(Base):
     __tablename__ = 'open_deals'
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    deal_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, nullable=False)
     current_amount = Column(Numeric(10, 2), nullable=False)
     wanted_amount = Column(Numeric(10, 2), nullable=False)
     current_country = Column(String(255), nullable=True)
@@ -100,4 +101,4 @@ async def async_drop():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
-# asyncio.run(async_create())
+#asyncio.run(async_create())

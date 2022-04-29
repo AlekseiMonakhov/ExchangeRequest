@@ -24,7 +24,7 @@
             <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
           </div>
         </b-card>
-        <b-button @click="$router.push('/chat')" variant="primary">Связаться</b-button>
+        <b-button @click="$router.push('/chat'), send(request)" variant="primary">Связаться</b-button>
       </b-card>
     </div>
   </div>
@@ -41,6 +41,12 @@ export default {
     }
   },
   methods: {
+    send: async function (request) {
+        axios.post("http://localhost:5000/request/open-deal", request)
+          .catch(function (error){
+            console.log(error)
+          })
+    },
     async getData() {
       try {
         const requests = await axios.get(

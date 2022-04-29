@@ -17,6 +17,22 @@ async def createRequest(requestData: Requests, service: RequestService = Depends
         raise HTTPException(400, detail=str(error))
 
 
+@request_router.post('/open-deal', response_model=OpenDeals, responses={400: {'model': ErrorOutput}})
+async def openDeal(dealData: OpenDeals, service: OpenDealsService = Depends()):
+    try:
+        return await service.create(dealData)
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
+
+@request_router.delete('/delete/{deal_id}')
+async def openDeal(deal_id: int, service: OpenDealsService = Depends()):
+    try:
+        return await service.deleteDeal(deal_id)
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
+
 @request_router.get('/getlist', response_model=List[Requests], responses={400: {'model': ErrorOutput}})
 async def getRequests(service: RequestsService = Depends()):
     try:
@@ -31,4 +47,6 @@ async def getOpenDeals(service: OpenDealsService = Depends()):
         return await service.getList()
     except Exception as error:
         raise HTTPException(400, detail=str(error))
+
+
 

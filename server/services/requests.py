@@ -28,8 +28,20 @@ class OpenDealsService:
     def __init__(self, session: Session = Depends(getSession)):
         self.session = session
 
+    async def create(self, dealData: OpenDeals):
+        request = tables.OpenDeals(**dealData.dict())
+        self.session.add(request)
+        await self.session.commit()
+
     async def getList(self):
         result = await self.session.execute(select(OpenDeals))
         return result.scalars().all()
+
+    async def deleteDeal(self, deal_id: OpenDeals):
+        result = await self.session.get(OpenDeals, deal_id)
+        await self.session.delete(result)
+        await self.session.commit()
+
+
 
 
