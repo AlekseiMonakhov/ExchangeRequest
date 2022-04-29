@@ -53,6 +53,8 @@
             {{ country.country_name }}
           </option>
         </select>
+      </div>
+        <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_bank" v-if="current_type === 'Банковский перевод'">
           <option disabled value="">Выберите банк</option>
           <option
@@ -63,6 +65,8 @@
             {{ bank.bank_name }}
           </option>
         </select>
+        </div>
+        <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_purpose" v-if="current_type === 'Банковский перевод'">
           <option disabled value="">Назначение платежа</option>
           <option
@@ -72,6 +76,7 @@
             {{ purpose.purpose }}
           </option>
         </select>
+
       </div>
 
 
@@ -123,13 +128,15 @@
         </select>
         <select class="form-select" v-model="wanted_country" v-if="wanted_type === 'Банковский перевод'">
           <option disabled value="">Выберите страну</option>
-          <option
-            v-for="country in countries"
-            v-bind:key="country.country_name"
-          >
-            {{ country.country_name }}
-          </option>
+            <option
+              v-for="country in countries"
+              v-bind:key="country.country_name"
+            >
+              {{ country.country_name }}
+            </option>
         </select>
+      </div>
+      <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_bank" v-if="wanted_type === 'Банковский перевод'">
           <option disabled value="">Выберите банк</option>
           <option
@@ -140,15 +147,20 @@
             {{ bank.bank_name }}
           </option>
         </select>
+      </div>
+        <div class="col-sm-3 mt-2">
           <select class="form-select" v-model="wanted_purpose" v-if="wanted_type === 'Банковский перевод'">
             <option disabled value="">Назначение платежа</option>
+
             <option
               v-for="purpose in purposes"
               v-bind:key="purpose.purpose"
             >
               {{ purpose.purpose }}
             </option>
+
         </select>
+
       </div>
     </div>
 
