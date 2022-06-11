@@ -21,6 +21,27 @@ class PaymentType(BaseModel):
     class Config:
         orm_mode = True
 
+class Cities(BaseModel):
+    id: int
+    city_name: str
+
+    class Config:
+        orm_mode = True
+
+class Banks(BaseModel):
+    id: int
+    bank_name: str
+    country: str
+
+    class Config:
+        orm_mode = True
+
+class Purposes(BaseModel):
+    id: int
+    purpose: str
+
+    class Config:
+        orm_mode = True
 
 class ErrorOutput(BaseModel):
     detail: str

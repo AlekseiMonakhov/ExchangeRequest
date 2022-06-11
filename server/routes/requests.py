@@ -1,11 +1,13 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException
-from models.requests import Requests
+from models.requests import Requests, OpenDeals
 from models.data import ErrorOutput
-from services.requests import RequestService
+from services.requests import RequestService, RequestsService, OpenDealsService
 
 request_router = APIRouter(
     prefix='/request'
 )
+
 
 @request_router.post('/create', response_model=Requests, responses={400: {'model': ErrorOutput}})
 async def createRequest(requestData: Requests, service: RequestService = Depends()):
@@ -13,3 +15,38 @@ async def createRequest(requestData: Requests, service: RequestService = Depends
         return await service.create(requestData)
     except Exception as error:
         raise HTTPException(400, detail=str(error))
+
+
+@request_router.post('/open-deal', response_model=OpenDeals, responses={400: {'model': ErrorOutput}})
+async def openDeal(dealData: OpenDeals, service: OpenDealsService = Depends()):
+    try:
+        return await service.create(dealData)
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
+
+@request_router.delete('/delete/{deal_id}')
+async def openDeal(deal_id: int, service: OpenDealsService = Depends()):
+    try:
+        return await service.deleteDeal(deal_id)
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
+
+@request_router.get('/getlist', response_model=List[Requests], responses={400: {'model': ErrorOutput}})
+async def getRequests(service: RequestsService = Depends()):
+    try:
+        return await service.getList()
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
+
+@request_router.get('/getOpenDeals', response_model=List[OpenDeals], responses={400: {'model': ErrorOutput}})
+async def getOpenDeals(service: OpenDealsService = Depends()):
+    try:
+        return await service.getList()
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
+
+
+

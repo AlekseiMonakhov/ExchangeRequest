@@ -3,9 +3,23 @@ from routes.data import data_router
 from routes.requests import request_router
 import uvicorn
 from settings import settings
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(data_router)
 app.include_router(request_router)
 
