@@ -1,10 +1,24 @@
 import asyncio
-from sqlalchemy import Integer, String, Column, DateTime, Numeric
+from fastapi_users_db_sqlalchemy import GUID
+from sqlalchemy import Integer, String, Column, DateTime, Numeric, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from database.connection import engine
+from sqlalchemy.orm import relationship
+
 
 Base = declarative_base()
+
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(GUID, primary_key=True)
+    email = Column(String(length=320), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(length=72), nullable=False)
+    is_active = Column(Boolean, default=True, nullable=False)
+    is_superuser = Column(Boolean, default=False, nullable=False)
+    is_verified = Column(Boolean, default=False, nullable=False)
+    rank = Column(String(255), nullable=True, default="0")
 
 
 class Countries(Base):
@@ -63,6 +77,9 @@ class Requests(Base):
     wanted_type = Column(String(255), nullable=False)
     created_on = Column(DateTime(), default=datetime.now)
     profit = Column(String(255))
+    maker_id = Column(Integer, ForeignKey('users.id'), index=True)
+
+    user = relationship('User', backref='requests')
 
 
 class OpenDeals(Base):
@@ -83,13 +100,13 @@ class OpenDeals(Base):
     wanted_currency = Column(String(255), nullable=False)
     current_type = Column(String(255), nullable=False)
     wanted_type = Column(String(255), nullable=False)
-    created_on = Column(DateTime(), default=datetime.now)
+    created_on = Column(DateTime(), default=datetime.utcnow)
     status = Column(String(255), nullable=True, default="Инициирована")
-    maker_id = Column(String(255), nullable=True, default="12345678")
-    taker_id = Column(String(255), nullable=True, default="23456789")
-    maker_rank = Column(String(255), nullable=True, default="5.0")
-    taker_rank = Column(String(255), nullable=True, default="5.0")
-    profit = Column(String(255), nullable=True, default="1%")
+    maker_id = Column(String(255), nullable=True)
+    taker_id = Column(String(255), nullable=True)
+    maker_rank = Column(String(255), nullable=True)
+    taker_rank = Column(String(255), nullable=True)
+    profit = Column(String(255), nullable=True)
 
 
 async def async_create():
@@ -102,3 +119,6 @@ async def async_drop():
         await conn.run_sync(Base.metadata.drop_all)
 
 #asyncio.run(async_create())
+
+
+
