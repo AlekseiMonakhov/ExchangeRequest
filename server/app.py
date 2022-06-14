@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from routes.data import data_router
 from routes.requests import request_router
 import uvicorn
-
 from routes.users import user_router
 from settings import settings
 from fastapi.middleware.cors import CORSMiddleware
