@@ -8,9 +8,9 @@
       <b-nav-item @click="$router.push('/')">Создать заявку</b-nav-item>
       <b-nav-item @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
       <b-nav-item @click="$router.push('/adminPanel')">Панель администратора</b-nav-item>
-      <div v-if="isLoggedIn">
-      <b-nav-item @click="logout">Выйти</b-nav-item>
-      </div>
+<!--      <div v-if="isLoggedIn">-->
+<!--      <b-nav-item @click="logout">Выйти</b-nav-item>-->
+<!--      </div>-->
     </b-navbar-nav>
   </b-navbar>
 </template>
