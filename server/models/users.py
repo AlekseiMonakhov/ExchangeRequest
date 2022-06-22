@@ -21,7 +21,7 @@ class User(BaseUser):
 
 
 class Token(BaseModel):
-    access_token: Optional[str]
+    access_token: str
     token_type: str = 'bearer'
 
     class Config:

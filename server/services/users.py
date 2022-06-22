@@ -42,7 +42,7 @@ class UUIDEncoder(json.JSONEncoder):
 class AuthService:
     @classmethod
     async def verify_password(cls, plain_password: str, hashed_password: str) -> bool:
-        return await bcrypt.verify(plain_password, hashed_password)
+        return bcrypt.verify(plain_password, hashed_password)
 
     @classmethod
     def hash_password(cls, password: str) -> str:
