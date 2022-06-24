@@ -3,19 +3,19 @@
     <p class="heading">Регистрация</p>
     <div class="box">
 
-      <div><input type="text" autocomplete="off" placeholder="Введите email"></div>
+      <div><input type="text" autocomplete="off" v-model="email" placeholder="Введите email"></div>
     </div> <div class="box">
 
-      <div><input type="text" autocomplete="off" placeholder="Введите имя"></div>
+      <div><input type="text" autocomplete="off" v-model="name" placeholder="Введите имя"></div>
     </div>
     <div class="box">
 
-      <div><input type="text" autocomplete="off" placeholder="Введите пароль"></div>
+      <div><input type="text" autocomplete="off" v-model="password" placeholder="Введите пароль"></div>
     </div> <div class="box">
 
-      <div><input type="text" autocomplete="off" placeholder="Повторите пароль"></div>
+      <div><input type="text" autocomplete="off" v-model="password_confirmation" placeholder="Повторите пароль"></div>
     </div>
-    <button class="loginBtn">Зарегистрироваться</button>
+    <button class="loginBtn" @click="register">Зарегистрироваться</button>
     <p class="text">Уже зарегистрированы? <a @click="$router.push('/login')">Войти</a></p>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
         name: this.name,
         email: this.email,
         password: this.password,
-        is_admin: this.is_admin
+
       }
       this.$store.dispatch('register', data)
         .then(() => this.$router.push('/'))

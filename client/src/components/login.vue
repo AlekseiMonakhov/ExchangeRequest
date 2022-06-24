@@ -2,14 +2,14 @@
   <div class="container">
     <p class="heading">Вход</p>
     <div class="box">
-      <p>Email</p>
-      <div><input type="text" autocomplete="off" placeholder="Введите email"></div>
+      <p>Имя</p>
+      <div><input type="text" autocomplete="off" v-model="username" placeholder="Введите имя"></div>
     </div>
     <div class="box">
       <p>Пароль</p>
-      <div><input type="text" autocomplete="off" placeholder="Введите пароль"></div>
+      <div><input type="text" autocomplete="off" v-model="password" placeholder="Введите пароль"></div>
     </div>
-    <button class="loginBtn">Войти</button>
+    <button class="loginBtn" @click="login">Войти</button>
     <p class="text">Нет аккаунта? <a @click="$router.push('/register')">Зарегистрироваться</a></p>
   </div>
 </template>
@@ -19,15 +19,16 @@ export default {
   name: "login",
   data() {
     return {
-      email: "",
+      username: "",
       password: ""
     }
   },
   methods: {
     login: function () {
-      let email = this.email
+      let username = this.username
       let password = this.password
-      this.$store.dispatch('login', {email, password})
+      console.log(username, password)
+      this.$store.dispatch('login', {username, password})
         .then(() => this.$router.push('/'))
         .catch(err => console.log(err))
     }
