@@ -6,7 +6,7 @@
       <div><input type="text" autocomplete="off" v-model="email" placeholder="Введите email"></div>
     </div> <div class="box">
 
-      <div><input type="text" autocomplete="off" v-model="name" placeholder="Введите имя"></div>
+      <div><input type="text" autocomplete="off" v-model="username" placeholder="Введите имя"></div>
     </div>
     <div class="box">
 
@@ -25,7 +25,7 @@ export default {
   name: "register",
   data(){
     return {
-      name : "",
+      username : "",
       email : "",
       password : "",
       password_confirmation : "",
@@ -34,11 +34,12 @@ export default {
   methods: {
     register: function () {
       let data = {
-        name: this.name,
         email: this.email,
+        username: this.username,
         password: this.password,
 
       }
+      console.log(data)
       this.$store.dispatch('register', data)
         .then(() => this.$router.push('/'))
         .catch(err => console.log(err))

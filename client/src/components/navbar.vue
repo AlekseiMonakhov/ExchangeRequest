@@ -4,13 +4,11 @@
     toggleable="lg"
     type="dark"
     variant="primary">
-    <b-navbar-nav>
+    <b-navbar-nav  class="navbar">
       <b-nav-item @click="$router.push('/')">Создать заявку</b-nav-item>
       <b-nav-item @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
-      <b-nav-item @click="$router.push('/adminPanel')">Панель администратора</b-nav-item>
-      <div v-if="isLoggedIn" class="nav1">
-      <b-nav-item @click="logout">Выйти</b-nav-item>
-      </div>
+      <b-nav-item class="admin-link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора</b-nav-item>
+      <b-nav-item class="logout-link" v-if="isLoggedIn" @click="logout">Выйти</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
@@ -31,7 +29,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+navbar {
+  display: flex;
+  margin-left: auto;
+}
+.logout-link{
+  margin-left: auto;
+}
 
 
 </style>

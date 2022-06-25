@@ -26,6 +26,7 @@ export default new Vuex.Store({
     logout(state){
       state.status = ''
       state.token = ''
+
     },
   },
   actions: {
@@ -51,7 +52,7 @@ export default new Vuex.Store({
     async register({commit}, user){
         commit('auth_request')
         await axios({url: 'http://localhost:5000/user/sign-up/', data: qs.stringify(user), method: 'POST', headers: {
-            'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            'content-type': 'application/json;charset=utf-8'
           }  })
           .then(resp => {
             const token = resp.data.access_token
@@ -77,5 +78,6 @@ export default new Vuex.Store({
     getters : {
       isLoggedIn: state => !!state.token,
       authStatus: state => state.status,
+      isAdmin: state => state.user['is_superuser']
     }
 })

@@ -77,10 +77,13 @@ class AuthService:
 
     @classmethod
     async def create_token(cls, user: tables.User) -> models.Token:
+        print("start create token")
         user_data = models.User.from_orm(user)
+        print(user_data)
         now = datetime.utcnow()
         encode_user_data = json.dumps(user_data.__dict__, cls=UUIDEncoder)
         encode_user_data_id = json.dumps(user_data.id, cls=UUIDEncoder)
+        print("before payload")
         payload = {
             'iat': now,
             'nbf': now,
@@ -88,6 +91,7 @@ class AuthService:
             'sub': encode_user_data_id,
             'user': encode_user_data,
         }
+        print("before token")
         token = jwt.encode(
             payload,
             settings.jwt_secret,
