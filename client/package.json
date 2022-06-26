@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "appnpm run dev",
+    "start": "npm run dev",
     "build": "node build/build.js"
   },
   "proxy": "http://localhost:5000",
