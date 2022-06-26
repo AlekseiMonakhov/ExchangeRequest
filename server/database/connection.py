@@ -10,6 +10,7 @@ Session = sessionmaker(
     engine,
     class_=AsyncSession,
     autocommit=False,
+    expire_on_commit=False,
     autoflush=False,
 )
 

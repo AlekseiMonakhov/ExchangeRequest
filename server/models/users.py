@@ -7,6 +7,9 @@ class BaseUser(BaseModel):
     email: str
     username: str
 
+    class Config:
+        orm_mode = True
+
 
 class UserCreate(BaseUser):
     password: str
@@ -15,9 +18,10 @@ class UserCreate(BaseUser):
 class User(BaseUser):
     id: UUID4
     hashed_password: str
-
-    class Config:
-        orm_mode = True
+    is_active: bool
+    is_superuser: bool
+    is_verified: bool
+    rank: int
 
 
 class Token(BaseModel):
