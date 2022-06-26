@@ -114,7 +114,7 @@ class AuthService:
             username=user_data.username,
             hashed_password=self.hash_password(user_data.password),
         )
-        print(user)
+        print("user in register:", user.username, user.email, user.hashed_password)
         self.session.add(user)
         await self.session.commit()
         return await self.create_token(user)
@@ -138,5 +138,5 @@ class AuthService:
 
         if not await self.verify_password(password, user.hashed_password):
             raise exception
-
+        print("user in auth:  ", user.username, user.email, user.hashed_password)
         return await self.create_token(user)

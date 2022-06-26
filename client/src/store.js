@@ -51,7 +51,7 @@ export default new Vuex.Store({
     },
     async register({commit}, user){
         commit('auth_request')
-        await axios({url: 'http://localhost:5000/user/sign-up/', data: qs.stringify(user), method: 'POST', headers: {
+        await axios({url: 'http://localhost:5000/user/sign-up/', data: user, method: 'POST', headers: {
             'content-type': 'application/json;charset=utf-8'
           }  })
           .then(resp => {

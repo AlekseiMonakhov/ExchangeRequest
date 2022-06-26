@@ -7,6 +7,9 @@ class BaseUser(BaseModel):
     email: str
     username: str
 
+    class Config:
+        orm_mode = True
+
 
 class UserCreate(BaseUser):
     password: str
@@ -16,8 +19,7 @@ class User(BaseUser):
     id: UUID4
     hashed_password: str
 
-    class Config:
-        orm_mode = True
+
 
 
 class Token(BaseModel):
