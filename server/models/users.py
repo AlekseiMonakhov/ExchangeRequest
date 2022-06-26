@@ -18,8 +18,10 @@ class UserCreate(BaseUser):
 class User(BaseUser):
     id: UUID4
     hashed_password: str
-
-
+    is_active: bool
+    is_superuser: bool
+    is_verified: bool
+    rank: int
 
 
 class Token(BaseModel):

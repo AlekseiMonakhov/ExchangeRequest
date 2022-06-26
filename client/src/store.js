@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import qs from "qs"
+import jwtDecode from "jwt-decode";
 
 Vue.use(Vuex)
 
@@ -32,16 +33,15 @@ export default new Vuex.Store({
   actions: {
     async login({commit}, user){
         commit('auth_request')
-        console.log(user)
         await axios({url: 'http://localhost:5000/user/sign-in/', data: qs.stringify(user), method: 'POST', headers: {
             'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
           } })
           .then(resp => {
             const token = resp.data.access_token
             localStorage.setItem('token', token)
+            user = jwtDecode(token).user
             axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', token)
-
+            commit('auth_success', token, user)
           })
           .catch(err => {
             commit('auth_error')
@@ -55,10 +55,13 @@ export default new Vuex.Store({
             'content-type': 'application/json;charset=utf-8'
           }  })
           .then(resp => {
+            console.log(resp)
             const token = resp.data.access_token
+            const decodeToken = jwtDecode(token)
+            user = decodeToken.user
             localStorage.setItem('token', token)
             axios.defaults.headers.common['Authorization'] = token
-            commit('auth_success', token)
+            commit('auth_success', token, user)
           })
           .catch(err => {
             commit('auth_error', err)
@@ -78,6 +81,5 @@ export default new Vuex.Store({
     getters : {
       isLoggedIn: state => !!state.token,
       authStatus: state => state.status,
-      isAdmin: state => state.user['is_superuser']
-    }
+}
 })

@@ -29,7 +29,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/user/sign-in/')
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> models.User:
-    return await AuthService.verify_token(token)
+    print(token)
+    return AuthService.verify_token(token)
 
 
 class UUIDEncoder(json.JSONEncoder):
@@ -49,20 +50,24 @@ class AuthService:
         return bcrypt.hash(password)
 
     @classmethod
-    async def verify_token(cls, token: str) -> models.User:
+    def verify_token(cls, token: str) -> models.User:
         exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Could not validate credentials',
             headers={'WWW-Authenticate': 'Bearer'},
         )
+        print("verify_token before payload, token:")
         try:
             payload = jwt.decode(
                 token,
                 settings.jwt_secret,
-                algorithms=[settings.jwt_algorithm],
+                algorithms=settings.jwt_algorithm,
             )
+            print(payload)
+
         except JWTError:
             raise exception from None
+
 
         user_data = payload.get('user')
         print("user_data: ", user_data)
@@ -73,7 +78,7 @@ class AuthService:
         except ValidationError:
             raise exception from None
 
-        return user
+        return user_data
 
     @classmethod
     async def create_token(cls, user: tables.User) -> models.Token:
