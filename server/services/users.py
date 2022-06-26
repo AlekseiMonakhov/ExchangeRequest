@@ -29,7 +29,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/user/sign-in/')
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> models.User:
-    print(token)
+
     return AuthService.verify_token(token)
 
 
@@ -56,25 +56,21 @@ class AuthService:
             detail='Could not validate credentials',
             headers={'WWW-Authenticate': 'Bearer'},
         )
-        print("verify_token before payload, token:")
+
         try:
             payload = jwt.decode(
                 token,
                 settings.jwt_secret,
                 algorithms=settings.jwt_algorithm,
             )
-            print(payload)
 
         except JWTError:
             raise exception from None
 
-
         user_data = payload.get('user')
-        print("user_data: ", user_data)
 
         try:
             user = User.parse_obj(user_data)
-            print(user)
         except ValidationError:
             raise exception from None
 
@@ -82,13 +78,13 @@ class AuthService:
 
     @classmethod
     async def create_token(cls, user: tables.User) -> models.Token:
-        print("start create token")
+
         user_data = models.User.from_orm(user)
-        print(user_data)
+
         now = datetime.utcnow()
         encode_user_data = json.dumps(user_data.__dict__, cls=UUIDEncoder)
         encode_user_data_id = json.dumps(user_data.id, cls=UUIDEncoder)
-        print("before payload")
+
         payload = {
             'iat': now,
             'nbf': now,
@@ -96,13 +92,13 @@ class AuthService:
             'sub': encode_user_data_id,
             'user': encode_user_data,
         }
-        print("before token")
+
         token = jwt.encode(
             payload,
             settings.jwt_secret,
             algorithm=settings.jwt_algorithm,
         )
-        print(token)
+
         return models.Token(access_token=token)
 
     def __init__(self, session: Session = Depends(getSession)):
@@ -112,14 +108,13 @@ class AuthService:
             self,
             user_data: models.UserCreate,
     ) -> models.Token:
-        print(user_data)
-        print("register_new_user"),
+
         user = tables.User(
             email=user_data.email,
             username=user_data.username,
             hashed_password=self.hash_password(user_data.password),
         )
-        print("user in register:", user.username, user.email, user.hashed_password)
+
         self.session.add(user)
         await self.session.commit()
         return await self.create_token(user)
@@ -143,5 +138,5 @@ class AuthService:
 
         if not await self.verify_password(password, user.hashed_password):
             raise exception
-        print("user in auth:  ", user.username, user.email, user.hashed_password)
+
         return await self.create_token(user)

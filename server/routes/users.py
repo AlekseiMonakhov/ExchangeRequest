@@ -52,10 +52,10 @@ async def sign_in(
     )
 
 
-@user_router.get(
-    '/user/',
-    # response_model=User,
-)
-async def get_user(user: User = Depends(get_current_user)):
-    print("user in get_user: ", user)
-    return user
+# @user_router.get(
+#     '/user/',
+#     # response_model=User,
+# )
+# async def get_user(user: User = Depends(get_current_user)):
+#     print("user in get_user: ", user)
+#     return user
