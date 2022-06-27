@@ -25,6 +25,7 @@
 <script>
 import { required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
+import axios from "axios";
 export default {
   name: "register",
   setup: () => ({ v$: useVuelidate() }),
@@ -67,18 +68,27 @@ export default {
         .then(() => this.$router.push('/'))
         .catch(err => console.log(err), alert(err))
     },
-    async submit () {
-      const result = await this.v$.$validate()
-      if (!result) {
-        alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+    async isUnique(username) {
+      const response = await axios.get(`http://localhost:5000/user/is-unique/${username}`)
+      return (await response.data.is_unique)
+    },
+    async submit() {
+      const isUnique = await this.isUnique(this.username)
+      if (!isUnique) {
+        alert("Такое имя пользователя уже занято.")
         return
       }
-      this.register()
+      const result = await this.v$.$validate()
+        if (!result) {
+          alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+          return
+        }
+        this.register()
+      }
+
     }
 
-}
-
-}
+  }
 </script>
 
 <style scoped>

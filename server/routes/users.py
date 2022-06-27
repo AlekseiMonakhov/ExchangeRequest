@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, APIRouter, Depends, status
-from models.users import User, Token, UserCreate
+from models.users import User, Token, UserCreate, IsUnique
 from models.data import ErrorOutput
 from fastapi import (
     APIRouter,
@@ -32,8 +32,8 @@ user_router = APIRouter(
     status_code=status.HTTP_201_CREATED,
 )
 async def sign_up(
-    user_data: UserCreate,
-    auth_service: AuthService = Depends(),
+        user_data: UserCreate,
+        auth_service: AuthService = Depends(),
 ):
     return await auth_service.register_new_user(user_data)
 
@@ -43,14 +43,22 @@ async def sign_up(
     response_model=Token,
 )
 async def sign_in(
-    auth_data: OAuth2PasswordRequestForm = Depends(),
-    auth_service: AuthService = Depends(),
+        auth_data: OAuth2PasswordRequestForm = Depends(),
+        auth_service: AuthService = Depends(),
 ):
     return await auth_service.authenticate_user(
         auth_data.username,
         auth_data.password,
     )
 
+
+@user_router.get(
+    "/is-unique/{username}",
+    response_model=IsUnique,
+)
+async def isUnique(username: str, auth_service: AuthService = Depends(),
+                   ):
+    return await auth_service.isUniqueUsername(username)
 
 # @user_router.get(
 #     '/user/',

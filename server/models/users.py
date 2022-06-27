@@ -30,3 +30,10 @@ class Token(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class IsUnique(BaseModel):
+    is_unique: bool
+
+    class Config:
+        orm_mode: True
