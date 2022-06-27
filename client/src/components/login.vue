@@ -3,34 +3,58 @@
     <p class="heading">Вход</p>
     <div class="box">
       <p>Имя</p>
-      <div><input type="text" autocomplete="off" v-model="username" placeholder="Введите имя"></div>
+      <div><input type="text" id="username" name="username" required v-model="username" placeholder="Введите имя"></div>
     </div>
     <div class="box">
       <p>Пароль</p>
-      <div><input type="text" autocomplete="off" v-model="password" placeholder="Введите пароль"></div>
+      <div><input type="password" id="password" name="password" required v-model="password" placeholder="Введите пароль"></div>
     </div>
-    <button class="loginBtn" @click="login">Войти</button>
+    <button class="loginBtn" @click="submit">Войти</button>
     <p class="text">Нет аккаунта? <a @click="$router.push('/register')">Зарегистрироваться</a></p>
   </div>
 </template>
 
 <script>
+import { required, maxLength, minLength} from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: "login",
+  setup: () => ({ v$: useVuelidate() }),
   data() {
     return {
       username: "",
       password: ""
     }
   },
+  validations () {
+    return {
+      username: {
+        required,
+        maxLengthValue: maxLength(16),
+      },
+      password: {
+        required,
+        maxLengthValue: maxLength(20),
+        mixLengthValue: minLength(8),
+      }
+    }
+  },
   methods: {
     login: function () {
       let username = this.username
       let password = this.password
-      console.log(username, password)
       this.$store.dispatch('login', {username, password})
         .then(() => this.$router.push('/'))
-        .catch(err => console.log(err))
+        .catch(err => console.log(err),
+                      alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.'))
+    },
+    async submit () {
+      const result = await this.v$.$validate()
+      if (!result) {
+        alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+        return
+      }
+      this.login()
     }
   }
 }
@@ -65,7 +89,8 @@ body {
 }
 
 .box {
-  margin: 0.2em 0
+  margin: 0.2em 0;
+  margin-top: 16px;
 }
 
 .container

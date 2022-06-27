@@ -33,10 +33,8 @@ export default {
 <style scoped>
 navbar {
   display: flex;
-  margin-left: auto;
 }
 .logout-link{
-  margin-left: auto;
 }
 
 

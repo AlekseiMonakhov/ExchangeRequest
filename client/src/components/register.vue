@@ -2,34 +2,58 @@
   <div class="container">
     <p class="heading">Регистрация</p>
     <div class="box">
-
-      <div><input type="text" autocomplete="off" v-model="email" placeholder="Введите email"></div>
-    </div> <div class="box">
-
-      <div><input type="text" autocomplete="off" v-model="username" placeholder="Введите имя"></div>
+      <p>Email</p>
+      <div>
+        <input id="email" type="email" name="email" required v-model="email" placeholder="Введите действующий email"></div>
+      </div> <div class="box">
+    <p>Имя</p>
+      <div><input type="text" id="username" name="username" required v-model="username" placeholder="До 16 символов"></div>
     </div>
     <div class="box">
-
-      <div><input type="text" autocomplete="off" v-model="password" placeholder="Введите пароль"></div>
+      <p>Придумайте надежный пароль</p>
+      <div><input type="password" id="password" name="password" required v-model="password" placeholder="Oт 8 до 20 символов"></div>
     </div> <div class="box">
-
-      <div><input type="text" autocomplete="off" v-model="password_confirmation" placeholder="Повторите пароль"></div>
+    <p>Повторите пароль</p>
+      <div><input type="password" id="password_confirmation" name="password_confirmation" required v-model="password_confirmation" placeholder="Повторите пароль"></div>
     </div>
-    <button class="loginBtn" @click="register">Зарегистрироваться</button>
+
+    <button class="loginBtn" @click="submit">Зарегистрироваться</button>
     <p class="text">Уже зарегистрированы? <a @click="$router.push('/login')">Войти</a></p>
   </div>
 </template>
 
 <script>
+import { required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import axios from "axios";
 export default {
   name: "register",
+  setup: () => ({ v$: useVuelidate() }),
   data(){
     return {
-      username : "",
-      email : "",
-      password : "",
-      password_confirmation : "",
+      username : '',
+      email : '',
+      password : '',
+      password_confirmation : '',
     }
+  },
+  validations () {
+  return {
+    username: {
+      required,
+      maxLengthValue: maxLength(16),
+    },
+    email: {
+      required,
+      email
+    },
+    password: {
+      required,
+      sameAsConf: sameAs(this.password_confirmation),
+      maxLengthValue: maxLength(20),
+      mixLengthValue: minLength(8),
+    }
+  }
   },
   methods: {
     register: function () {
@@ -42,10 +66,29 @@ export default {
       console.log(data)
       this.$store.dispatch('register', data)
         .then(() => this.$router.push('/'))
-        .catch(err => console.log(err))
+        .catch(err => console.log(err), alert(err))
+    },
+    async isUnique(username) {
+      const response = await axios.get(`http://localhost:5000/user/is-unique/${username}`)
+      return (await response.data.is_unique)
+    },
+    async submit() {
+      const isUnique = await this.isUnique(this.username)
+      if (!isUnique) {
+        alert("Такое имя пользователя уже занято.")
+        return
+      }
+      const result = await this.v$.$validate()
+        if (!result) {
+          alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+          return
+        }
+        this.register()
+      }
+
     }
+
   }
-}
 </script>
 
 <style scoped>
@@ -68,7 +111,8 @@ body {
   justify-content: center;
   flex-direction: column;
   color: #007cff;
-  padding: 2em
+  padding: 2em;
+  margin-top: 100px;
 }
 
 .heading {
@@ -77,7 +121,8 @@ body {
 }
 
 .box {
-  margin: 0.2em 0
+  margin: 0.2em 0;
+  margin-top: 15px;
 }
 
 .container
@@ -93,7 +138,7 @@ body {
 }
 
 .container .box input {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   background: white;

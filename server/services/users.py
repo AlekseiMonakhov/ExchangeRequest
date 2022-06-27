@@ -29,7 +29,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/user/sign-in/')
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> models.User:
-
     return AuthService.verify_token(token)
 
 
@@ -140,3 +139,21 @@ class AuthService:
             raise exception
 
         return await self.create_token(user)
+
+    async def getUserByUsername(
+            self,
+            username: str,
+    ) -> tables.User:
+        result = await self.session.execute(select(tables.User).where(tables.User.username == username))
+        user = result.scalars().first()
+
+        return user
+
+    async def isUniqueUsername(
+            self,
+            username: str
+    ) -> models.IsUnique:
+        is_unique = False
+        if not await self.getUserByUsername(username):
+            is_unique = True
+        return models.IsUnique(is_unique=is_unique)
