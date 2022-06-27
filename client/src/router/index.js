@@ -8,7 +8,6 @@ import DealChat from "../components/chat";
 import ChatAdminView from "../components/chatAdminView";
 import Login from "../components/login";
 import Register from "../components/register";
-import Secure from "../components/secure";
 
 Vue.use(Router)
 
@@ -61,15 +60,7 @@ let router = new Router({
       name: 'register',
       component: Register
     },
-    {
-      path: '/secure',
-      name: 'secure',
-      component: Secure,
-      meta: {
-        requiresAuth: true
-      }
-    },
-  ],
+    ],
 });
 
 router.beforeEach((to, from, next) => {
