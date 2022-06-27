@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { required, between, maxLength, minLength, email, alphaNum, sameAs} from '@vuelidate/validators'
+import { required, maxLength, minLength} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 export default {
   name: "login",
@@ -31,7 +31,6 @@ export default {
       username: {
         required,
         maxLengthValue: maxLength(16),
-        alphaNum
       },
       password: {
         required,

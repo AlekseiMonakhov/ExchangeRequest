@@ -7,7 +7,7 @@
         <input id="email" type="email" name="email" required v-model="email" placeholder="Введите действующий email"></div>
       </div> <div class="box">
     <p>Имя</p>
-      <div><input type="text" id="username" name="username" required v-model="username" placeholder="До 16 символов, буквы и цифры"></div>
+      <div><input type="text" id="username" name="username" required v-model="username" placeholder="До 16 символов"></div>
     </div>
     <div class="box">
       <p>Придумайте надежный пароль</p>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { required, between, maxLength, minLength, email, alphaNum, sameAs} from '@vuelidate/validators'
+import { required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 export default {
   name: "register",
@@ -41,7 +41,6 @@ export default {
     username: {
       required,
       maxLengthValue: maxLength(16),
-      alphaNum
     },
     email: {
       required,
