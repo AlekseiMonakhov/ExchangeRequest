@@ -254,7 +254,6 @@ export default {
         return this.profit = `${profit.toFixed(1)} %`
       } catch (error) {
         console.log(error)
-        alert("Error!")
       }
     },
     async getData() {
