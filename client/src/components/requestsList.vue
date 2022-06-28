@@ -4,9 +4,9 @@
       <b-card bg-variant="light" text-variant="black">
         <b-card>
           <div class="element-1">
-            <div class="element-2"><strong> Заявка {{request.id}}  </strong></div>
-            <div class="element-2"> Рейтинг: 5.0</div>
-            <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
+            <div class="element-2"><strong> {{request.id}}  </strong></div>
+            <div class="element-2"> Рейтинг: {{request.rank}}</div>
+            <div class="element-2"> {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
             <div class="element-2"> Вознаграждение: {{request.profit}}</div>
           </div>
           <div class="element-1">
