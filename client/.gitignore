@@ -6,5 +6,6 @@ static/
 .editorconfig
 .babelrc
 .postcssrc.js
-README.md 
+README.md
 ../.idea
+envConfig.js

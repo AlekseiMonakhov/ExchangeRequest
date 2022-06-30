@@ -35,7 +35,7 @@ export default {
       password: {
         required,
         maxLengthValue: maxLength(20),
-        mixLengthValue: minLength(8),
+        minLengthValue: minLength(8),
       }
     }
   },
@@ -44,9 +44,12 @@ export default {
       let username = this.username
       let password = this.password
       this.$store.dispatch('login', {username, password})
-        .then(() => this.$router.push('/'))
-        .catch(err => console.log(err),
-                      alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.'))
+        .then(() => { this.$router.push('/')
+                      location.reload()})
+        .catch(err => {
+          console.log(err),
+          alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
+        })
     },
     async submit () {
       const result = await this.v$.$validate()
