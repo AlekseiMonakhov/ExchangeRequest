@@ -17,7 +17,10 @@ export default {
   name: 'Navbar',
   computed : {
     isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
-    isAdmin : function(){ return this.$store.getters.isAdmin}
+    isAdmin : function(){ return this.$store.getters.isAdmin }
+  },
+  watch: {
+
   },
   methods: {
     logout: function () {

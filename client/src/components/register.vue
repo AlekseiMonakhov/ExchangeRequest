@@ -26,6 +26,7 @@
 import { required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import axios from "axios";
+import Config from '../../envConfig'
 export default {
   name: "register",
   setup: () => ({ v$: useVuelidate() }),
@@ -63,13 +64,15 @@ export default {
         password: this.password,
 
       }
-      console.log(data)
       this.$store.dispatch('register', data)
         .then(() => this.$router.push('/'))
-        .catch(err => console.log(err), alert(err))
+        .catch(err => {
+          console.log(err),
+          alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
+        })
     },
     async isUnique(username) {
-      const response = await axios.get(`http://localhost:5000/user/is-unique/${username}`)
+      const response = await axios.get(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/user/is-unique/${username}`)
       return (await response.data.is_unique)
     },
     async submit() {

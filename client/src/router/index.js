@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import store from "../store"
+import store from "../store/store"
 import Router from 'vue-router'
 import Request from "../components/request";
 import RequestsList from "../components/requestsList";
