@@ -32,6 +32,7 @@
 
 <script>
 import axios from "axios";
+import Config from '../../envConfig'
 
 export default {
   name: "RequestsList",
@@ -42,7 +43,7 @@ export default {
   },
   methods: {
     send: async function (request) {
-        axios.post("http://localhost:5000/request/open-deal", request)
+        axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, request)
           .catch(function (error){
             console.log(error)
           })
@@ -50,7 +51,7 @@ export default {
     async getData() {
       try {
         const requests = await axios.get(
-          "http://localhost:5000/request/getlist"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getlist`
         );
         this.requests = requests.data;
       } catch (e) {
