@@ -174,6 +174,7 @@
 
 <script>
 import axios from "axios";
+import Config from '../../envConfig'
 
 export default {
   name: "Request",
@@ -231,7 +232,7 @@ export default {
           wanted_purpose: `${this.wanted_purpose}`,
           profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}`
         };
-        axios.post("http://localhost:5000/request/create", data)
+        axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data)
           .then(function (response){
             alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.");
             location.reload()
@@ -259,27 +260,27 @@ export default {
     async getData() {
       try {
         const responseCountries = await axios.get(
-          "http://localhost:5000/data/countries"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/data/countries`
         );
         this.countries = responseCountries.data;
         const responseCurrencies = await axios.get(
-          "http://localhost:5000/data/currencies"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/data/currencies`
         );
         this.currencies = responseCurrencies.data;
         const responsePaymentTypes = await axios.get(
-          "http://localhost:5000/data/paymentType"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/data/paymentType`
         );
         this.paymentType = responsePaymentTypes.data;
         const responseCities = await axios.get(
-          "http://localhost:5000/data/cities"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/data/cities`
         );
         this.cities = responseCities.data;
         const responseBanks = await axios.get(
-          "http://localhost:5000/data/banks"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/data/banks`
         );
         this.banks = responseBanks.data;
         const responsePurposes = await axios.get(
-          "http://localhost:5000/data/purposes"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/data/purposes`
         );
         this.purposes = responsePurposes.data;
       } catch (error) {
