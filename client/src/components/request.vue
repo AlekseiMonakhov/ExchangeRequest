@@ -164,9 +164,12 @@
       </div>
     </div>
 
-    <div>
-      <button @click="send()" type="button" class="btn btn-primary mt-4">
+    <div >
+      <button v-if="this.$store.getters.isLoggedIn" @click="send()" type="button" class="btn btn-primary mt-4">
         Разместить заявку
+      </button>
+      <button v-else @click="$router.push('/login')" type="button" class="btn btn-primary mt-4">
+        Войти в аккаунт
       </button>
     </div>
   </div>
@@ -216,6 +219,9 @@ export default {
         alert("Заполните все поля!");
       } else {
         let data = {
+          maker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
+          maker_rank: `${JSON.parse(this.$store.getters.getUser)['rank']}`,
+          maker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
           current_country: `${this.current_country}`,
           current_currency: `${this.current_currency}`,
           current_type: `${this.current_type}`,
@@ -230,14 +236,16 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-          profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}`
+          profit: `1`
+          // profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}` || '1'
         };
-        axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data)
+        console.log(data)
+        axios({url:`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data: data, method: 'POST', headers: {
+            "Access-Control-Allow-Origin": "*",
+          }})
           .then(function (response){
-            alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.");
-            location.reload()
-            }
-          )
+             alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.")})
+          .then (() => this.$router.push('/requestsList') )
           .catch(function (error){
             console.log(error)
             alert("Error!")
@@ -247,7 +255,9 @@ export default {
     },
     async getRates(current_currency, current_amount, wanted_currency, wanted_amount) {
       try {
-        const responseRates = await axios.get("https://cdn.cur.su/api/latest.json")
+        const responseRates = await axios({url: "https://cdn.cur.su/api/latest.json", method: 'GET', headers: {
+            "Access-Control-Allow-Origin": "*",
+          }})
         const RatesList = responseRates.data.rates
         current_currency == "USDT" ? current_currency = "USD": current_currency = current_currency
         wanted_currency == "USDT" ? wanted_currency = "USD": wanted_currency = wanted_currency

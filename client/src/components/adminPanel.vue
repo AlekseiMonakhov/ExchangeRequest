@@ -5,9 +5,9 @@
     <b-card>
      <div class="element-1">
        <div class="element-2"><strong>  Сделка {{request.deal_id}} </strong>(Заявка {{request.id}})  </div>
-       <div class="element-2">  Мейкер: {{request.maker_id}}  Рейтинг: {{request.maker_rank}} </div>
-       <div class="element-2">  Тейкер: {{request.taker_id}}  Рейтинг: {{request.taker_rank}} </div>
-       <div class="element-2"> Дата создания заявки: {{request.created_on.replace(/T/, ' ').slice(0, )}} </div>
+       <div class="element-2">  Мейкер: {{request.maker_username}}  Рейтинг: {{request.maker_rank}} </div>
+       <div class="element-2">  Тейкер: {{request.taker_username}}  Рейтинг: {{request.taker_rank}} </div>
+       <div class="element-2"> {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
        <div class="element-2"> Вознаграждение: {{request.profit}} </div>
        <div class="element-2"> Статус: {{request.status}} </div>
      </div>

@@ -1,4 +1,6 @@
 from datetime import datetime
+from uuid import UUID
+
 from pydantic import BaseModel
 from decimal import Decimal
 from pydantic.schema import Optional
@@ -21,7 +23,10 @@ class Requests(BaseModel):
     current_type: str
     wanted_type: str
     created_on: Optional[datetime]
-    profit: Optional[str]
+    profit: str
+    maker_id: UUID
+    maker_rank: int
+    maker_username: str
 
     class Config:
         orm_mode = True
@@ -45,12 +50,14 @@ class OpenDeals(BaseModel):
     current_type: str
     wanted_type: str
     created_on: Optional[datetime]
-    profit: Optional[str]
+    profit: str
     status: Optional[str]
-    maker_id: Optional[str]
-    taker_id: Optional[str]
-    maker_rank: Optional[str]
-    taker_rank: Optional[str]
+    maker_id: Optional[UUID]
+    taker_id: Optional[UUID]
+    maker_rank: Optional[int]
+    taker_rank: Optional[int]
+    maker_username: str
+    taker_username: str
 
     class Config:
         orm_mode = True

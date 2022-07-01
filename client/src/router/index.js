@@ -18,16 +18,10 @@ let router = new Router({
     {
       path: '/',
       component: Request,
-      meta: {
-        requiresAuth: true
-      }
     },
     {
       path: '/requestsList',
       component: RequestsList,
-      meta: {
-        requiresAuth: true
-      }
     },
     {
       path: '/adminPanel',
