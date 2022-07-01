@@ -35,6 +35,7 @@
 
 <script>
 import axios from "axios";
+import Config from '../../envConfig'
 
 export default {
   name: "AdminPanel",
@@ -47,7 +48,7 @@ export default {
     async getData() {
       try {
         const requests = await axios.get(
-          "http://localhost:5000/request/getOpenDeals"
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`
         );
         this.requests = requests.data;
       } catch (e) {
@@ -57,7 +58,7 @@ export default {
     async deleteDeal(request) {
       try {
         await axios.delete(
-          `http://localhost:5000/request/delete/${request.deal_id}`)
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete/${request.deal_id}`)
           .then(location.reload())
 
       } catch (e) {
