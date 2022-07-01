@@ -4,17 +4,23 @@
     <div class="box">
       <p>Email</p>
       <div>
-        <input id="email" type="email" name="email" required v-model="email" placeholder="Введите действующий email"></div>
-      </div> <div class="box">
-    <p>Имя</p>
-      <div><input type="text" id="username" name="username" required v-model="username" placeholder="До 16 символов"></div>
+        <input id="email" type="email" name="email" required v-model="email" placeholder="Введите действующий email">
+      </div>
+    </div>
+    <div class="box">
+      <p>Имя</p>
+      <div><input type="text" id="username" name="username" required v-model="username" placeholder="До 16 символов">
+      </div>
     </div>
     <div class="box">
       <p>Придумайте надежный пароль</p>
-      <div><input type="password" id="password" name="password" required v-model="password" placeholder="Oт 8 до 20 символов"></div>
-    </div> <div class="box">
-    <p>Повторите пароль</p>
-      <div><input type="password" id="password_confirmation" name="password_confirmation" required v-model="password_confirmation" placeholder="Повторите пароль"></div>
+      <div><input type="password" id="password" name="password" required v-model="password"
+                  placeholder="Oт 8 до 20 символов"></div>
+    </div>
+    <div class="box">
+      <p>Повторите пароль</p>
+      <div><input type="password" id="password_confirmation" name="password_confirmation" required
+                  v-model="password_confirmation" placeholder="Повторите пароль"></div>
     </div>
 
     <button class="loginBtn" @click="submit">Зарегистрироваться</button>
@@ -23,38 +29,39 @@
 </template>
 
 <script>
-import { required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
+import {required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import axios from "axios";
 import Config from '../../envConfig'
+
 export default {
   name: "register",
-  setup: () => ({ v$: useVuelidate() }),
-  data(){
+  setup: () => ({v$: useVuelidate()}),
+  data() {
     return {
-      username : '',
-      email : '',
-      password : '',
-      password_confirmation : '',
+      username: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
     }
   },
-  validations () {
-  return {
-    username: {
-      required,
-      maxLengthValue: maxLength(16),
-    },
-    email: {
-      required,
-      email
-    },
-    password: {
-      required,
-      sameAsConf: sameAs(this.password_confirmation),
-      maxLengthValue: maxLength(20),
-      mixLengthValue: minLength(8),
+  validations() {
+    return {
+      username: {
+        required,
+        maxLengthValue: maxLength(16),
+      },
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        sameAsConf: sameAs(this.password_confirmation),
+        maxLengthValue: maxLength(20),
+        mixLengthValue: minLength(8),
+      }
     }
-  }
   },
   methods: {
     register: function () {
@@ -68,7 +75,7 @@ export default {
         .then(() => this.$router.push('/'))
         .catch(err => {
           console.log(err),
-          alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
+            alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
         })
     },
     async isUnique(username) {
@@ -82,16 +89,16 @@ export default {
         return
       }
       const result = await this.v$.$validate()
-        if (!result) {
-          alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
-          return
-        }
-        this.register()
+      if (!result) {
+        alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+        return
       }
-
+      this.register()
     }
 
   }
+
+}
 </script>
 
 <style scoped>

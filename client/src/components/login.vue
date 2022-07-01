@@ -7,7 +7,8 @@
     </div>
     <div class="box">
       <p>Пароль</p>
-      <div><input type="password" id="password" name="password" required v-model="password" placeholder="Введите пароль"></div>
+      <div><input type="password" id="password" name="password" required v-model="password"
+                  placeholder="Введите пароль"></div>
     </div>
     <button class="loginBtn" @click="submit">Войти</button>
     <p class="text">Нет аккаунта? <a @click="$router.push('/register')">Зарегистрироваться</a></p>
@@ -15,18 +16,19 @@
 </template>
 
 <script>
-import { required, maxLength, minLength} from '@vuelidate/validators'
+import {required, maxLength, minLength} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
+
 export default {
   name: "login",
-  setup: () => ({ v$: useVuelidate() }),
+  setup: () => ({v$: useVuelidate()}),
   data() {
     return {
       username: "",
       password: ""
     }
   },
-  validations () {
+  validations() {
     return {
       username: {
         required,
@@ -35,7 +37,7 @@ export default {
       password: {
         required,
         maxLengthValue: maxLength(20),
-        minLengthValue: minLength(8),
+        minLengthValue: minLength(4),
       }
     }
   },
@@ -44,14 +46,16 @@ export default {
       let username = this.username
       let password = this.password
       this.$store.dispatch('login', {username, password})
-        .then(() => { this.$router.push('/')
-                      location.reload()})
+        .then(() => {
+          this.$router.push('/')
+          location.reload()
+        })
         .catch(err => {
           console.log(err),
-          alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
+            alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
         })
     },
-    async submit () {
+    async submit() {
       const result = await this.v$.$validate()
       if (!result) {
         alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")

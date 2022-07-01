@@ -4,10 +4,11 @@
     toggleable="lg"
     type="dark"
     variant="primary">
-    <b-navbar-nav  class="navbar">
+    <b-navbar-nav class="navbar">
       <b-nav-item @click="$router.push('/')">Создать заявку</b-nav-item>
       <b-nav-item @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
-      <b-nav-item class="admin-link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора</b-nav-item>
+      <b-nav-item class="admin-link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора
+      </b-nav-item>
       <b-nav-item class="logout-link" v-if="isLoggedIn" @click="logout">Выйти</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
@@ -15,12 +16,13 @@
 <script>
 export default {
   name: 'Navbar',
-  computed : {
-    isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
-    isAdmin : function(){ return this.$store.getters.isAdmin }
-  },
-  watch: {
-
+  computed: {
+    isLoggedIn: function () {
+      return this.$store.getters.isLoggedIn
+    },
+    isAdmin: function () {
+      return this.$store.getters.isAdmin
+    }
   },
   methods: {
     logout: function () {
@@ -37,7 +39,8 @@ export default {
 navbar {
   display: flex;
 }
-.logout-link{
+
+.logout-link {
 }
 
 

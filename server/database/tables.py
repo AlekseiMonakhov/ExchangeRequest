@@ -9,7 +9,6 @@ from datetime import datetime
 from database.connection import engine
 from sqlalchemy.orm import relationship
 
-
 Base = declarative_base()
 
 
@@ -80,9 +79,11 @@ class Requests(Base):
     wanted_currency = Column(String(255), nullable=False)
     current_type = Column(String(255), nullable=False)
     wanted_type = Column(String(255), nullable=False)
-    created_on = Column(DateTime(), default=datetime.now)
+    created_on = Column(DateTime(), default=datetime.utcnow)
     profit = Column(String(255))
-    maker_id = Column(GUID, ForeignKey('users.id'), index=True)
+    maker_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True)
+    maker_rank = Column(Integer, nullable=False)
+    maker_username = Column(String(255), nullable=False)
 
     user = relationship('User', backref='requests')
 
@@ -107,8 +108,10 @@ class OpenDeals(Base):
     wanted_type = Column(String(255), nullable=False)
     created_on = Column(DateTime(), default=datetime.utcnow)
     status = Column(String(255), nullable=True, default="Инициирована")
-    maker_id = Column(GUID, nullable=True)
-    taker_id = Column(GUID, nullable=True)
+    maker_id = Column(UUID(as_uuid=True), nullable=True)
+    taker_id = Column(UUID(as_uuid=True), nullable=True)
+    maker_username = Column(String(255), nullable=False)
+    taker_username = Column(String(255), nullable=False)
     maker_rank = Column(Integer, nullable=True)
     taker_rank = Column(Integer, nullable=True)
     profit = Column(String(255), nullable=True)
@@ -124,6 +127,3 @@ async def async_drop():
         await conn.run_sync(Base.metadata.drop_all)
 
 # asyncio.run(async_create())
-
-
-
