@@ -54,7 +54,32 @@ export default {
     },
   methods: {
     send: async function (request) {
-      axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, request)
+      const data = {
+        id: request.id,
+        current_amount: request.current_amount,
+        wanted_amount: request.wanted_amount,
+        current_country: request.current_country || "",
+        current_city: request.current_city  || "",
+        wanted_city: request.wanted_city || "",
+        current_bank: request.current_bank || "",
+        wanted_bank: request.wanted_bank || "",
+        current_purpose: request.current_purpose || "",
+        wanted_purpose: request.wanted_purpose || "",
+        wanted_country: request.wanted_country || "",
+        current_currency: request.current_currency,
+        wanted_currency: request.wanted_currency,
+        current_type: request.current_type,
+        wanted_type: request.wanted_type,
+        profit: request.profit,
+        maker_id: request.maker_id,
+        taker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
+        maker_rank: request.maker_rank,
+        taker_rank: `${JSON.parse(this.$store.getters.getUser)['rank']}`,
+        maker_username: request.maker_username,
+        taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
+      }
+      console.log(data)
+      axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
         .catch(function (error) {
           console.log(error)
         })
