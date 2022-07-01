@@ -10,6 +10,7 @@
       <b-nav-item class="link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора
       </b-nav-item>
       <b-nav-item class="link" v-if="isLoggedIn" @click="logout">Выйти</b-nav-item>
+      <b-nav-item class="link" v-if="!isLoggedIn" @click="$router.push('/login')">Войти</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>

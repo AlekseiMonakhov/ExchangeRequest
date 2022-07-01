@@ -164,9 +164,12 @@
       </div>
     </div>
 
-    <div>
-      <button @click="send()" type="button" class="btn btn-primary mt-4">
+    <div >
+      <button v-if="this.$store.getters.isLoggedIn" @click="send()" type="button" class="btn btn-primary mt-4">
         Разместить заявку
+      </button>
+      <button v-else @click="$router.push('/login')" type="button" class="btn btn-primary mt-4">
+        Войти в аккаунт
       </button>
     </div>
   </div>
