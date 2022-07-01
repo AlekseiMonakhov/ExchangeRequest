@@ -5,11 +5,11 @@
     type="dark"
     variant="primary">
     <b-navbar-nav class="navbar">
-      <b-nav-item @click="$router.push('/')">Создать заявку</b-nav-item>
-      <b-nav-item @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
-      <b-nav-item class="admin-link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора
+      <b-nav-item class="link" @click="$router.push('/')">Создать заявку</b-nav-item>
+      <b-nav-item class="link" @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
+      <b-nav-item class="link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора
       </b-nav-item>
-      <b-nav-item class="logout-link" v-if="isLoggedIn" @click="logout">Выйти</b-nav-item>
+      <b-nav-item class="link" v-if="isLoggedIn" @click="logout">Выйти</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
@@ -40,7 +40,8 @@ navbar {
   display: flex;
 }
 
-.logout-link {
+.link {
+  margin-right: auto;
 }
 
 
