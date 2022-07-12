@@ -254,12 +254,10 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-          profit: `1`
-          // profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}` || '1'
+          profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}`
         };
         console.log(data)
         axios({url:`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data: data, method: 'POST', headers: {
-            "Access-Control-Allow-Origin": "*",
           }})
           .then(function (response){
              alert("Ваша заявка размещена.")})
@@ -273,10 +271,10 @@ export default {
     },
     async getRates(current_currency, current_amount, wanted_currency, wanted_amount) {
       try {
-        const responseRates = await axios({url: "https://cdn.cur.su/api/latest.json", method: 'GET', headers: {
-            "Access-Control-Allow-Origin": "*",
-          }})
-        const RatesList = responseRates.data.rates
+        const response = await fetch("https://cdn.cur.su/api/latest.json")
+        const responseRates = await response.json()
+        const RatesList = responseRates.rates
+        console.log( RatesList)
         current_currency == "USDT" ? current_currency = "USD": current_currency = current_currency
         wanted_currency == "USDT" ? wanted_currency = "USD": wanted_currency = wanted_currency
         const profit = ((current_amount / RatesList[`${current_currency}`]) - (wanted_amount / RatesList[`${wanted_currency}`]))/(wanted_amount / RatesList[`${wanted_currency}`]) * 100
