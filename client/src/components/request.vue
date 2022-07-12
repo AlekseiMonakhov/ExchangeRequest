@@ -18,7 +18,8 @@
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_type">
           <option disabled value="">Выберите тип платежа</option>
-          <option v-for="type in paymentType" v-bind:key="type.type">
+          <option v-if="current_currency === 'USDT'"> Криптовалюта </option>
+          <option v-else v-for="type in paymentType" v-bind:key="type.type">
             {{ type.type }}
           </option>
         </select>
@@ -100,7 +101,8 @@
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_type">
           <option disabled value="">Выберите тип платежа</option>
-          <option v-for="type in paymentType" v-bind:key="type.type">
+          <option v-if="wanted_currency === 'USDT'"> Криптовалюта </option>
+          <option v-else v-for="type in paymentType" v-bind:key="type.type">
             {{ type.type }}
           </option>
         </select>
@@ -217,7 +219,23 @@ export default {
       ) {
         this.error = "All fields required!";
         alert("Заполните все поля!");
-      } else {
+      }
+      else if (
+        this.current_type === 'Банковский перевод' && this.current_country === "" ||
+        this.current_type === 'Банковский перевод' && this.current_bank === "" ||
+        this.wanted_type === 'Банковский перевод' && this.wanted_country === "" ||
+        this.wanted_type === 'Банковский перевод' && this.wanted_bank === ""
+      ) {
+        this.error = "All fields required!";
+        alert("Заполните все поля!");
+      }
+      else if (
+        this.current_type === 'Наличные' && this.current_city === "" ||
+        this.wanted_type === 'Наличные' && this.wanted_city === ""
+      ) {
+        this.error = "All fields required!";
+        alert("Заполните все поля!");
+      }else {
         let data = {
           maker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
           maker_rank: `${JSON.parse(this.$store.getters.getUser)['rank']}`,
@@ -236,15 +254,13 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-          profit: `1`
-          // profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}` || '1'
+          profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}`
         };
         console.log(data)
         axios({url:`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data: data, method: 'POST', headers: {
-            "Access-Control-Allow-Origin": "*",
           }})
           .then(function (response){
-             alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.")})
+             alert("Ваша заявка размещена.")})
           .then (() => this.$router.push('/requestsList') )
           .catch(function (error){
             console.log(error)
@@ -255,10 +271,10 @@ export default {
     },
     async getRates(current_currency, current_amount, wanted_currency, wanted_amount) {
       try {
-        const responseRates = await axios({url: "https://cdn.cur.su/api/latest.json", method: 'GET', headers: {
-            "Access-Control-Allow-Origin": "*",
-          }})
-        const RatesList = responseRates.data.rates
+        const response = await fetch("https://cdn.cur.su/api/latest.json")
+        const responseRates = await response.json()
+        const RatesList = responseRates.rates
+        console.log( RatesList)
         current_currency == "USDT" ? current_currency = "USD": current_currency = current_currency
         wanted_currency == "USDT" ? wanted_currency = "USD": wanted_currency = wanted_currency
         const profit = ((current_amount / RatesList[`${current_currency}`]) - (wanted_amount / RatesList[`${wanted_currency}`]))/(wanted_amount / RatesList[`${wanted_currency}`]) * 100

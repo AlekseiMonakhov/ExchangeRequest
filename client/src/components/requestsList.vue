@@ -28,7 +28,7 @@
         <b-button v-if="isNoMaker(request.maker_id)" @click="$router.push('/chat'), send(request)" variant="primary">
           Связаться
         </b-button>
-        <b-button v-else-if="isLoggedIn">Моя заявка</b-button>
+        <b-button v-else-if="isLoggedIn" variant="primary" disabled>Моя заявка</b-button>
         <b-button v-else @click="$router.push('/login')" variant="primary">Войти в аккаунт</b-button>
       </b-card>
     </div>
@@ -93,6 +93,20 @@ export default {
       } catch (e) {
         alert("Error!");
       }
+    },
+    createChat: async function (request) {
+      const data = {
+        id: request.id,
+        maker_id: request.maker_id,
+        taker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
+        maker_username: request.maker_username,
+        taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
+      }
+      console.log(data)
+      axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     isNoMaker: function (makerId) {
       try {
