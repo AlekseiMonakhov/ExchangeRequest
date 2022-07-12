@@ -46,14 +46,7 @@ export default {
   },
   methods: {
     async getData() {
-      try {
-        const requests = await axios.get(
-          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`
-        );
-        this.requests = requests.data;
-      } catch (e) {
-        alert("Error!");
-      }
+      this.requests = await this.$store.getters.getDeals
     },
     async deleteDeal(request) {
       try {

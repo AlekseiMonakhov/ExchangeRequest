@@ -37,7 +37,7 @@ export default {
       password: {
         required,
         maxLengthValue: maxLength(20),
-        minLengthValue: minLength(8),
+        minLengthValue: minLength(4),
       }
     }
   },
@@ -48,6 +48,7 @@ export default {
       this.$store.dispatch('login', {username, password})
         .then(() => {
           this.$router.push('/')
+          this.$store.dispatch('getDeals')
           location.reload()
         })
         .catch(err => {

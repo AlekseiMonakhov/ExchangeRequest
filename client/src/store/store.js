@@ -15,6 +15,7 @@ export default new Vuex.Store({
     token: localStorage.getItem('token') || '',
     user: localStorage.getItem('user') || {},
     data: {},
+    deals: localStorage.getItem('deals') || [],
   },
   mutations: {
     auth_request(state) {
@@ -28,11 +29,15 @@ export default new Vuex.Store({
     auth_error(state) {
       state.status = 'error'
     },
+    deals_loaded (state, deals) {
+      state.deals = deals
+    },
     logout(state) {
       state.status = ''
       state.token = ''
       state.user = {}
       state.data = {}
+      state.deals = []
 
     },
   },
@@ -89,12 +94,27 @@ export default new Vuex.Store({
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
-    }
+    },
+    async getDeals({commit}) {
+      await axios({
+        url: `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`, method: 'GET'
+      })
+        .then(resp => {
+          const deals = resp.data
+          localStorage.setItem('deals', deals)
+          commit('deals_loaded', deals)
+        })
+        .catch(err => {
+          localStorage.removeItem('deals')
+          console.log(err)
+        })
+    },
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
+    getDeals: state => state.deals,
     isAdmin: state => {
       try {
         return JSON.parse(state.user)["is_superuser"] === true
