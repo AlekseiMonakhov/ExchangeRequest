@@ -18,7 +18,8 @@
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="current_type">
           <option disabled value="">Выберите тип платежа</option>
-          <option v-for="type in paymentType" v-bind:key="type.type">
+          <option v-if="current_currency === 'USDT'"> Криптовалюта </option>
+          <option v-else v-for="type in paymentType" v-bind:key="type.type">
             {{ type.type }}
           </option>
         </select>
@@ -100,7 +101,8 @@
       <div class="col-sm-3 mt-2">
         <select class="form-select" v-model="wanted_type">
           <option disabled value="">Выберите тип платежа</option>
-          <option v-for="type in paymentType" v-bind:key="type.type">
+          <option v-if="wanted_currency === 'USDT'"> Криптовалюта </option>
+          <option v-else v-for="type in paymentType" v-bind:key="type.type">
             {{ type.type }}
           </option>
         </select>
@@ -217,7 +219,23 @@ export default {
       ) {
         this.error = "All fields required!";
         alert("Заполните все поля!");
-      } else {
+      }
+      else if (
+        this.current_type === 'Банковский перевод' && this.current_country === "" ||
+        this.current_type === 'Банковский перевод' && this.current_bank === "" ||
+        this.wanted_type === 'Банковский перевод' && this.wanted_country === "" ||
+        this.wanted_type === 'Банковский перевод' && this.wanted_bank === ""
+      ) {
+        this.error = "All fields required!";
+        alert("Заполните все поля!");
+      }
+      else if (
+        this.current_type === 'Наличные' && this.current_city === "" ||
+        this.wanted_type === 'Наличные' && this.wanted_city === ""
+      ) {
+        this.error = "All fields required!";
+        alert("Заполните все поля!");
+      }else {
         let data = {
           maker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
           maker_rank: `${JSON.parse(this.$store.getters.getUser)['rank']}`,
@@ -244,7 +262,7 @@ export default {
             "Access-Control-Allow-Origin": "*",
           }})
           .then(function (response){
-             alert("Ваша заявка размещена. Как только найдется подходящее предложение, Вы получите уведомление.")})
+             alert("Ваша заявка размещена.")})
           .then (() => this.$router.push('/requestsList') )
           .catch(function (error){
             console.log(error)
