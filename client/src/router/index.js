@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import store from "../store/store"
 import Router from 'vue-router'
-import Request from "../components/request";
-import RequestsList from "../components/requestsList";
-import AdminPanel from "../components/adminPanel";
-import DealChat from "../components/chat";
-import ChatAdminView from "../components/chatAdminView";
-import Login from "../components/login";
-import Register from "../components/register";
+import request from "../components/request";
+import requestsList from "../components/requestsList";
+import adminPanel from "../components/adminPanel";
+import dealChat from "../components/chat";
+import chatAdminView from "../components/chatAdminView";
+import login from "../components/login";
+import register from "../components/register";
 import deals from "../components/deals";
 
 Vue.use(Router)
@@ -19,12 +19,12 @@ let router = new Router({
     {
       path: '/',
       name: 'Создать заявку',
-      component: Request,
+      component: request,
     },
     {
       path: '/requestsList',
       name: 'Заявки',
-      component: RequestsList,
+      component: requestsList,
     },
     {
       path: '/myDeals',
@@ -37,21 +37,21 @@ let router = new Router({
     {
       path: '/adminPanel',
       name: 'Админпанель',
-      component: AdminPanel,
+      component: adminPanel,
       meta: {
         requiresAuth: true
       }
     },
     {
       path: '/chat',
-      component: DealChat,
+      component: dealChat,
       meta: {
         requiresAuth: true
       }
     },
     {
       path: '/chatAdminView',
-      component: ChatAdminView,
+      component: chatAdminView,
       meta: {
         requiresAuth: true
       }
@@ -59,12 +59,12 @@ let router = new Router({
     {
       path: '/login',
       name: 'Логин',
-      component: Login
+      component: login
     },
     {
       path: '/register',
       name: 'Регистрация',
-      component: Register
+      component: register
     },
     ],
 });

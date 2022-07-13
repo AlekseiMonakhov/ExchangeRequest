@@ -17,7 +17,7 @@
 </template>
 <script>
 export default {
-  name: 'Navbar',
+  name: 'navbar',
   computed: {
     isLoggedIn: function () {
       return this.$store.getters.isLoggedIn

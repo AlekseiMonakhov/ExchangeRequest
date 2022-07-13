@@ -38,7 +38,7 @@ import axios from "axios";
 import Config from '../../envConfig'
 
 export default {
-  name: "AdminPanel",
+  name: "adminPanel",
   data() {
     return {
       requests: []

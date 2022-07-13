@@ -41,7 +41,7 @@ import Config from '../../envConfig'
 import request from "./request";
 
 export default {
-  name: "RequestsList",
+  name: "requestsList",
   data() {
     return {
       requests: [],
