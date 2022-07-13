@@ -100,7 +100,7 @@ export default new Vuex.Store({
         url: `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`, method: 'GET'
       })
         .then(resp => {
-          const deals = resp.data
+          const deals = JSON.stringify(resp.data)
           localStorage.setItem('deals', deals)
           commit('deals_loaded', deals)
         })
@@ -114,7 +114,7 @@ export default new Vuex.Store({
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
-    getDeals: state => state.deals,
+    getDeals: state => JSON.parse(state.deals),
     isAdmin: state => {
       try {
         return JSON.parse(state.user)["is_superuser"] === true
