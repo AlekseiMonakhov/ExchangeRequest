@@ -8,6 +8,7 @@ import DealChat from "../components/chat";
 import ChatAdminView from "../components/chatAdminView";
 import Login from "../components/login";
 import Register from "../components/register";
+import deals from "../components/deals";
 
 Vue.use(Router)
 
@@ -17,14 +18,25 @@ let router = new Router({
   routes: [
     {
       path: '/',
+      name: 'Создать заявку',
       component: Request,
     },
     {
       path: '/requestsList',
+      name: 'Заявки',
       component: RequestsList,
     },
     {
+      path: '/myDeals',
+      name: 'Мои сделки',
+      component: deals,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/adminPanel',
+      name: 'Админпанель',
       component: AdminPanel,
       meta: {
         requiresAuth: true
@@ -46,12 +58,12 @@ let router = new Router({
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Логин',
       component: Login
     },
     {
       path: '/register',
-      name: 'register',
+      name: 'Регистрация',
       component: Register
     },
     ],

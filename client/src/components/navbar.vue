@@ -7,7 +7,8 @@
     <b-navbar-nav class="navbar">
       <b-nav-item class="link" @click="$router.push('/')">Создать заявку</b-nav-item>
       <b-nav-item class="link" @click="$router.push('/requestsList')">Активные заявки</b-nav-item>
-      <b-nav-item class="link" v-if="isAdmin" @click="$router.push('/adminPanel')">Панель администратора
+      <b-nav-item class="link" @click="$router.push('/myDeals')">Мои сделки</b-nav-item>
+      <b-nav-item class="link" v-if="isAdmin" @click="$router.push('/adminPanel')">Админпанель
       </b-nav-item>
       <b-nav-item class="link" v-if="isLoggedIn" @click="logout">Выйти</b-nav-item>
       <b-nav-item class="link" v-if="!isLoggedIn" @click="$router.push('/login')">Войти</b-nav-item>

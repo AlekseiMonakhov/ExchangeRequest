@@ -32,6 +32,9 @@ export default new Vuex.Store({
     deals_loaded (state, deals) {
       state.deals = deals
     },
+    clear_deals (state) {
+      state.deals = []
+    },
     logout(state) {
       state.status = ''
       state.token = ''
@@ -96,6 +99,7 @@ export default new Vuex.Store({
       })
     },
     async getDeals({commit}) {
+      commit('clear_deals')
       await axios({
         url: `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`, method: 'GET'
       })
