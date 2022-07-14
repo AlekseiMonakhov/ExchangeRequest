@@ -100,20 +100,20 @@ export default {
         alert("Error!");
       }
     },
-    createChat: async function (request) {
-      const data = {
-        id: request.id,
-        maker_id: request.maker_id,
-        taker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
-        maker_username: request.maker_username,
-        taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
-      }
-      console.log(data)
-      axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
+    // createChat: async function (request) {
+    //   const data = {
+    //     id: request.id,
+    //     maker_id: request.maker_id,
+    //     taker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
+    //     maker_username: request.maker_username,
+    //     taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
+    //   }
+    //   console.log(data)
+    //   axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
+    //     .catch(function (error) {
+    //       console.log(error)
+    //     })
+    // },
     isNoMaker: function (makerId) {
       try {
         const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
@@ -134,14 +134,15 @@ export default {
     },
     isDealExist(data) {
       const deals = this.$store.getters.getDeals
-      let thisDeal = []
-      for (let deal of deals) {
-        if (deal.id === data.id && deal.taker_username === data.taker_username) {
-          thisDeal.push(deal)
+      if (deals) {
+        let thisDeal = []
+        for (let deal of deals) {
+          if (deal.id === data.id && deal.taker_username === data.taker_username) {
+            thisDeal.push(deal)
+          }
         }
-      }
-      return thisDeal.length >= 1
-    }
+        return thisDeal.length >= 1
+      }}
   },
   beforeMount() {
     this.getData()
