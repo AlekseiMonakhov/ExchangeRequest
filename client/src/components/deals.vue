@@ -45,7 +45,14 @@ export default {
   },
   methods: {
     async getData() {
-      this.requests = await this.$store.getters.getDeals
+      const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
+      const deals = await this.$store.getters.getDeals
+      let myDeals = deals.filter(function (deal) {
+        deal.maker_id = deal.maker_id.replace(/-/gi, '')
+        deal.taker_id = deal.taker_id.replace(/-/gi, '')
+        return deal.taker_id === currentUserId || deal.maker_id === currentUserId
+      })
+      this.requests = myDeals
     },
     async deleteDeal(request) {
       try {
