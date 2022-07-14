@@ -25,7 +25,7 @@
             <div class="element-2"> {{ request.wanted_bank }} {{ request.wanted_purpose }}</div>
           </div>
         </b-card>
-        <b-button v-if="isNoMaker(request.maker_id)" @click="$router.push('/chat'), send(request)" variant="primary">
+        <b-button v-if="isNoMaker(request.maker_id)" @click="send(request)" variant="primary">
           Связаться
         </b-button>
         <b-button v-else-if="isLoggedIn" variant="primary" disabled>Моя заявка</b-button>
@@ -78,12 +78,17 @@ export default {
         maker_username: request.maker_username,
         taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
       }
-      console.log(data)
-      axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
-        .then(this.$store.dispatch('getDeals'))
-        .catch(function (error) {
-          console.log(error)
-        })
+      if (this.isDealExist(data)) {
+        alert('Сделка уже открыта')
+        this.$router.push('/myDeals')
+      } else {
+        axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
+          .then(this.$store.dispatch('getDeals'))
+          .then(this.$router.push('/chat'))
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
     },
     async getData() {
       try {
@@ -127,6 +132,16 @@ export default {
         console.log(e)
       }
     },
+    isDealExist(data) {
+      const deals = this.$store.getters.getDeals
+      let thisDeal = []
+      for (let deal of deals) {
+        if (deal.id === data.id && deal.taker_username === data.taker_username) {
+          thisDeal.push(deal)
+        }
+      }
+      return thisDeal.length >= 1
+    }
   },
   beforeMount() {
     this.getData()
