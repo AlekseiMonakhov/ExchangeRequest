@@ -80,6 +80,7 @@ export default {
       }
       console.log(data)
       axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
+        .then(this.$store.dispatch('getDeals'))
         .catch(function (error) {
           console.log(error)
         })
