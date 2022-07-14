@@ -9,9 +9,7 @@
             <div class="element-2" v-else> Мейкер: {{ request.maker_username }} Рейтинг: {{ request.maker_rank }}</div>
             <div class="element-2" v-if="isCurrentUser(request.taker_username)"> Тейкер: Я</div>
             <div class="element-2" v-else> Тейкер: {{ request.taker_username }} Рейтинг: {{ request.taker_rank }}</div>
-
             <div class="element-2"> {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}</div>
-            <div class="element-2"> Профит: {{ request.profit }}</div>
             <div class="element-2"> Статус: {{ request.status }}</div>
           </div>
           <div class="element-1">
@@ -28,6 +26,7 @@
             <div class="element-2"> {{ request.wanted_country }} {{ request.wanted_city }}</div>
             <div class="element-2"> {{ request.wanted_bank }} {{ request.wanted_purpose }}</div>
           </div>
+          <div class="element-2"><strong> Профит: </strong>{{ request.profit }}</div>
         </b-card>
         <b-button @click="$router.push('/chat')" variant="primary">Чат сделки</b-button>
       </b-card>
