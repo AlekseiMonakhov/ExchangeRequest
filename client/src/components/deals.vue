@@ -4,26 +4,29 @@
       <b-card bg-variant="light" text-variant="black">
         <b-card>
           <div class="element-1">
-            <div class="element-2"><strong>  Сделка {{request.deal_id}} </strong>(Заявка {{request.id}})  </div>
-            <div class="element-2">  Мейкер: {{request.maker_username}}  Рейтинг: {{request.maker_rank}} </div>
-            <div class="element-2">  Тейкер: {{request.taker_username}}  Рейтинг: {{request.taker_rank}} </div>
-            <div class="element-2"> {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
-            <div class="element-2"> Профит: {{request.profit}} </div>
-            <div class="element-2"> Статус: {{request.status}} </div>
+            <div class="element-2"><strong> Сделка {{ request.deal_id }} </strong>(Заявка {{ request.id }})</div>
+            <div class="element-2" v-if="isCurrentUser(request.maker_username)"> Мейкер: Я</div>
+            <div class="element-2" v-else> Мейкер: {{ request.maker_username }} Рейтинг: {{ request.maker_rank }}</div>
+            <div class="element-2" v-if="isCurrentUser(request.taker_username)"> Тейкер: Я</div>
+            <div class="element-2" v-else> Тейкер: {{ request.taker_username }} Рейтинг: {{ request.taker_rank }}</div>
+
+            <div class="element-2"> {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}</div>
+            <div class="element-2"> Профит: {{ request.profit }}</div>
+            <div class="element-2"> Статус: {{ request.status }}</div>
           </div>
           <div class="element-1">
-            <div class="element-2"> <strong>От Мейкера: </strong></div>
-            <div class="element-2"> {{request.current_amount}} {{request.current_currency}} </div>
-            <div class="element-2"> {{request.current_type}} </div>
-            <div class="element-2"> {{request.current_country}} {{request.current_city}} </div>
-            <div class="element-2"> {{request.current_bank}} {{request.current_purpose}} </div>
+            <div class="element-2"><strong>От Мейкера: </strong></div>
+            <div class="element-2"> {{ request.current_amount }} {{ request.current_currency }}</div>
+            <div class="element-2"> {{ request.current_type }}</div>
+            <div class="element-2"> {{ request.current_country }} {{ request.current_city }}</div>
+            <div class="element-2"> {{ request.current_bank }} {{ request.current_purpose }}</div>
           </div>
           <div class="element-1">
-            <div class="element-2"> <strong> От Тейкера: </strong></div>
-            <div class="element-2"> {{request.wanted_amount}} {{request.wanted_currency}}</div>
-            <div class="element-2"> {{request.wanted_type}}</div>
-            <div class="element-2"> {{request.wanted_country}} {{request.wanted_city}}</div>
-            <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
+            <div class="element-2"><strong> От Тейкера: </strong></div>
+            <div class="element-2"> {{ request.wanted_amount }} {{ request.wanted_currency }}</div>
+            <div class="element-2"> {{ request.wanted_type }}</div>
+            <div class="element-2"> {{ request.wanted_country }} {{ request.wanted_city }}</div>
+            <div class="element-2"> {{ request.wanted_bank }} {{ request.wanted_purpose }}</div>
           </div>
         </b-card>
         <b-button @click="$router.push('/chat')" variant="primary">Чат сделки</b-button>
@@ -47,12 +50,19 @@ export default {
     async getData() {
       const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
       const deals = await this.$store.getters.getDeals
-      let myDeals = deals.filter(function (deal) {
+      this.requests = deals.filter(function (deal) {
         deal.maker_id = deal.maker_id.replace(/-/gi, '')
         deal.taker_id = deal.taker_id.replace(/-/gi, '')
         return deal.taker_id === currentUserId || deal.maker_id === currentUserId
       })
-      this.requests = myDeals
+    },
+    isCurrentUser(username) {
+      try {
+        const currentUsername = JSON.parse(this.$store.getters.getUser)['username']
+        return currentUsername === username
+      } catch (e) {
+        console.log(e)
+      }
     },
     async deleteDeal(request) {
       try {
@@ -66,7 +76,7 @@ export default {
       }
     }
   },
-  beforeMount(){
+  beforeMount() {
     this.getData()
   }
 };
@@ -74,7 +84,7 @@ export default {
 
 <style scoped>
 
-.main-element{
+.main-element {
   display: flex;
   flex-direction: column;
   margin-left: 1%;

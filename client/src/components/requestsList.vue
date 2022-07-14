@@ -5,8 +5,8 @@
         <b-card>
           <div class="element-1">
             <div class="element-2"><strong> {{ request.id }} </strong></div>
-            <div class="element-2"> Создатель заявки: {{ request.maker_username }}</div>
-            <div class="element-2"> Рейтинг: {{ request.maker_rank }}</div>
+            <div class="element-2" v-if="isCurrentUser(request.maker_username)"> Создатель заявки: Я</div>
+            <div class="element-2" v-else> Создатель заявки: {{ request.maker_username }} Рейтинг: {{ request.maker_rank }}</div>
             <div class="element-2"> {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}</div>
             <div class="element-2"> Вознаграждение: {{ request.profit }}</div>
           </div>
@@ -113,15 +113,20 @@ export default {
       try {
         const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
         makerId = makerId.replace(/-/gi, '')
-        if (currentUserId != makerId) {
-          return true
-        }
+        return currentUserId !== makerId
       }
       catch (e) {
         console.log(e)
       }
-
-    }
+    },
+    isCurrentUser(username) {
+      try {
+        const currentUsername = JSON.parse(this.$store.getters.getUser)['username']
+        return currentUsername === username
+      } catch (e) {
+        console.log(e)
+      }
+    },
   },
   beforeMount() {
     this.getData()
