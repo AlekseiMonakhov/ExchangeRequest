@@ -8,7 +8,6 @@
             <div class="element-2" v-if="isCurrentUser(request.maker_username)"> Создатель заявки: Я</div>
             <div class="element-2" v-else> Создатель заявки: {{ request.maker_username }} Рейтинг: {{ request.maker_rank }}</div>
             <div class="element-2"> {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}</div>
-            <div class="element-2"> Вознаграждение: {{ request.profit }}</div>
           </div>
           <div class="element-1">
             <div class="element-2"><strong>Вы получите: </strong></div>
@@ -24,6 +23,7 @@
             <div class="element-2"> {{ request.wanted_country }} {{ request.wanted_city }}</div>
             <div class="element-2"> {{ request.wanted_bank }} {{ request.wanted_purpose }}</div>
           </div>
+          <div class="element-2"><strong> Профит: </strong> {{ request.profit }}</div>
         </b-card>
         <b-button v-if="isNoMaker(request.maker_id)" @click="send(request)" variant="primary">
           Связаться
@@ -80,7 +80,7 @@ export default {
       }
       if (this.isDealExist(data)) {
         alert('Сделка уже открыта')
-        this.$router.push('/myDeals')
+        await this.$router.push('/myDeals')
       } else {
         axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
           .then(this.$store.dispatch('getDeals'))

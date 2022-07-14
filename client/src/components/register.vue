@@ -72,7 +72,8 @@ export default {
 
       }
       this.$store.dispatch('register', data)
-        .then(() => this.$router.push('/'))
+        .then(() => { this.$router.push('/')
+        location.reload()})
         .catch(err => {
           console.log(err),
             alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')

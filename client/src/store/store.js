@@ -75,10 +75,10 @@ export default new Vuex.Store({
         }
       })
         .then(resp => {
-          console.log(resp)
           const token = resp.data.access_token
-          localStorage.setItem('token', token)
           user = jwtDecode(token).user
+          localStorage.setItem('token', token)
+          localStorage.setItem("user", user)
           axios.defaults.headers.common['Authorization'] = token
           commit('auth_success', token, user)
         })
@@ -118,7 +118,18 @@ export default new Vuex.Store({
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
-    getDeals: state => JSON.parse(state.deals),
+    getDeals: state => {
+      try {
+        if (state.deals) {
+        return JSON.parse(state.deals)
+      } else {
+          return false
+        }
+      }
+      catch (err) {
+        console.log(err)
+      }
+    },
     isAdmin: state => {
       try {
         return JSON.parse(state.user)["is_superuser"] === true

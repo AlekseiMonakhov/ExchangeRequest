@@ -8,7 +8,6 @@
        <div class="element-2">  Мейкер: {{request.maker_username}}  Рейтинг: {{request.maker_rank}} </div>
        <div class="element-2">  Тейкер: {{request.taker_username}}  Рейтинг: {{request.taker_rank}} </div>
        <div class="element-2"> {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
-       <div class="element-2"> Профит: {{request.profit}} </div>
        <div class="element-2"> Статус: {{request.status}} </div>
      </div>
       <div class="element-1">
@@ -25,6 +24,7 @@
       <div class="element-2"> {{request.wanted_country}} {{request.wanted_city}}</div>
       <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
     </div>
+      <div class="element-2"><strong> Профит: </strong>{{ request.profit }}</div>
     </b-card>
     <b-button @click="$router.push('/chatAdminView')" variant="primary">Чат сделки</b-button>
     <b-button @click="deleteDeal(request)" variant="dark">!!Отменить сделку!!</b-button>
