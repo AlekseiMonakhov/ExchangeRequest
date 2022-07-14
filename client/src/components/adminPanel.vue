@@ -8,7 +8,7 @@
        <div class="element-2">  Мейкер: {{request.maker_username}}  Рейтинг: {{request.maker_rank}} </div>
        <div class="element-2">  Тейкер: {{request.taker_username}}  Рейтинг: {{request.taker_rank}} </div>
        <div class="element-2"> {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
-       <div class="element-2"> Вознаграждение: {{request.profit}} </div>
+       <div class="element-2"> Профит: {{request.profit}} </div>
        <div class="element-2"> Статус: {{request.status}} </div>
      </div>
       <div class="element-1">
@@ -38,7 +38,7 @@ import axios from "axios";
 import Config from '../../envConfig'
 
 export default {
-  name: "AdminPanel",
+  name: "adminPanel",
   data() {
     return {
       requests: []
@@ -46,19 +46,13 @@ export default {
   },
   methods: {
     async getData() {
-      try {
-        const requests = await axios.get(
-          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`
-        );
-        this.requests = requests.data;
-      } catch (e) {
-        alert("Error!");
-      }
+      this.requests = await this.$store.getters.getDeals
     },
     async deleteDeal(request) {
       try {
         await axios.delete(
           `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete/${request.deal_id}`)
+          .then(await this.$store.dispatch('getDeals'))
           .then(location.reload())
 
       } catch (e) {

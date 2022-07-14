@@ -5,8 +5,8 @@
         <b-card>
           <div class="element-1">
             <div class="element-2"><strong> {{ request.id }} </strong></div>
-            <div class="element-2"> Создатель заявки: {{ request.maker_username }}</div>
-            <div class="element-2"> Рейтинг: {{ request.maker_rank }}</div>
+            <div class="element-2" v-if="isCurrentUser(request.maker_username)"> Создатель заявки: Я</div>
+            <div class="element-2" v-else> Создатель заявки: {{ request.maker_username }} Рейтинг: {{ request.maker_rank }}</div>
             <div class="element-2"> {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}</div>
             <div class="element-2"> Вознаграждение: {{ request.profit }}</div>
           </div>
@@ -25,7 +25,7 @@
             <div class="element-2"> {{ request.wanted_bank }} {{ request.wanted_purpose }}</div>
           </div>
         </b-card>
-        <b-button v-if="isNoMaker(request.maker_id)" @click="$router.push('/chat'), send(request)" variant="primary">
+        <b-button v-if="isNoMaker(request.maker_id)" @click="send(request)" variant="primary">
           Связаться
         </b-button>
         <b-button v-else-if="isLoggedIn" variant="primary" disabled>Моя заявка</b-button>
@@ -41,7 +41,7 @@ import Config from '../../envConfig'
 import request from "./request";
 
 export default {
-  name: "RequestsList",
+  name: "requestsList",
   data() {
     return {
       requests: [],
@@ -78,11 +78,17 @@ export default {
         maker_username: request.maker_username,
         taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
       }
-      console.log(data)
-      axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
-        .catch(function (error) {
-          console.log(error)
-        })
+      if (this.isDealExist(data)) {
+        alert('Сделка уже открыта')
+        this.$router.push('/myDeals')
+      } else {
+        axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
+          .then(this.$store.dispatch('getDeals'))
+          .then(this.$router.push('/chat'))
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
     },
     async getData() {
       try {
@@ -112,14 +118,29 @@ export default {
       try {
         const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
         makerId = makerId.replace(/-/gi, '')
-        if (currentUserId != makerId) {
-          return true
-        }
+        return currentUserId !== makerId
       }
       catch (e) {
         console.log(e)
       }
-
+    },
+    isCurrentUser(username) {
+      try {
+        const currentUsername = JSON.parse(this.$store.getters.getUser)['username']
+        return currentUsername === username
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    isDealExist(data) {
+      const deals = this.$store.getters.getDeals
+      let thisDeal = []
+      for (let deal of deals) {
+        if (deal.id === data.id && deal.taker_username === data.taker_username) {
+          thisDeal.push(deal)
+        }
+      }
+      return thisDeal.length >= 1
     }
   },
   beforeMount() {
