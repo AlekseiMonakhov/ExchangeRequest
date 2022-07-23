@@ -6,3 +6,11 @@ python-dotenv
 python-jose[cryptography]
 python-multipart
 sqlalchemy
+psycopg2-binary
+alembic
+asyncpg
+greenlet
+aiofiles
+aio-pika
+websockets
+gunicorn
