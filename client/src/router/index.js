@@ -9,6 +9,7 @@ import chatAdminView from "../components/chatAdminView";
 import login from "../components/login";
 import register from "../components/register";
 import deals from "../components/deals";
+import Error404 from "../components/404"
 
 Vue.use(Router)
 
@@ -65,6 +66,11 @@ let router = new Router({
       path: '/register',
       name: 'Регистрация',
       component: register
+    },
+    {
+      path: '/*',
+      name: '404',
+      component: Error404
     },
     ],
 });
