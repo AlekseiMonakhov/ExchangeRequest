@@ -12,16 +12,19 @@
           :close-button-icon-size="closeButtonIconSize"
           :submit-icon-size="submitIconSize"
           :load-more-messages="toLoad.length > 0 ? loadMoreMessages : null"
+          :link-options="linkOptions"
           :async-mode="asyncMode"
           :scroll-bottom="scrollBottom"
           :display-header="true"
           :send-images="true"
           :profile-picture-config="profilePictureConfig"
           :timestamp-config="timestampConfig"
-          :accept-image-types="'.png, .jpeg'"
+          @onImageClicked="onImageClicked"
+          @onImageSelected="onImageSelected"
           @onMessageSubmit="onMessageSubmit"
           @onType="onType"
-          @onClose="onClose"/>
+          @onClose="onClose">
+    </Chat>
     <div class="element-3">
       <b-button  variant="primary">Согласен с условиями</b-button>
       <b-button  variant="primary">Дата и место обозначены</b-button>
@@ -101,7 +104,7 @@ export default {
           participantId: 1,
           timestamp: {year: 2022, month: 4, day: 10, hour: 11, minute: 10, second: 3, millisecond: 123},
           uploaded: true,
-          viewed: true,
+          viewed: false,
           type: 'text'
         },
       ],
@@ -111,8 +114,8 @@ export default {
       },
       displayHeader:true,
       profilePictureConfig: {
-        others: true,
-        myself: true,
+        others: false,
+        myself: false,
         styles: {
           width: '30px',
           height: '30px',
@@ -146,6 +149,26 @@ export default {
     onClose() {
       this.visible = false;
     },
+    onImageSelected(files, message){
+      let src = 'https://149364066.v2.pressablecdn.com/wp-content/uploads/2017/03/vue.jpg'
+      this.messages.push(message);
+      /**
+       * This timeout simulates a requisition that uploads the image file to the server.
+       * It's up to you implement the request and deal with the response in order to
+       * update the message status and the message URL
+       */
+      setTimeout((res) => {
+        message.uploaded = true
+        message.src = res.src
+      }, 3000, {src});
+    },
+    onImageClicked(message){
+      /**
+       * This is the callback function that is going to be executed when some image is clicked.
+       * You can add your code here to do whatever you need with the image clicked. A common situation is to display the image clicked in full screen.
+       */
+      console.log('Image clicked', message.src)
+    }
   }
 }
 </script>
