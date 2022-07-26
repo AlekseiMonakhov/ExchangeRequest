@@ -8,6 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import store from './store/store'
 import Axios from 'axios'
 import Vuelidate from 'vuelidate'
+import Chat from 'vue-beautiful-chat'
 
 
 Vue.prototype.$http = Axios;
@@ -16,7 +17,9 @@ if (token) {
   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }
 Vue.config.productionTip = false;
-Vue.use(BootstrapVue, Vuelidate)
+Vue.use(BootstrapVue)
+Vue.use(Vuelidate)
+Vue.use(Chat)
 
 
 new Vue({

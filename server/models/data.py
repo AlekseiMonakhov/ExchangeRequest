@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class Countries(BaseModel):
     id: int
     country_name: str
@@ -7,12 +8,14 @@ class Countries(BaseModel):
     class Config:
         orm_mode = True
 
-class Currensies(BaseModel):
+
+class Currencies(BaseModel):
     id: int
     currency_name: str
 
     class Config:
         orm_mode = True
+
 
 class PaymentType(BaseModel):
     id: int
@@ -21,12 +24,14 @@ class PaymentType(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Cities(BaseModel):
     id: int
     city_name: str
 
     class Config:
         orm_mode = True
+
 
 class Banks(BaseModel):
     id: int
@@ -36,6 +41,7 @@ class Banks(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Purposes(BaseModel):
     id: int
     purpose: str
@@ -43,7 +49,6 @@ class Purposes(BaseModel):
     class Config:
         orm_mode = True
 
+
 class ErrorOutput(BaseModel):
     detail: str
-
-
