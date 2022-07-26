@@ -1,18 +1,16 @@
 from datetime import datetime
-import uuid
 from typing import Optional
-from pydantic import BaseModel, UUID4, Field
-from sqlalchemy import LargeBinary
+from pydantic import BaseModel
 
 
-class BaseUser(BaseModel):
+class Messages(BaseModel):
     id: int
     deal_id: str
     author: str
     content: str
     type: str
     created_on: Optional[datetime]
-    attached = Optional[LargeBinary]
+    attached: Optional[bytes]
 
     class Config:
         orm_mode = True
