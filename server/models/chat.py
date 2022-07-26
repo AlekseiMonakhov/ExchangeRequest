@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 
 class Messages(BaseModel):
-    id: int
-    deal_id: str
+    id: Optional[int]
+    deal_id: int
     author: str
     content: str
     type: str

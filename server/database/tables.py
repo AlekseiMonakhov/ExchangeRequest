@@ -3,6 +3,9 @@ from sqlalchemy import Integer, String, Column, DateTime, Numeric, Boolean, Fore
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+
+from sqlalchemy.util import asyncio
+
 from database.connection import engine
 from sqlalchemy.orm import relationship
 from enum import Enum
@@ -120,7 +123,7 @@ class Messages(Base):
     id = Column(Integer, primary_key=True,  autoincrement=True)
     deal_id = Column(Integer, nullable=False)
     author = Column(String(255), nullable=False)
-    content = Column(String(255), nullable=False)
+    content = Column(String(1020), nullable=False)
     type = Column(String(255), nullable=False)
     created_on = Column(DateTime(), default=datetime.utcnow)
     attached = Column(LargeBinary(), nullable=True)

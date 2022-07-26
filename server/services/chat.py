@@ -17,6 +17,6 @@ class MessagesService:
             self,
             chat_id: int,
     ) -> Messages:
-        result = await self.session.execute(select(Messages).where(Messages.chat_id == chat_id))
+        result = await self.session.execute(select(Messages).where(Messages.id == chat_id))
         return result.scalars().all()
 
