@@ -22,30 +22,29 @@
 </template>
 <script>
 import { Chat } from 'vue-beautiful-chat'
+import axios from "axios";
+import Config from "../../envConfig";
 export default {
   components: {Chat},
   props: {
-
+      deal: {}
   },
   data() {
     return {
       participants: [
         {
-          id: 'user1',
-          name: 'Mahuhuh',
+          id: this.deal.maker_id,
+          name: this.deal.maker_username,
         },
         {
-          id: 'user2',
-          name: 'Suppohhrt',
+          id: this.deal.taker_id,
+          name: this.deal.taker_username,
         }
       ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
 
-      messageList: [
-        {type: 'text', author: `me`, data: {text: `Say yes!`}},
-        {type: 'text', author: `user1`, data: {text: `No.`}}
-      ], // the list of the messages to show, can be paginated and adjusted dynamically
+      messageList: [], // the list of the messages to show, can be paginated and adjusted dynamically
       newMessagesCount: 0,
-      isChatOpen: false, // to determine whether the chat window should be open or closed
+      isChatOpen: true, // to determine whether the chat window should be open or closed
       showTypingIndicator: '', // when set to a value matching the participant.id it shows the typing indicator for the specific user
       colors: {
         header: {
@@ -79,12 +78,20 @@ export default {
     sendMessage(text) {
       if (text.length > 0) {
         this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
-        this.onMessageWasSent({author: 'support', type: 'text', data: {text}})
+        this.onMessageWasSent({author: 'me', type: 'text', data: {text}})
+      }
+    },
+    async sendMessageToServer(data) {
+      try {
+        await axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/chat/add-messages`, data)
+      } catch (e) {
+        console.log(e);
       }
     },
     onMessageWasSent(message) {
-// called when the user sends a message
-      this.messageList = [...this.messageList, message]
+      // const data = ()
+      this.sendMessageToServer({deal_id: this.deal.deal_id, author: JSON.parse(this.$store.getters.getUser)['username'] , type: 'text', content: message.data.text})
+      this.messageList.push(message)
     },
     openChat() {
 // called when the user clicks on the fab button to open the chat
@@ -106,6 +113,45 @@ export default {
       const m = this.messageList.find(m => m.id === message.id);
       m.isEdited = true;
       m.data.text = message.data.text;
+    },
+    async getMessage(deal_id) {
+      try {
+        const messages = await axios.get(
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/chat/get-messages/${deal_id}`
+        );
+        if (messages.data && messages.data.length > this.messageList.length ) {
+          this.messageList = this.formatToMessageList(messages.data)
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    formatToMessageList(messages) {
+      let messageList = []
+      messages.forEach(message => {
+        messageList.push({type: message.type, author: this.isCurrentUser(message.author) ? 'me' : message.author, data: {text: message.content}})
+      })
+      console.log(messageList)
+      return messageList
+    },
+    isCurrentUser(username) {
+      try {
+        const currentUsername = JSON.parse(this.$store.getters.getUser)['username']
+        return currentUsername === username
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  },
+  async mounted() {
+    try {
+      if (!this.deal) {
+        this.$router.push('/myDeals')
+      }
+      setInterval(console.log('интервал'), 10000)
+      setInterval(this.getMessage(this.deal.deal_id), 10000)
+    } catch (e) {
+      console.log(e)
     }
   }
 }

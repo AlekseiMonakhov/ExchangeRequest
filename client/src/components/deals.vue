@@ -28,7 +28,7 @@
           </div>
           <div class="element-2"><strong> Профит: </strong>{{ request.profit }}</div>
         </b-card>
-        <b-button @click="$router.push('/chat')" variant="primary">Чат сделки</b-button>
+        <b-button  @click="$router.push({name: 'chat', params: {deal: request}})" variant="primary">Чат сделки</b-button>
       </b-card>
     </div>
   </div>

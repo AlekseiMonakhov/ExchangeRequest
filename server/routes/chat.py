@@ -11,7 +11,7 @@ chat_router = APIRouter(
 
 
 @chat_router.get(
-    "/get_messages/{chat_id}",
+    "/get-messages/{chat_id}",
     response_model=List[Messages],
     responses={400: {'model': ErrorOutput}}
 )

@@ -9,6 +9,7 @@ import chatAdminView from "../components/chatAdminView";
 import login from "../components/login";
 import register from "../components/register";
 import deals from "../components/deals";
+import chat from "../components/chat";
 
 Vue.use(Router)
 
@@ -45,6 +46,8 @@ let router = new Router({
     {
       path: '/chat',
       component: Chat,
+      name: 'chat',
+      props: true,
       meta: {
         requiresAuth: true
       }

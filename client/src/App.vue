@@ -12,7 +12,6 @@ export default {
   name: "App",
   components: {
     Navbar,
-    Chat: () => import('vue-beautiful-chat')
   },
   created: function () {
     this.$http.interceptors.response.use(undefined, function (err) {
