@@ -48,6 +48,7 @@ export default {
       this.$store.dispatch('login', {username, password})
         .then(() => {
           this.$router.push('/')
+          this.$store.dispatch('getDeals')
           location.reload()
         })
         .catch(err => {

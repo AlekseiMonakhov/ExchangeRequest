@@ -182,7 +182,7 @@ import axios from "axios";
 import Config from '../../envConfig'
 
 export default {
-  name: "Request",
+  name: "request",
   data() {
     return {
       countries: [],

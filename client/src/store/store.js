@@ -15,6 +15,7 @@ export default new Vuex.Store({
     token: localStorage.getItem('token') || '',
     user: localStorage.getItem('user') || {},
     data: {},
+    deals: localStorage.getItem('deals') || [],
   },
   mutations: {
     auth_request(state) {
@@ -28,11 +29,18 @@ export default new Vuex.Store({
     auth_error(state) {
       state.status = 'error'
     },
+    deals_loaded (state, deals) {
+      state.deals = deals
+    },
+    clear_deals (state) {
+      state.deals = []
+    },
     logout(state) {
       state.status = ''
       state.token = ''
       state.user = {}
       state.data = {}
+      state.deals = []
 
     },
   },
@@ -67,10 +75,10 @@ export default new Vuex.Store({
         }
       })
         .then(resp => {
-          console.log(resp)
           const token = resp.data.access_token
-          localStorage.setItem('token', token)
           user = jwtDecode(token).user
+          localStorage.setItem('token', token)
+          localStorage.setItem("user", user)
           axios.defaults.headers.common['Authorization'] = token
           commit('auth_success', token, user)
         })
@@ -89,12 +97,39 @@ export default new Vuex.Store({
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
-    }
+    },
+    async getDeals({commit}) {
+      commit('clear_deals')
+      await axios({
+        url: `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`, method: 'GET'
+      })
+        .then(resp => {
+          const deals = JSON.stringify(resp.data)
+          localStorage.setItem('deals', deals)
+          commit('deals_loaded', deals)
+        })
+        .catch(err => {
+          localStorage.removeItem('deals')
+          console.log(err)
+        })
+    },
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state => state.user,
+    getDeals: state => {
+      try {
+        if (state.deals) {
+        return JSON.parse(state.deals)
+      } else {
+          return false
+        }
+      }
+      catch (err) {
+        console.log(err)
+      }
+    },
     isAdmin: state => {
       try {
         return JSON.parse(state.user)["is_superuser"] === true

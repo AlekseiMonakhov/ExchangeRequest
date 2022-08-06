@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import store from "../store/store"
 import Router from 'vue-router'
-import Request from "../components/request";
-import RequestsList from "../components/requestsList";
-import AdminPanel from "../components/adminPanel";
-import DealChat from "../components/chat";
-import ChatAdminView from "../components/chatAdminView";
-import Login from "../components/login";
-import Register from "../components/register";
+import request from "../components/request";
+import requestsList from "../components/requestsList";
+import adminPanel from "../components/adminPanel";
+import dealChat from "../components/chat";
+import chatAdminView from "../components/chatAdminView";
+import login from "../components/login";
+import register from "../components/register";
+import deals from "../components/deals";
+import Error404 from "../components/404"
 
 Vue.use(Router)
 
@@ -17,42 +19,58 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      component: Request,
+      name: 'Создать заявку',
+      component: request,
     },
     {
       path: '/requestsList',
-      component: RequestsList,
+      name: 'Заявки',
+      component: requestsList,
+    },
+    {
+      path: '/myDeals',
+      name: 'Мои сделки',
+      component: deals,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/adminPanel',
-      component: AdminPanel,
+      name: 'Админпанель',
+      component: adminPanel,
       meta: {
         requiresAuth: true
       }
     },
     {
       path: '/chat',
-      component: DealChat,
+      component: dealChat,
       meta: {
         requiresAuth: true
       }
     },
     {
       path: '/chatAdminView',
-      component: ChatAdminView,
+      component: chatAdminView,
       meta: {
         requiresAuth: true
       }
     },
     {
       path: '/login',
-      name: 'login',
-      component: Login
+      name: 'Логин',
+      component: login
     },
     {
       path: '/register',
-      name: 'register',
-      component: Register
+      name: 'Регистрация',
+      component: register
+    },
+    {
+      path: '/*',
+      name: '404',
+      component: Error404
     },
     ],
 });

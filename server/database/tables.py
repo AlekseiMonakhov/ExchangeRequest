@@ -1,13 +1,11 @@
-import asyncio
 import uuid
-
-from fastapi_users_db_sqlalchemy import GUID
-from sqlalchemy import Integer, String, Column, DateTime, Numeric, Boolean, ForeignKey
+from sqlalchemy import Integer, String, Column, DateTime, Numeric, Boolean, ForeignKey, Enum, LargeBinary
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from database.connection import engine
 from sqlalchemy.orm import relationship
+from enum import Enum
 
 Base = declarative_base()
 
@@ -115,6 +113,31 @@ class OpenDeals(Base):
     maker_rank = Column(Integer, nullable=True)
     taker_rank = Column(Integer, nullable=True)
     profit = Column(String(255), nullable=True)
+
+
+# class MessageType(Enum):
+#     text = 'text'
+#     image = 'image'
+#
+#
+# class MessageModel(Base):
+#     __tablename__ = 'messages'
+#
+#     id = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
+#     datetime = Column(DateTime(), default=datetime.utcnow, nullable=False)
+#     type = Column(Enum(MessageType), nullable=False)
+#     data: bytes = Column(LargeBinary(), nullable=True)
+#
+#     user_uuid = Column(
+#         UUID(as_uuid=True), ForeignKey('users.uuid'), nullable=False
+#     )
+#     room_uuid = Column(
+#         UUID(as_uuid=True), ForeignKey('rooms.uuid'), nullable=False
+#     )
+#
+#     user = relationship('UserModel', back_populates='messages')
+#     room = relationship('RoomModel', back_populates='messages')
+#
 
 
 async def async_create():
