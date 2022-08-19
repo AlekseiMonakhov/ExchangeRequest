@@ -34,9 +34,9 @@ async def openDeal(deal_id: int, service: OpenDealsService = Depends()):
 
 
 @request_router.delete('/delete-request/{request_id}')
-async def deleteRequest(id: int, service: RequestsService = Depends()):
+async def deleteRequest(request_id: int, service: RequestsService = Depends()):
     try:
-        return await service.deleteRequest(id)
+        return await service.deleteRequest(request_id)
     except Exception as error:
         raise HTTPException(400, detail=str(error))
 
