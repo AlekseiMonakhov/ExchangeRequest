@@ -25,7 +25,7 @@ async def openDeal(dealData: OpenDeals, service: OpenDealsService = Depends()):
         raise HTTPException(400, detail=str(error))
 
 
-@request_router.delete('/delete/{deal_id}')
+@request_router.delete('/delete-deal/{deal_id}')
 async def openDeal(deal_id: int, service: OpenDealsService = Depends()):
     try:
         return await service.deleteDeal(deal_id)
@@ -33,7 +33,7 @@ async def openDeal(deal_id: int, service: OpenDealsService = Depends()):
         raise HTTPException(400, detail=str(error))
 
 
-@request_router.delete('/delete/{request_id}')
+@request_router.delete('/delete-request/{request_id}')
 async def deleteRequest(id: int, service: RequestsService = Depends()):
     try:
         return await service.deleteRequest(id)

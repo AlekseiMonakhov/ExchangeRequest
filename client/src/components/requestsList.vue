@@ -117,8 +117,8 @@ export default {
     async deleteRequest(request) {
       try {
         await axios.delete(
-          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete/${request.id}`)
-          // .then(await this.$store.dispatch('getDeals'))
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete-request/${request.id}`)
+          .then(alert("Заявка удвлена"))
           .then(location.reload())
 
       } catch (e) {
