@@ -118,7 +118,7 @@ export default {
       try {
         await axios.delete(
           `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete-request/${request.id}`)
-          .then(alert("Заявка удвлена"))
+          .then(alert("Заявка удалена"))
           .then(location.reload())
 
       } catch (e) {
