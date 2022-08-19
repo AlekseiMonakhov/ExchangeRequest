@@ -28,7 +28,7 @@
         <b-button v-if="isNoMaker(request.maker_id)" @click="send(request)" variant="primary">
           Связаться
         </b-button>
-        <b-button v-else-if="isLoggedIn" variant="primary" disabled>Моя заявка</b-button>
+        <b-button v-else-if="isLoggedIn" @click="deleteRequest(request)" variant="dark">Удалить заявку</b-button>
         <b-button v-else @click="$router.push('/login')" variant="primary">Войти в аккаунт</b-button>
       </b-card>
     </div>
@@ -114,6 +114,18 @@ export default {
     //       console.log(error)
     //     })
     // },
+    async deleteRequest(request) {
+      try {
+        await axios.delete(
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete/${request.id}`)
+          // .then(await this.$store.dispatch('getDeals'))
+          .then(location.reload())
+
+      } catch (e) {
+        console.log(e)
+        alert("Error!");
+      }
+    },
     isNoMaker: function (makerId) {
       try {
         const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
