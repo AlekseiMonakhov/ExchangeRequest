@@ -22,6 +22,11 @@ class RequestsService:
     async def getList(self):
         result = await self.session.execute(select(Requests))
         return result.scalars().all()
+    
+    async def deleteRequest(self, id: Requests):
+        result = await self.session.get(Requests, id)
+        await self.session.delete(result)
+        await self.session.commit()
 
 
 class OpenDealsService:

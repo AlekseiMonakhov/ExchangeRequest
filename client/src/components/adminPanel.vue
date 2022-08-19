@@ -51,7 +51,7 @@ export default {
     async deleteDeal(request) {
       try {
         await axios.delete(
-          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete/${request.deal_id}`)
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete-deal/${request.deal_id}`)
           .then(await this.$store.dispatch('getDeals'))
           .then(location.reload())
 
