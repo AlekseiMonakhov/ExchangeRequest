@@ -1,17 +1,20 @@
 <template>
   <div>
-    <Navbar />
+    <Header />
     <router-view />
+    <Footer />
   </div>
 </template>
 
 <script>
-import Navbar from "./components/navbar";
+import Header from "./components/header";
+import Footer from "./components/footer";
 
 export default {
   name: "App",
   components: {
-    Navbar,
+    Header,
+    Footer,
     Chat: () => import('vue-quick-chat')
   },
   created: function () {
