@@ -1,36 +1,130 @@
 <template>
-<div class="root-element">
-<div class="main-element" v-for="request in requests">
-  <b-card bg-variant="light" text-variant="black">
-    <b-card>
-     <div class="element-1">
-       <div class="element-2"><strong>  Сделка {{request.deal_id}} </strong>(Заявка {{request.id}})  </div>
-       <div class="element-2">  Мейкер: {{request.maker_username}}  Рейтинг: {{request.maker_rank}} </div>
-       <div class="element-2">  Тейкер: {{request.taker_username}}  Рейтинг: {{request.taker_rank}} </div>
-       <div class="element-2"> {{request.created_on.replace(/T/, ' ').slice(0, -7)}} </div>
-       <div class="element-2"> Статус: {{request.status}} </div>
-     </div>
-      <div class="element-1">
-        <div class="element-2"> <strong>От Мейкера: </strong></div>
-      <div class="element-2"> {{request.current_amount}} {{request.current_currency}} </div>
-       <div class="element-2"> {{request.current_type}} </div>
-       <div class="element-2"> {{request.current_country}} {{request.current_city}} </div>
-       <div class="element-2"> {{request.current_bank}} {{request.current_purpose}} </div>
-     </div>
-      <div class="element-1">
-        <div class="element-2"> <strong> От Тейкера: </strong></div>
-      <div class="element-2"> {{request.wanted_amount}} {{request.wanted_currency}}</div>
-      <div class="element-2"> {{request.wanted_type}}</div>
-      <div class="element-2"> {{request.wanted_country}} {{request.wanted_city}}</div>
-      <div class="element-2"> {{request.wanted_bank}} {{request.wanted_purpose}}</div>
-    </div>
-      <div class="element-2"><strong> Профит: </strong>{{ request.profit }}</div>
-    </b-card>
-    <b-button @click="$router.push('/chatAdminView')" variant="primary">Чат сделки</b-button>
-    <b-button @click="deleteDeal(request)" variant="dark">!!Отменить сделку!!</b-button>
-  </b-card>
-</div>
-</div>
+  <v-container fluid>
+    <template>
+      <v-row>
+        <v-col
+          v-for="request in requests"
+          :key="request.id"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <v-card
+            elevation="20"
+            shaped
+          >
+            <v-list dense>
+              <v-list-item>
+                <v-list-item-content>
+                  <strong><strong> Сделка {{ request.deal_id }} </strong>(Заявка {{ request.id }})</strong>
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content class="align-end">
+                  <strong>Статус:</strong>
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.status }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content><strong>Мейкер:</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.maker_username }}
+                </v-list-item-content>
+
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-content><strong>Рейтинг</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.maker_rank }}
+                </v-list-item-content>
+              </v-list-item>
+
+
+              <v-list-item>
+                <v-list-item-content><strong>От мейкера:</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.wanted_amount }} {{ request.wanted_currency }}
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-content v-if="request.wanted_type === 'Криптовалюта'" class="align-end">
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.wanted_type === 'Наличные'" class="align-end">
+                  {{request.wanted_city}}
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.wanted_type === 'Банковский перевод'" class="align-end">
+                  {{request.wanted_country}}, {{request.wanted_bank}}
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.wanted_type }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content><strong>Тейкер:</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.taker_username }}
+                </v-list-item-content>
+
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-content><strong>Рейтинг</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.taker_rank }}
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-content><strong>От тейкера:</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.current_amount }} {{ request.current_currency }}
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item>
+
+                <v-list-item-content v-if="request.current_type === 'Криптовалюта'" class="align-end">
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.current_type === 'Наличные'" class="align-end">
+                  {{request.current_city}}
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.current_type === 'Банковский перевод'" class="align-end">
+                  {{request.current_country}}, {{request.current_bank}}
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.current_type }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content><strong>Профит</strong></v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ request.profit }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content></v-list-item-content>
+                <v-list-item-content>
+                  <b-button @click="$router.push('/chatAdminView')" variant="primary">Чат сделки</b-button>
+                  <b-button @click="deleteDeal(request)" variant="dark">!!Отменить сделку!!</b-button>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+  </v-container>
 </template>
 
 <script>
@@ -68,14 +162,6 @@ export default {
 </script>
 
 <style scoped>
-
-.main-element{
-  display: flex;
-  flex-direction: column;
-  margin-left: 1%;
-  margin-top: 1%;
-  justify-content: center;
-  }
 
 </style>
 
