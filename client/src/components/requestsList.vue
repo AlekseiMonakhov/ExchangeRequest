@@ -10,7 +10,10 @@
           md="4"
           lg="3"
         >
-          <v-card>
+          <v-card
+          elevation="20"
+          shaped
+          >
             <v-list dense>
               <v-list-item>
                 <v-list-item-content>
@@ -22,21 +25,24 @@
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content>Создатель заявки: </v-list-item-content>
-                <v-list-item-content class="align-end">
+                <v-list-item-content><strong>Создатель заявки:</strong></v-list-item-content>
+                <v-list-item-content v-if="isCurrentUser(request.maker_username)" class="align-end">
+                  Я
+                </v-list-item-content>
+                <v-list-item-content v-else class="align-end">
                   {{ request.maker_username }}
                 </v-list-item-content>
 
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content>Рейтинг</v-list-item-content>
+                <v-list-item-content><strong>Рейтинг</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.maker_rank }}
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
-                <v-list-item-content>ID</v-list-item-content>
+                <v-list-item-content><strong>ID</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.maker_id }}
                 </v-list-item-content>
@@ -44,35 +50,50 @@
 
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content>Вы отдаете:</v-list-item-content>
+                <v-list-item-content><strong>Вы отдаете:</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.wanted_amount }} {{ request.wanted_currency }}
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content></v-list-item-content>
+                <v-list-item-content v-if="request.wanted_type === 'Криптовалюта'" class="align-end">
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.wanted_type === 'Наличные'" class="align-end">
+                {{request.wanted_city}}
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.wanted_type === 'Банковский перевод'" class="align-end">
+                  {{request.wanted_country}}, {{request.wanted_bank}}
+                </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.wanted_type }}
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content>Вы получите:</v-list-item-content>
+                <v-list-item-content><strong>Вы получите:</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.current_amount }} {{ request.current_currency }}
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content></v-list-item-content>
+
+                <v-list-item-content v-if="request.current_type === 'Криптовалюта'" class="align-end">
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.current_type === 'Наличные'" class="align-end">
+                  {{request.current_city}}
+                </v-list-item-content>
+                <v-list-item-content v-else-if="request.current_type === 'Банковский перевод'" class="align-end">
+                  {{request.current_country}}, {{request.current_bank}}
+                </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.current_type }}
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content>Профит</v-list-item-content>
+                <v-list-item-content><strong>Профит</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.profit }}
                 </v-list-item-content>
