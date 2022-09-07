@@ -9,13 +9,14 @@
 <script>
 import Header from "./components/header";
 import Footer from "./components/footer";
+import {Chat} from "vue-quick-chat";
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
-    Chat: () => import('vue-quick-chat')
+    Chat
   },
   created: function () {
     this.$http.interceptors.response.use(undefined, function (err) {
