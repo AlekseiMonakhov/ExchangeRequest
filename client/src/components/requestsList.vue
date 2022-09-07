@@ -119,14 +119,13 @@
 <script>
 import axios from "axios";
 import Config from '../../envConfig'
-import request from "./request";
+
 
 export default {
   name: "requestsList",
   data() {
     return {
-      requests: [],
-      itemsPerPage: 4,
+      requests: []
     }
   },
   computed: {
