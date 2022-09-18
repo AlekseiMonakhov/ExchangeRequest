@@ -130,6 +130,7 @@
 <script>
 import axios from "axios";
 import Config from '../../envConfig'
+import {TYPE} from "vue-toastification";
 
 export default {
   name: "adminPanel",
@@ -146,12 +147,13 @@ export default {
       try {
         await axios.delete(
           `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete-deal/${request.deal_id}`)
+          .then(this.$MyToast("Сделка удалена", TYPE.SUCCESS))
           .then(await this.$store.dispatch('getDeals'))
           .then(location.reload())
 
-      } catch (e) {
-        console.log(e)
-        alert("Error!");
+      } catch (error) {
+        console.log(error)
+        this.$MyToast("Ошибка", TYPE.ERROR);
       }
     }
   },

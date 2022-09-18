@@ -33,6 +33,7 @@ import {required, maxLength, minLength, email, sameAs} from '@vuelidate/validato
 import useVuelidate from '@vuelidate/core'
 import axios from "axios";
 import Config from '../../envConfig'
+import {TYPE} from "vue-toastification";
 
 export default {
   name: "register",
@@ -76,7 +77,7 @@ export default {
         location.reload()})
         .catch(err => {
           console.log(err),
-            alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
+            this.$MyToast('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз', TYPE.ERROR)
         })
     },
     async isUnique(username) {
@@ -86,12 +87,12 @@ export default {
     async submit() {
       const isUnique = await this.isUnique(this.username)
       if (!isUnique) {
-        alert("Такое имя пользователя уже занято.")
+        this.$MyToast("Такое имя пользователя уже занято", TYPE.ERROR)
         return
       }
       const result = await this.v$.$validate()
       if (!result) {
-        alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+        this.$MyToast("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.", TYPE.ERROR)
         return
       }
       this.register()
