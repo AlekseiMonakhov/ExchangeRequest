@@ -119,6 +119,7 @@
 <script>
 import axios from "axios";
 import Config from '../../envConfig'
+import {TYPE} from "vue-toastification";
 
 
 export default {
@@ -160,7 +161,7 @@ export default {
         taker_username: `${JSON.parse(this.$store.getters.getUser)['username']}`,
       }
       if (this.isDealExist(data)) {
-        alert('Сделка уже открыта')
+        this.$MyToast("Сделка уже открыта", TYPE.WARNING)
         await this.$router.push('/myDeals')
       } else {
         axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/open-deal`, data)
@@ -177,8 +178,9 @@ export default {
           `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getlist`
         );
         this.requests = requests.data;
-      } catch (e) {
-        alert("Error!");
+      } catch (error) {
+        console.log(error)
+        this.$MyToast("Ошибка", TYPE.ERROR);
       }
     },
     // createChat: async function (request) {
@@ -199,12 +201,12 @@ export default {
       try {
         await axios.delete(
           `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete-request/${request.id}`)
-          .then(alert("Заявка удалена"))
+          .then(this.$MyToast("Заявка удалена", TYPE.SUCCESS))
           .then(location.reload())
 
-      } catch (e) {
-        console.log(e)
-        alert("Error!");
+      } catch (error) {
+        console.log(error)
+        this.$MyToast("Ошибка", TYPE.ERROR);
       }
     },
     isNoMaker: function (makerId) {

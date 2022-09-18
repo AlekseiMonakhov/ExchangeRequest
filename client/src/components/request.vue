@@ -180,6 +180,8 @@
 <script>
 import axios from "axios";
 import Config from '../../envConfig'
+import { TYPE } from "vue-toastification"
+
 
 export default {
   name: "request",
@@ -218,7 +220,7 @@ export default {
         this.wanted_amount === ""
       ) {
         this.error = "All fields required!";
-        alert("Заполните все поля!");
+        this.$MyToast("Заполните все поля", TYPE.WARNING);
       }
       else if (
         this.current_type === 'Банковский перевод' && this.current_country === "" ||
@@ -227,14 +229,14 @@ export default {
         this.wanted_type === 'Банковский перевод' && this.wanted_bank === ""
       ) {
         this.error = "All fields required!";
-        alert("Заполните все поля!");
+        this.$MyToast("Заполните все поля", TYPE.WARNING);
       }
       else if (
         this.current_type === 'Наличные' && this.current_city === "" ||
         this.wanted_type === 'Наличные' && this.wanted_city === ""
       ) {
         this.error = "All fields required!";
-        alert("Заполните все поля!");
+        this.$MyToast("Заполните все поля", TYPE.WARNING);
       }else {
         let data = {
           maker_id: `${JSON.parse(this.$store.getters.getUser)['id']}`,
@@ -259,12 +261,12 @@ export default {
         console.log(data)
         axios({url:`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data: data, method: 'POST', headers: {
           }})
-          .then(function (response){
-             alert("Ваша заявка размещена.")})
+          .then(() => {
+            this.$MyToast("Ваша заявка размещена", TYPE.SUCCESS)})
           .then (() => this.$router.push('/requestsList') )
-          .catch(function (error){
+          .catch((error) => {
             console.log(error)
-            alert("Error!")
+            this.$MyToast("Ошибка", TYPE.ERROR)
           })
 
       }
@@ -311,7 +313,7 @@ export default {
         this.purposes = responsePurposes.data;
       } catch (error) {
         console.log(error)
-        alert("Error!");
+        this.$MyToast("Ошибка", TYPE.ERROR);
       }
     },
   },

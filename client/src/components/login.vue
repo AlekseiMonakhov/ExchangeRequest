@@ -18,6 +18,7 @@
 <script>
 import {required, maxLength, minLength} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
+import {TYPE} from "vue-toastification";
 
 export default {
   name: "login",
@@ -53,13 +54,13 @@ export default {
         })
         .catch(err => {
           console.log(err),
-            alert('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз.')
+            this.$MyToast('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз', TYPE.ERROR)
         })
     },
     async submit() {
       const result = await this.v$.$validate()
       if (!result) {
-        alert("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.")
+        this.$MyToast("Неправильно заполнена форма. Проверьте введенные данные и попробуйте еще раз.", TYPE.ERROR)
         return
       }
       this.login()
