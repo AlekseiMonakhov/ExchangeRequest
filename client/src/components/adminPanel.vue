@@ -141,14 +141,21 @@ export default {
   },
   methods: {
     async getData() {
-      this.requests = await this.$store.getters.getDeals
+      try {
+        const requests = await axios.get(
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/getOpenDeals`
+        );
+        this.requests = requests.data;
+      } catch (error) {
+        console.log(error)
+        this.$MyToast("Ошибка", TYPE.ERROR);
+      }
     },
     async deleteDeal(request) {
       try {
         await axios.delete(
           `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/delete-deal/${request.deal_id}`)
           .then(this.$MyToast("Сделка удалена", TYPE.SUCCESS))
-          .then(await this.$store.dispatch('getDeals'))
           .then(location.reload())
 
       } catch (error) {

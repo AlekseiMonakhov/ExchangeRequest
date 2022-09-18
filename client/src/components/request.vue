@@ -261,8 +261,8 @@ export default {
         console.log(data)
         axios({url:`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data: data, method: 'POST', headers: {
           }})
-          .then( (response) => {
-            this.toast("Ваша заявка размещена", TYPE.SUCCESS)})
+          .then(() => {
+            this.$MyToast("Ваша заявка размещена", TYPE.SUCCESS)})
           .then (() => this.$router.push('/requestsList') )
           .catch((error) => {
             console.log(error)
