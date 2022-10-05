@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import request from "../components/request";
 import requestsList from "../components/requestsList";
 import adminPanel from "../components/adminPanel";
-import dealChat from "../components/chat";
+import chat from "../components/chat";
 import chatAdminView from "../components/chatAdminView";
 import login from "../components/login";
 import register from "../components/register";
@@ -45,7 +45,9 @@ let router = new Router({
     },
     {
       path: '/chat',
-      component: dealChat,
+      component: chat,
+      name: 'chat',
+      props: true,
       meta: {
         requiresAuth: true
       }
