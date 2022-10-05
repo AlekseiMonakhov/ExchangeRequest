@@ -7,7 +7,7 @@
           :chat-title="chatTitle"
           :placeholder="placeholder"
           :colors="colors"
-
+          :accept-image-types="'.png, .jpeg'"
           :hide-close-button="hideCloseButton"
           :close-button-icon-size="closeButtonIconSize"
           :submit-icon-size="submitIconSize"
@@ -43,12 +43,15 @@ export default {
   },
   data() {
     return {
-      container: null,
       visible: true,
       participants: [
         {
           name: this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_username : this.deal.maker_username,
           id: this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_id : this.deal.maker_id,
+        },
+        {
+          name: 'ADMIN',
+          id: 1,
         },
       ],
       myself: {
@@ -144,7 +147,7 @@ export default {
     formatToMessageList(messages) {
       let messageList = []
       messages.forEach(message => {
-        messageList.push({content: message.content, myself: this.isCurrentUser(message.author), participantId: this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_id : this.deal.maker_id, timestamp: message.created_on, uploaded: true, viewed: true, type: message.type})
+        messageList.push({content: message.content, myself: this.isCurrentUser(message.author), participantId: message.author === 'ADMIN' ? 1 : this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_id : this.deal.maker_id, timestamp: message.created_on, uploaded: true, viewed: true, type: message.type})
       })
       return messageList
     },
@@ -152,7 +155,7 @@ export default {
   async mounted() {
     try {
       if (!this.deal) {
-        await this.$router.push('/myDeals')
+        // await this.$router.push('/myDeals')
       }
       await this.getMessage();
       let intervalId = setInterval(this.getMessage, 20000);

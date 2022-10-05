@@ -3,57 +3,58 @@
     <Chat v-if="visible"
           :participants="participants"
           :myself="myself"
-          :messages="messages"
+          :messages="messageList"
           :chat-title="chatTitle"
           :placeholder="placeholder"
           :colors="colors"
-          :border-style="borderStyle"
+          :accept-image-types="'.png, .jpeg'"
           :hide-close-button="hideCloseButton"
           :close-button-icon-size="closeButtonIconSize"
           :submit-icon-size="submitIconSize"
-          :load-more-messages="toLoad.length > 0 ? loadMoreMessages : null"
           :async-mode="asyncMode"
           :scroll-bottom="scrollBottom"
           :display-header="true"
           :send-images="true"
           :profile-picture-config="profilePictureConfig"
           :timestamp-config="timestampConfig"
-          :accept-image-types="'.png, .jpeg'"
           @onMessageSubmit="onMessageSubmit"
-          @onType="onType"
-          @onClose="onClose"/>
-    <div class="element-3">
-    </div>
+    >
+    </Chat>
   </div>
 </template>
 
 <script>
 import {Chat} from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
+import axios from "axios";
+import Config from "../../envConfig";
 
 export default {
   components: {
     Chat
+  },
+  props: {
+    deal: {}
   },
   data() {
     return {
       visible: true,
       participants: [
         {
-          name: 'Taker ID',
-          id: 1,
+          name: this.deal.maker_username,
+          id: this.deal.maker_id,
         },
         {
-          name: 'Maker ID',
-          id: 2,
+          name: this.deal.taker_username,
+          id: this.deal.taker_id,
         },
       ],
       myself: {
         name: 'ADMIN',
-        id: 3,
+        id: 1
       },
-      messages: [],
-      chatTitle: 'Сделка №',
+      messageList: [],
+      chatTitle: `Сделка № ${this.deal.deal_id}`,
       placeholder: 'Отправить сообщение',
       colors: {
         header: {
@@ -86,34 +87,14 @@ export default {
       submitIconSize: 25,
       closeButtonIconSize: "20px",
       asyncMode: false,
-      toLoad: [
-        {
-          content: 'Добрый день. Хотел уточнить по заявке',
-          myself: false,
-          participantId: 2,
-          timestamp: {year: 2022, month: 4, day: 10, hour: 10, minute: 10, second: 3, millisecond: 123},
-          uploaded: true,
-          viewed: true,
-          type: 'text'
-        },
-        {
-          content: "Добрый день.  Да, спрашивайте",
-          myself: false,
-          participantId: 1,
-          timestamp: {year: 2022, month: 4, day: 10, hour: 11, minute: 10, second: 3, millisecond: 123},
-          uploaded: true,
-          viewed: true,
-          type: 'text'
-        },
-      ],
       scrollBottom: {
         messageSent: true,
-        messageReceived: false
+        messageReceived: true
       },
       displayHeader:true,
       profilePictureConfig: {
-        others: true,
-        myself: true,
+        others: false,
+        myself: false,
         styles: {
           width: '30px',
           height: '30px',
@@ -121,32 +102,62 @@ export default {
         }
       },
       timestampConfig: {
-        format: 'HH:mm',
+        format: 'dd.MM HH:mm',
         relative: false
       },
     }
   },
   methods: {
-    onType: function (event) {
-      //here you can set any behavior
-    },
-    loadMoreMessages(resolve) {
-      setTimeout(() => {
-        resolve(this.toLoad);
-        this.messages.unshift(...this.toLoad);
-        this.toLoad = [];
-      }, 1000);
+    isCurrentUser(username) {
+      try {
+        const currentUsername = JSON.parse(this.$store.getters.getUser)['username']
+        return currentUsername === username
+      } catch (e) {
+        console.log(e)
+      }
     },
     onMessageSubmit: function (message) {
-      this.messages.push(message);
-
-      setTimeout(() => {
-        message.uploaded = true
-      }, 1000)
+      this.sendMessageToServer({deal_id: this.deal.deal_id, author: 'ADMIN' , type: 'text', content: message.content})
+      this.messageList.push(message)
     },
-    onClose() {
-      this.visible = false;
+    async sendMessageToServer(data) {
+      try {
+        await axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/chat/add-messages`, data)
+      } catch (e) {
+        console.log(e);
+      }
     },
+    async getMessage() {
+      try {
+        const messages = await axios.get(
+          `http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/chat/get-messages/${this.deal.deal_id}`
+        );
+        if (messages.data && messages.data.length > this.messageList.length ) {
+          this.messageList = this.formatToMessageList(messages.data)
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    formatToMessageList(messages) {
+      let messageList = []
+      messages.forEach(message => {
+        messageList.push({content: message.content, myself: message.author === 'ADMIN', participantId: message.author === this.deal.maker_username ? this.deal.maker_id : this.deal.taker_id, timestamp: message.created_on, uploaded: true, viewed: true, type: message.type})
+      })
+      return messageList
+    },
+  },
+  async mounted() {
+    try {
+      if (!this.deal) {
+        await this.$router.push('/adminPanel')
+      }
+      await this.getMessage();
+      let intervalId = setInterval(this.getMessage, 20000);
+      this.$once('hook:beforeDestroy', () => clearInterval(intervalId))
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 </script>
@@ -156,11 +167,9 @@ export default {
 .root-element {
   margin-top: 20px;
 }
-
 .element-3 {
   display: flex;
   justify-content: space-around;
   margin-top: 40px;
 }
-
 </style>
