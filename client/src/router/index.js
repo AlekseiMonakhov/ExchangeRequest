@@ -55,6 +55,8 @@ let router = new Router({
     {
       path: '/chatAdminView',
       component: chatAdminView,
+      name: 'adminChat',
+      props: true,
       meta: {
         requiresAuth: true
       }

@@ -17,7 +17,7 @@
             <v-list dense>
               <v-list-item>
                 <v-list-item-content>
-                  <strong><strong> Сделка {{ request.deal_id }} </strong>(Заявка {{ request.id }})</strong>
+                  <strong> Сделка {{ request.deal_id }} </strong>(Заявка {{ request.id }})
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}
@@ -115,7 +115,7 @@
               <v-list-item>
                 <v-list-item-content></v-list-item-content>
                 <v-list-item-content>
-                  <b-button @click="$router.push('/chatAdminView')" variant="primary">Чат сделки</b-button>
+                  <b-button @click="$router.push({name: 'adminChat', params: {deal: request}})" variant="primary">Чат сделки</b-button>
                   <b-button @click="deleteDeal(request)" variant="dark">!!Отменить сделку!!</b-button>
                 </v-list-item-content>
               </v-list-item>
