@@ -11,14 +11,12 @@
           :hide-close-button="hideCloseButton"
           :close-button-icon-size="closeButtonIconSize"
           :submit-icon-size="submitIconSize"
-
           :async-mode="asyncMode"
           :scroll-bottom="scrollBottom"
           :display-header="true"
           :send-images="true"
           :profile-picture-config="profilePictureConfig"
           :timestamp-config="timestampConfig"
-
           @onMessageSubmit="onMessageSubmit"
        >
     </Chat>
@@ -45,6 +43,7 @@ export default {
   },
   data() {
     return {
+      container: null,
       visible: true,
       participants: [
         {
@@ -90,29 +89,9 @@ export default {
       submitIconSize: 25,
       closeButtonIconSize: "20px",
       asyncMode: false,
-      // toLoad: [
-      //   {
-      //     content: 'Добрый день. Хотел уточнить по заявке',
-      //     myself: true,
-      //     participantId: 2,
-      //     timestamp: {year: 2022, month: 4, day: 10, hour: 10, minute: 10, second: 3, millisecond: 123},
-      //     uploaded: true,
-      //     viewed: true,
-      //     type: 'text'
-      //   },
-      //   {
-      //     content: "Добрый день.  Да, спрашивайте",
-      //     myself: false,
-      //     participantId: this.deal.taker_id,
-      //     timestamp: {year: 2022, month: 4, day: 10, hour: 11, minute: 10, second: 3, millisecond: 123},
-      //     uploaded: true,
-      //     viewed: false,
-      //     type: 'text'
-      //   },
-      // ],
       scrollBottom: {
         messageSent: true,
-        messageReceived: false
+        messageReceived: true
       },
       displayHeader:true,
       profilePictureConfig: {
@@ -169,47 +148,6 @@ export default {
       })
       return messageList
     },
-    //     content: 'Добрый день. Хотел уточнить по заявке',
-    //     myself: true,
-    //     participantId: 2,
-    //     timestamp: {year: 2022, month: 4, day: 10, hour: 10, minute: 10, second: 3, millisecond: 123},
-    //     uploaded: true,
-    //     viewed: true,
-    //     type: 'text'
-    // onType: function (event) {
-    //   //here you can set any behavior
-    // },
-    // loadMoreMessages(resolve) {
-    //   setTimeout(() => {
-    //     resolve(this.toLoad);
-    //     this.messages.unshift(...this.toLoad);
-    //     this.toLoad = [];
-    //   }, 1000);
-    // },
-
-    // onClose() {
-    //   this.visible = false;
-    // },
-    // onImageSelected(files, message){
-    //   let src = 'https://149364066.v2.pressablecdn.com/wp-content/uploads/2017/03/vue.jpg'
-    //   this.messages.push(message);
-    //   /**
-    //    * This timeout simulates a requisition that uploads the image file to the server.
-    //    * It's up to you implement the request and deal with the response in order to
-    //    * update the message status and the message URL
-    //    */
-    //   setTimeout((res) => {
-    //     message.uploaded = true
-    //     message.src = res.src
-    //   }, 3000, {src});
-    // },
-    // onImageClicked(message){
-    //   /**
-    //    * This is the callback function that is going to be executed when some image is clicked.
-    //    * You can add your code here to do whatever you need with the image clicked. A common situation is to display the image clicked in full screen.
-    //    */
-    //   console.log('Image clicked', message.src)
-    // }
   },
   async mounted() {
     try {
@@ -226,6 +164,7 @@ export default {
 </script>
 
 <style >
+
 .root-element {
   margin-top: 20px;
 }
