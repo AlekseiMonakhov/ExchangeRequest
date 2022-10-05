@@ -155,7 +155,8 @@ export default {
         await this.$router.push('/myDeals')
       }
       await this.getMessage();
-      setInterval(this.getMessage, 20000)
+      let intervalId = setInterval(this.getMessage, 20000);
+      this.$once('hook:beforeDestroy', () => clearInterval(intervalId))
     } catch (e) {
       console.log(e)
     }
