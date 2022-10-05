@@ -7,7 +7,7 @@
           :chat-title="chatTitle"
           :placeholder="placeholder"
           :colors="colors"
-          :border-style="borderStyle"
+
           :hide-close-button="hideCloseButton"
           :close-button-icon-size="closeButtonIconSize"
           :submit-icon-size="submitIconSize"
