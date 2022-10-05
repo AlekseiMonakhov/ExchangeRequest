@@ -17,7 +17,7 @@
             <v-list dense>
               <v-list-item>
                 <v-list-item-content>
-                  <strong><strong> Сделка {{ request.deal_id }} </strong>(Заявка {{ request.id }})</strong>
+                  <strong> Сделка {{ request.deal_id }} </strong>(Заявка {{ request.id }})
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.created_on.replace(/T/, ' ').slice(0, -7) }}
