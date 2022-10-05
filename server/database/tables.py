@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from database.connection import engine
 from sqlalchemy.orm import relationship
-from enum import Enum
+from sqlalchemy.util import asyncio
 
 Base = declarative_base()
 
@@ -115,30 +115,15 @@ class OpenDeals(Base):
     profit = Column(String(255), nullable=True)
 
 
-# class MessageType(Enum):
-#     text = 'text'
-#     image = 'image'
-#
-#
-# class MessageModel(Base):
-#     __tablename__ = 'messages'
-#
-#     id = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
-#     datetime = Column(DateTime(), default=datetime.utcnow, nullable=False)
-#     type = Column(Enum(MessageType), nullable=False)
-#     data: bytes = Column(LargeBinary(), nullable=True)
-#
-#     user_uuid = Column(
-#         UUID(as_uuid=True), ForeignKey('users.uuid'), nullable=False
-#     )
-#     room_uuid = Column(
-#         UUID(as_uuid=True), ForeignKey('rooms.uuid'), nullable=False
-#     )
-#
-#     user = relationship('UserModel', back_populates='messages')
-#     room = relationship('RoomModel', back_populates='messages')
-#
-
+class Messages(Base):
+    __tablename__ = 'messages'
+    id = Column(Integer, primary_key=True,  autoincrement=True)
+    deal_id = Column(Integer, nullable=False)
+    author = Column(String(255), nullable=False)
+    content = Column(String(1020), nullable=True)
+    type = Column(String(255), nullable=False)
+    created_on = Column(DateTime(), default=datetime.utcnow)
+    attached = Column(LargeBinary(), nullable=True)
 
 async def async_create():
     async with engine.begin() as conn:
