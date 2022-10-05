@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routes.data import data_router
+from routes.chat import chat_router
 from routes.requests import request_router
 import uvicorn
 from routes.users import user_router
@@ -28,6 +29,7 @@ app.add_middleware(
 app.include_router(data_router)
 app.include_router(request_router)
 app.include_router(user_router)
+app.include_router(chat_router)
 
 if __name__ == '__main__':
     uvicorn.run(
