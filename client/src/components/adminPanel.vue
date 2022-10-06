@@ -115,8 +115,8 @@
               <v-list-item>
                 <v-list-item-content></v-list-item-content>
                 <v-list-item-content>
-                  <b-button @click="$router.push({name: 'adminChat', params: {deal: request}})" variant="primary">Чат сделки</b-button>
-                  <b-button @click="deleteDeal(request)" variant="dark">!!Отменить сделку!!</b-button>
+                  <b-button @click="$router.push({name: 'adminChat', params: {deal: request}})" pill variant="primary">Чат сделки</b-button>
+                  <b-button @click="deleteDeal(request)" size="sm" pill variant="danger">Отменить сделку</b-button>
                 </v-list-item-content>
               </v-list-item>
             </v-list>

@@ -121,7 +121,7 @@
               <v-list-item>
                 <v-list-item-content></v-list-item-content>
                 <v-list-item-content>
-                  <b-button @click="$router.push({name: 'chat', params: {deal: request}})" variant="primary">Чат сделки</b-button>
+                  <b-button @click="$router.push({name: 'chat', params: {deal: request}})" pill variant="primary">Чат сделки</b-button>
                 </v-list-item-content>
               </v-list-item>
             </v-list>

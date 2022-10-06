@@ -21,9 +21,8 @@
        >
     </Chat>
     <div class="element-3">
-      <b-button  variant="primary">Согласен с условиями</b-button>
-      <b-button  variant="primary">Дата и место обозначены</b-button>
-      <b-button  variant="primary">Я получил деньги</b-button>
+      <b-button  size="sm" pill variant="primary">Согласен с условиями</b-button>
+      <b-button size="sm" pill variant="success">Я получил деньги</b-button>
     </div>
   </div>
 </template>

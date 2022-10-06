@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Header from "./components/header";
-import Footer from "./components/footer";
+import Header from "./components/UI/header";
+import Footer from "./components/UI/footer";
 import {Chat} from "vue-quick-chat";
 
 export default {

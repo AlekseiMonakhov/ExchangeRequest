@@ -167,12 +167,10 @@
     </div>
 
     <div >
-      <button v-if="this.$store.getters.isLoggedIn" @click="send()" type="button" class="btn btn-primary mt-4">
+      <b-button v-if="this.$store.getters.isLoggedIn" @click="send()" pill variant="primary">
         Разместить заявку
-      </button>
-      <button v-else @click="$router.push('/login')" type="button" class="btn btn-primary mt-4">
-        Войти в аккаунт
-      </button>
+      </b-button>
+      <b-button v-else @click="$router.push('/login')" pill variant="info">Войти в аккаунт</b-button>
     </div>
   </div>
 </template>
