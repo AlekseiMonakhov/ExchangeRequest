@@ -154,7 +154,7 @@ export default {
   async mounted() {
     try {
       if (!this.deal) {
-        // await this.$router.push('/myDeals')
+        await this.$router.push('/myDeals')
       }
       await this.getMessage();
       let intervalId = setInterval(this.getMessage, 20000);
