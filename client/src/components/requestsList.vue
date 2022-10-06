@@ -25,7 +25,7 @@
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content><strong>Создатель заявки:</strong></v-list-item-content>
+                <v-list-item-content><strong>Создатель заявки</strong></v-list-item-content>
                 <v-list-item-content v-if="isCurrentUser(request.maker_username)" class="align-end">
                   Я
                 </v-list-item-content>
@@ -50,7 +50,7 @@
 
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Вы отдаете:</strong></v-list-item-content>
+                <v-list-item-content><strong>Вы отдаете</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.wanted_amount }} {{ request.wanted_currency }}
                 </v-list-item-content>
@@ -71,7 +71,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Вы получите:</strong></v-list-item-content>
+                <v-list-item-content><strong>Вы получите</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.current_amount }} {{ request.current_currency }}
                 </v-list-item-content>

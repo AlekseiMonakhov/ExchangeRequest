@@ -33,7 +33,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Мейкер:</strong></v-list-item-content>
+                <v-list-item-content><strong>Мейкер</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.maker_username }}
                 </v-list-item-content>
@@ -49,7 +49,7 @@
 
 
               <v-list-item>
-                <v-list-item-content><strong>От мейкера:</strong></v-list-item-content>
+                <v-list-item-content><strong>От мейкера</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.wanted_amount }} {{ request.wanted_currency }}
                 </v-list-item-content>
@@ -70,7 +70,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Тейкер:</strong></v-list-item-content>
+                <v-list-item-content><strong>Тейкер</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.taker_username }}
                 </v-list-item-content>
@@ -85,7 +85,7 @@
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content><strong>От тейкера:</strong></v-list-item-content>
+                <v-list-item-content><strong>От тейкера</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.current_amount }} {{ request.current_currency }}
                 </v-list-item-content>
