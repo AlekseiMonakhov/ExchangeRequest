@@ -32,7 +32,7 @@
 import {required, maxLength, minLength, email, sameAs} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import axios from "axios";
-import Config from '../../envConfig'
+import Config from '../../../envConfig'
 import {TYPE} from "vue-toastification";
 
 export default {

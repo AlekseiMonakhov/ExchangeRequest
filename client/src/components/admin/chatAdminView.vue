@@ -27,7 +27,7 @@
 import {Chat} from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 import axios from "axios";
-import Config from "../../envConfig";
+import Config from "../../../envConfig";
 
 export default {
   components: {

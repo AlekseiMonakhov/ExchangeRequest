@@ -129,7 +129,7 @@
 
 <script>
 import axios from "axios";
-import Config from '../../envConfig'
+import Config from '../../../envConfig'
 import {TYPE} from "vue-toastification";
 
 export default {
