@@ -25,7 +25,7 @@
                 </v-list-item>
               <v-list-item>
                 <v-list-item-content class="align-end">
-                  <strong>Статус:</strong>
+                  <strong>Статус</strong>
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.status }}
@@ -33,7 +33,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Мейкер:</strong></v-list-item-content>
+                <v-list-item-content><strong>Мейкер</strong></v-list-item-content>
                 <v-list-item-content v-if="isCurrentUser(request.maker_username)" class="align-end">
                   Я
                 </v-list-item-content>
@@ -52,7 +52,7 @@
 
 
               <v-list-item>
-                <v-list-item-content><strong>От мейкера:</strong></v-list-item-content>
+                <v-list-item-content><strong>От мейкера</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.wanted_amount }} {{ request.wanted_currency }}
                 </v-list-item-content>
@@ -73,7 +73,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Тейкер:</strong></v-list-item-content>
+                <v-list-item-content><strong>Тейкер</strong></v-list-item-content>
                 <v-list-item-content v-if="isCurrentUser(request.taker_username)" class="align-end">
                   Я
                 </v-list-item-content>
@@ -91,7 +91,7 @@
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content><strong>От тейкера:</strong></v-list-item-content>
+                <v-list-item-content><strong>От тейкера</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.current_amount }} {{ request.current_currency }}
                 </v-list-item-content>
@@ -121,7 +121,7 @@
               <v-list-item>
                 <v-list-item-content></v-list-item-content>
                 <v-list-item-content>
-                  <b-button @click="$router.push({name: 'chat', params: {deal: request}})" variant="primary">Чат сделки</b-button>
+                  <b-button @click="$router.push({name: 'chat', params: {deal: request}})" pill variant="primary">Чат сделки</b-button>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
