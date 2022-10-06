@@ -1,9 +1,15 @@
 <template>
-  <v-main>
-    <v-container>
-      <v-btn class="v-btn" @click="home" width=50 height=30><h1>404</h1>Страница не найдена</v-btn>
-    </v-container>
-  </v-main>
+  <div>
+    <div class="container">
+      <b>404</b>
+    </div>
+    <div class="container">
+      <b>Страница не найдена</b>
+    </div>
+    <div class="container">
+      <b-button @click="home" size="sm" pill variant="primary">На главную</b-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,14 +24,10 @@ export default {
 </script>
 
 <style scoped>
-*{
+.container {
   display: flex;
-  flex-direction: column;
+
   justify-content: center;
-  margin-top: 10px;
 }
 
-.v-btn{
-  align-items: center;
-}
 </style>
