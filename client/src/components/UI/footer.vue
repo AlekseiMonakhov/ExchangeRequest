@@ -1,7 +1,7 @@
 <template>
   <div class="main-element">
     <v-footer
-      color="#3939FF"
+      color="#0080FF"
       padless
       fixed
       height="80"

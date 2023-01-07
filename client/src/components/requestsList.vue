@@ -25,7 +25,7 @@
               </v-list-item>
 
               <v-list-item>
-                <v-list-item-content><strong>Создатель заявки:</strong></v-list-item-content>
+                <v-list-item-content><strong>Создатель заявки</strong></v-list-item-content>
                 <v-list-item-content v-if="isCurrentUser(request.maker_username)" class="align-end">
                   Я
                 </v-list-item-content>
@@ -50,7 +50,7 @@
 
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Вы отдаете:</strong></v-list-item-content>
+                <v-list-item-content><strong>Вы отдаете</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.wanted_amount }} {{ request.wanted_currency }}
                 </v-list-item-content>
@@ -71,7 +71,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
-                <v-list-item-content><strong>Вы получите:</strong></v-list-item-content>
+                <v-list-item-content><strong>Вы получите</strong></v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ request.current_amount }} {{ request.current_currency }}
                 </v-list-item-content>
@@ -101,11 +101,11 @@
               <v-list-item>
                 <v-list-item-content></v-list-item-content>
                 <v-list-item-content>
-                  <b-button v-if="isNoMaker(request.maker_id)" @click="send(request)" variant="primary">
+                  <b-button v-if="isNoMaker(request.maker_id)" @click="send(request)" pill variant="primary">
                     Связаться
                   </b-button>
-                  <b-button v-else-if="isLoggedIn" @click="deleteRequest(request)" variant="dark">Удалить заявку</b-button>
-                  <b-button v-else @click="$router.push('/login')" variant="primary">Войти в аккаунт</b-button>
+                  <b-button v-else-if="isLoggedIn" @click="deleteRequest(request)" pill variant="outline-danger">Удалить заявку</b-button>
+                  <b-button v-else @click="$router.push('/login')" pill variant="info">Войти в аккаунт</b-button>
                 </v-list-item-content>
               </v-list-item>
             </v-list>

@@ -18,12 +18,8 @@
           :profile-picture-config="profilePictureConfig"
           :timestamp-config="timestampConfig"
           @onMessageSubmit="onMessageSubmit"
-       >
+    >
     </Chat>
-    <div class="element-3">
-      <b-button  size="sm" pill variant="primary">Согласен с условиями</b-button>
-      <b-button size="sm" pill variant="success">Я получил деньги</b-button>
-    </div>
   </div>
 </template>
 
@@ -31,7 +27,7 @@
 import {Chat} from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 import axios from "axios";
-import Config from "../../envConfig";
+import Config from "../../../envConfig";
 
 export default {
   components: {
@@ -45,17 +41,17 @@ export default {
       visible: true,
       participants: [
         {
-          name: this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_username : this.deal.maker_username,
-          id: this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_id : this.deal.maker_id,
+          name: this.deal.maker_username,
+          id: this.deal.maker_id,
         },
         {
-          name: 'ADMIN',
-          id: 1,
+          name: this.deal.taker_username,
+          id: this.deal.taker_id,
         },
       ],
       myself: {
-        name: this.isCurrentUser(this.deal.maker_username) ? this.deal.maker_username : this.deal.taker_username,
-        id: this.isCurrentUser(this.deal.maker_username) ? this.deal.maker_id : this.deal.taker_id,
+        name: 'ADMIN',
+        id: 1
       },
       messageList: [],
       chatTitle: `Сделка № ${this.deal.deal_id}`,
@@ -121,7 +117,7 @@ export default {
       }
     },
     onMessageSubmit: function (message) {
-      this.sendMessageToServer({deal_id: this.deal.deal_id, author: JSON.parse(this.$store.getters.getUser)['username'] , type: 'text', content: message.content})
+      this.sendMessageToServer({deal_id: this.deal.deal_id, author: 'ADMIN' , type: 'text', content: message.content})
       this.messageList.push(message)
     },
     async sendMessageToServer(data) {
@@ -146,7 +142,7 @@ export default {
     formatToMessageList(messages) {
       let messageList = []
       messages.forEach(message => {
-        messageList.push({content: message.content, myself: this.isCurrentUser(message.author), participantId: message.author === 'ADMIN' ? 1 : this.isCurrentUser(this.deal.maker_username) ? this.deal.taker_id : this.deal.maker_id, timestamp: message.created_on, uploaded: true, viewed: true, type: message.type})
+        messageList.push({content: message.content, myself: message.author === 'ADMIN', participantId: message.author === this.deal.maker_username ? this.deal.maker_id : this.deal.taker_id, timestamp: message.created_on, uploaded: true, viewed: true, type: message.type})
       })
       return messageList
     },
@@ -154,7 +150,7 @@ export default {
   async mounted() {
     try {
       if (!this.deal) {
-        await this.$router.push('/myDeals')
+        await this.$router.push('/adminPanel')
       }
       await this.getMessage();
       let intervalId = setInterval(this.getMessage, 20000);

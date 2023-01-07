@@ -2,7 +2,7 @@
   <div
   >
     <v-app-bar
-      color="#3939FF"
+      color="#0080FF"
 
     >
       <v-app-bar-nav-icon @click="drawer = true"><strong>☰</strong></v-app-bar-nav-icon>

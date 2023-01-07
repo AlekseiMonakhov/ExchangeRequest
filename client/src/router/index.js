@@ -3,11 +3,11 @@ import store from "../store/store"
 import Router from 'vue-router'
 import request from "../components/request";
 import requestsList from "../components/requestsList";
-import adminPanel from "../components/adminPanel";
-import dealChat from "../components/chat";
-import chatAdminView from "../components/chatAdminView";
-import login from "../components/login";
-import register from "../components/register";
+import adminPanel from "../components/admin/adminPanel";
+import chat from "../components/chat";
+import chatAdminView from "../components/admin/chatAdminView";
+import login from "../components/auth/login";
+import register from "../components/auth/register";
 import deals from "../components/deals";
 import Error404 from "../components/404"
 
@@ -45,7 +45,9 @@ let router = new Router({
     },
     {
       path: '/chat',
-      component: dealChat,
+      component: chat,
+      name: 'chat',
+      props: true,
       meta: {
         requiresAuth: true
       }
@@ -53,6 +55,8 @@ let router = new Router({
     {
       path: '/chatAdminView',
       component: chatAdminView,
+      name: 'adminChat',
+      props: true,
       meta: {
         requiresAuth: true
       }
