@@ -15,14 +15,15 @@
           :scroll-bottom="scrollBottom"
           :display-header="true"
           :send-images="true"
+          @onImageSelected="onImageSelected"
           :profile-picture-config="profilePictureConfig"
           :timestamp-config="timestampConfig"
           @onMessageSubmit="onMessageSubmit"
        >
     </Chat>
     <div class="element-3">
-      <b-button  size="sm" pill variant="primary">Согласен с условиями</b-button>
-      <b-button size="sm" pill variant="success">Я получил деньги</b-button>
+      <b-button disabled size="sm" pill variant="primary">Согласен с условиями</b-button>
+      <b-button disabled size="sm" pill variant="success">Я получил деньги</b-button>
     </div>
   </div>
 </template>
@@ -124,6 +125,9 @@ export default {
       this.sendMessageToServer({deal_id: this.deal.deal_id, author: JSON.parse(this.$store.getters.getUser)['username'] , type: 'text', content: message.content})
       this.messageList.push(message)
     },
+    onImageSelected: function (image){
+      console.log(image)
+    },
     async sendMessageToServer(data) {
       try {
         await axios.post(`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/chat/add-messages`, data)
@@ -154,7 +158,7 @@ export default {
   async mounted() {
     try {
       if (!this.deal) {
-        // await this.$router.push('/myDeals')
+        await this.$router.push('/myDeals')
       }
       await this.getMessage();
       let intervalId = setInterval(this.getMessage, 20000);
