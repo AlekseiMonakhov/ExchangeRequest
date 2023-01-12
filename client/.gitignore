@@ -1,7 +1,4 @@
 node_modules/
-build/
-config/
-static/
 .idea/
 .editorconfig
 .babelrc
