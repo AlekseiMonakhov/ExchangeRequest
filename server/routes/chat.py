@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from fastapi import APIRouter, Depends, HTTPException
 from models.chat import Messages
 from models.data import ErrorOutput
@@ -22,7 +22,7 @@ async def getMessages(chat_id: int, service: MessagesService = Depends()):
         raise HTTPException(400, detail=str(error))
 
 
-@chat_router.post('/add-messages', response_model=Messages, responses={400: {'model': ErrorOutput}})
+@chat_router.post('/add-messages', response_model=Union[Messages, None], responses={400: {'model': ErrorOutput}})
 async def addMessage(messageData: Messages, service: MessagesService = Depends()):
     try:
         return await service.addMessage(messageData)

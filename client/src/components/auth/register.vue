@@ -76,8 +76,8 @@ export default {
         .then(() => { this.$router.push('/')
         location.reload()})
         .catch(err => {
-          console.log(err),
-            this.$MyToast('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз', TYPE.ERROR)
+            this.$MyToast('Ошибка авторизации. Проверьте введенные данные и попробуйте еще раз', TYPE.ERROR),
+            console.log(err)
         })
     },
     async isUnique(username) {

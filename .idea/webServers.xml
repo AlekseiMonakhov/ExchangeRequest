@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a75e94d6-8f96-4dd1-bec5-bf3f90b0b8ca" name="MyDroplet">
+        <fileTransfer accessType="SFTP" host="165.22.203.203" port="22" sshConfigId="02c69a08-b8ec-4909-a4df-6909fbba22a4" sshConfig="root@165.22.203.203:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="f2519a87-4c29-40c7-8225-98b5d3ad5848" name="BZBot">
+        <fileTransfer accessType="SFTP" host="143.198.200.64" port="22" sshConfigId="93943f1e-23a3-45ae-a883-95f7bcb855f9" sshConfig="root@143.198.200.64:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="fed86446-76ea-4399-9572-a97edb283967" name="Vultr">
+        <fileTransfer accessType="SFTP" host="136.244.101.44" port="22" sshConfigId="48abbcb3-52e8-4017-b34c-5fe2d96c4174" sshConfig="root@136.244.101.44:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

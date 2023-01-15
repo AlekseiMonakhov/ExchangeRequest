@@ -254,9 +254,9 @@ export default {
           wanted_city: `${this.wanted_city}`,
           wanted_bank: `${this.wanted_bank}`,
           wanted_purpose: `${this.wanted_purpose}`,
-          profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}`
+          // profit: `${await this.getRates(this.current_currency, this.current_amount, this.wanted_currency, this.wanted_amount)}` || '1'
+          profit: '1'
         };
-        console.log(data)
         axios({url:`http://${Config.Config.VUE_APP_HOST}:${Config.Config.VUE_APP_PORT}/request/create`, data: data, method: 'POST', headers: {
           }})
           .then(() => {
@@ -265,24 +265,24 @@ export default {
           .catch((error) => {
             console.log(error)
             this.$MyToast("Ошибка", TYPE.ERROR)
-          })
+          }).then (() => this.$router.push('/requestsList') )
 
       }
     },
-    async getRates(current_currency, current_amount, wanted_currency, wanted_amount) {
-      try {
-        const response = await fetch("https://cdn.cur.su/api/latest.json")
-        const responseRates = await response.json()
-        const RatesList = responseRates.rates
-        console.log( RatesList)
-        current_currency == "USDT" ? current_currency = "USD": current_currency = current_currency
-        wanted_currency == "USDT" ? wanted_currency = "USD": wanted_currency = wanted_currency
-        const profit = ((current_amount / RatesList[`${current_currency}`]) - (wanted_amount / RatesList[`${wanted_currency}`]))/(wanted_amount / RatesList[`${wanted_currency}`]) * 100
-        return this.profit = `${profit.toFixed(1)} %`
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    // async getRates(current_currency, current_amount, wanted_currency, wanted_amount) {
+    //   try {
+    //     const response = await fetch("https://cdn.cur.su/api/latest.json")
+    //     const responseRates = await response.json()
+    //     const RatesList = responseRates.rates
+    //     console.log( RatesList)
+    //     current_currency == "USDT" ? current_currency = "USD": current_currency = current_currency
+    //     wanted_currency == "USDT" ? wanted_currency = "USD": wanted_currency = wanted_currency
+    //     const profit = ((current_amount / RatesList[`${current_currency}`]) - (wanted_amount / RatesList[`${wanted_currency}`]))/(wanted_amount / RatesList[`${wanted_currency}`]) * 100
+    //     return this.profit = `${profit.toFixed(1)} %`
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
     async getData() {
       try {
         const responseCountries = await axios.get(

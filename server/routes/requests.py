@@ -1,9 +1,9 @@
-from typing import List
+from typing import List, Union
 from fastapi import APIRouter, Depends, HTTPException
 from models.requests import Requests, OpenDeals
 from models.data import ErrorOutput
 from services.requests import RequestService, RequestsService, OpenDealsService
-from typing import Union
+
 
 request_router = APIRouter(
     prefix='/request'
@@ -18,7 +18,7 @@ async def createRequest(requestData: Requests, service: RequestService = Depends
         raise HTTPException(400, detail=str(error))
 
 
-@request_router.post('/open-deal', response_model=OpenDeals, responses={400: {'model': ErrorOutput}})
+@request_router.post('/open-deal', response_model=Union[OpenDeals, None], responses={400: {'model': ErrorOutput}})
 async def openDeal(dealData: OpenDeals, service: OpenDealsService = Depends()):
     try:
         return await service.create(dealData)
