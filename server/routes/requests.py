@@ -3,13 +3,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from models.requests import Requests, OpenDeals
 from models.data import ErrorOutput
 from services.requests import RequestService, RequestsService, OpenDealsService
+from typing import Union
 
 request_router = APIRouter(
     prefix='/request'
 )
 
 
-@request_router.post('/create', response_model=Requests, responses={400: {'model': ErrorOutput}})
+@request_router.post('/create', response_model=Union[Requests, None], responses={400: {'model': ErrorOutput}})
 async def createRequest(requestData: Requests, service: RequestService = Depends()):
     try:
         return await service.create(requestData)

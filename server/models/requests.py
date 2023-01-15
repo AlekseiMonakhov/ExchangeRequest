@@ -23,7 +23,7 @@ class Requests(BaseModel):
     current_type: str
     wanted_type: str
     created_on: Optional[datetime]
-    profit: str
+    profit: Optional[str]
     maker_id: UUID
     maker_rank: int
     maker_username: str
@@ -50,7 +50,7 @@ class OpenDeals(BaseModel):
     current_type: str
     wanted_type: str
     created_on: Optional[datetime]
-    profit: str
+    profit: Optional[str]
     status: Optional[str]
     maker_id: Optional[UUID]
     taker_id: Optional[UUID]
