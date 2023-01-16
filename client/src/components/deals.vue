@@ -146,6 +146,7 @@ export default {
   },
   methods: {
     async getData() {
+      await this.$store.dispatch('getDeals')
       const currentUserId = JSON.parse(this.$store.getters.getUser)['id'].replace(/-/gi, '')
       const deals = await this.$store.getters.getDeals
       this.requests = deals.filter(function (deal) {
